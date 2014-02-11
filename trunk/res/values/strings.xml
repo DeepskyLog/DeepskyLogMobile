@@ -1,5 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DeepskyLog Mobile</string>
+    <string name="app_name">DeepskyLog mobile</string>
+    <string name="welcome">Welcome to DeepskyLog Mobile.</string>
+    <string name="loginplease">Please log in using your account on www.deepskylog.org to be able to fetch all your observations, instruments, locations, &#8230;</string>
+    <string name="username">User name</string>
+    <string name="password">Password</string>
+    <string name="update">Update</string>
+    <string name="start">Start</string>
+    <string name="description">A mobile version for DeepskyLog</string>
+    <string name="numberOfObservations">"Observations : "</string>
+    <string name="realName">User</string>
+    <string name="instruments">Instruments</string>
 
 </resources>
