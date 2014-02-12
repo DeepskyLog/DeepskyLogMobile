@@ -1,0 +1,4 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 	android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" >
+    <TextView android:id="@+id/mainfragment_loggedperson_textview_id" android:textSize="@dimen/mainfragment_loggedperson_text_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:gravity="left" />
+    <Button   android:id="@+id/mainfragment_login_button_id"  android:textSize="@dimen/mainfragment_login_button_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mainfragment_login_button_text" /> 
+</LinearLayout>
