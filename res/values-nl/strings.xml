@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="welcome">Welcome to DeepskyLog Mobile.</string>
+    <string name="loginplease">Please log in using your account on www.deepskylog.org to be able to fetch all your observations, instruments, locations, &#8230;</string>
+    <string name="username">User name</string>
+    <string name="password">Password</string>
+    <string name="update">Update</string>
+    <string name="start">Start</string>
+    <string name="numberOfObservations">"Observations : "</string>
+    <string name="realName">User</string>
+    <string name="instruments">Instruments</string>
+    
+    <string name="manifest_application_name">"DeepskyLog mobile"</string>
+    <string name="manifest_application_description">"DeepskyLog applicatie"</string>
+    
+    <string name="mainmenu_settings_text">"Instellingen"</string>
+
+    <string name="mainfragment_loggedperson_text">"Aangemeld als "</string>
+    <string name="mainfragment_login_button_text">"Aanmelden"</string>
+    
+    <string name="logindialog_login_button_text">"Aanmelden"</string>
+    <string name="logindialog_cancel_button_text">"Annuleer"</string>
+    
+    
+    <string name="preferences_loginname_text">"Login naam"</string>
+    <string name="preferences_loginname_summary">"Naam die gebruikt wordt om in te loggen op de deeskylog server"</string>
+    
+    <string name="preferences_loginpassword_text">"Login paswoord"</string>
+    <string name="preferences_loginpassword_summary">"Paswoord dat gebruikt wordt om in te loggen op de deeskylog server"</string>
+    
+    
+</resources>
