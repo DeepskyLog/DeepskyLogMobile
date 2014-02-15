@@ -19,6 +19,9 @@
     <string name="mainfragment_loggedperson_text">"Aangemeld als "</string>
     <string name="mainfragment_login_button_text">"Aanmelden"</string>
     
+    <string name="preferences_autologin_text">"Automatisch aanmelden</string>
+    <string name="preferences_autologin_summary">"DeepskyLog Mobile probeert automatisch aan te melden"</string>
+    
     <string name="logindialog_login_button_text">"Aanmelden"</string>
     <string name="logindialog_cancel_button_text">"Annuleer"</string>
     
