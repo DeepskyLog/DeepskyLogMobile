@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainFragment extends Fragment {
+	
 	private MainActivity mainActivity;
 	private View mainFragmentView;
 	
@@ -53,8 +54,9 @@ public class MainFragment extends Fragment {
 		}
 	}
 	private void login() {
+		Toast.makeText(mainActivity, "DEVELOP: autologin being developed,  obsolete login",Toast.LENGTH_LONG).show();
 		//if(mainActivity.preferences.getString("loginName", "").equals("")) {
-		    mainActivity.loginDialog.show(mainActivity.getFragmentManager(), "loginDialog");
+		    //mainActivity.loginDialog.show(mainActivity.getFragmentManager(), "loginDialog");
 		    //mainActivity.actualFragmentName="loginDialog";
 			//mainActivity.goToFragment(mainActivity.ADD_TO_BACKSTACK);
 		//}

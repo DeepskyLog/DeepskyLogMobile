@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >	
-	<EditTextPreference android:key="loginName" android:title="@string/preferences_loginname_text" android:defaultValue=""  android:summary="@string/preferences_loginname_summary" />
+	<CheckBoxPreference android:key="autoLogin" android:title="@string/preferences_autologin_text" android:defaultValue="true" android:summary="@string/preferences_loginname_summary" />
+    <EditTextPreference android:key="loginName" android:title="@string/preferences_loginname_text" android:defaultValue=""  android:summary="@string/preferences_loginname_summary" />
 	<EditTextPreference android:key="loginPassword" android:title="@string/preferences_loginpassword_text" android:defaultValue=""  android:summary="@string/preferences_loginpassword_summary" />
 </PreferenceScreen>
