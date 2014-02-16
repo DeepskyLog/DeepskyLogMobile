@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.deepskylog"
-    android:versionCode="1"
-    android:versionName="4.3" >
 
-    <uses-sdk                                                                                                      
-        android:minSdkVersion="15"                                                                                 
-        android:targetSdkVersion="19" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.deepskylog" android:versionCode="1" android:versionName="4.3" >
+
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+ 
     <application  android:allowBackup="true" android:description="@string/manifest_application_description" android:icon="@drawable/ic_launcher" android:label="@string/manifest_application_name">
         <activity android:name="org.deepskylog.MainActivity" android:label="@string/manifest_application_name">
         <intent-filter>
@@ -18,4 +16,5 @@
         </intent-filter>
         </activity>
     </application>
+
 </manifest>

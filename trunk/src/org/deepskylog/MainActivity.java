@@ -1,5 +1,6 @@
 package org.deepskylog;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -19,6 +20,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 	
 	public Fragment actualFragment;
 	public String actualFragmentName;
+	
+	private ActionBar actionBar;
 	
 	public MainFragment mainFragment;
 	public SettingsFragment settingsFragment;
@@ -45,6 +48,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainactivity);
 		
+		ActionBar actionBar=getActionBar();
+		
 		mainFragment = new MainFragment();
 		settingsFragment = new SettingsFragment();
 		loginDialog = new LoginDialog();
@@ -66,12 +71,16 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 		else {
 			setFragment(savedInstanceState.getString(ACTUAL_FRAGMENT));
 		}
-    	
+		actionBar.setSubtitle("subtitle");
+		actionBar.setTitle("Title"); 
+
+	}
+	@Override 
+	protected void onStart() {
     	if(autoLogin) {
     		connectivityTasks.addTaskCheckTasks("setNetworkAvailabilityStatus");
-    	}
+    	}		
 	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -141,6 +150,10 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 		}
 		if(theTask.equals("setLoginStatus")) {
 			Toast.makeText(this, loginStatus, Toast.LENGTH_LONG).show();
+			if(autoLogin) connectivityTasks.addTaskCheckTasks("getnewobservationscount");
+		}
+		if(theTask.equals("getnewobservationscountsince")) {
+			Toast.makeText(this, " new observations since TEST", Toast.LENGTH_LONG).show();
 			connectivityTasks.checkTasks();
 		}
 	}
