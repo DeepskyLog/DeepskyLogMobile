@@ -10,7 +10,7 @@
         android:background="#FFFFBB33"
         android:contentDescription="@string/manifest_application_name" />
     <EditText
-        android:id="@+id/logindialog_username_id"
+        android:id="@+id/logindialog_userid_id"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="@string/preferences_loginname_text" />
+        android:hint="@string/preferences_loginid_text" />
     <EditText
         android:id="@+id/logindialog_password_id"
         android:inputType="textPassword"
