@@ -26,13 +26,20 @@
     <string name="mainfragment_login_button_text">"Login"</string>
     
     <string name="logindialog_login_button_text">"Login"</string>
-    <string name="logindialog_cancel_button_text">"Cancel"</string>
+    <string name="logindialog_cancel_button_text">"Anonymous"</string>
     
-    <string name="preferences_loginname_text">"Login name</string>
-    <string name="preferences_loginname_summary">"Name used to log in on deeskylog server"</string>
+    <string name="preferences_loginid_text">"Login name</string>
+    <string name="preferences_loginid_summary">"Name used to log in on deeskylog server"</string>
         
     <string name="preferences_loginpassword_text">"Login password"</string>
     <string name="preferences_loginpassword_summary">"Password that is used to log in to the deeskylog server"</string>
+     
+    <string name="actionbar_title_text">"DeepskyLog"</string>
+    <string name="actionbar_connectivity_M">"Manual"</string>
+    <string name="actionbar_connectivity_X">"No connection"</string>
+    <string name="actionbar_connectivity_S">"Connected"</string>
+    <string name="actionbar_connectivity_L">"Logged as "</string>
+    <string name="actionbar_connectivity_V">"Visitor"</string>
     
     
 </resources>

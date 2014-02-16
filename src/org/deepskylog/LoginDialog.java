@@ -15,8 +15,8 @@ import android.widget.Toast;
 public class LoginDialog extends DialogFragment {
 	private MainActivity mainActivity;
 	private View loginDialogView;
-	private  AlertDialog loginDialog;
-	private EditText username_edittext;
+	private AlertDialog loginDialog;
+	private EditText userid_edittext;
 	private EditText password_edittext;
 	
 	@Override
@@ -28,34 +28,41 @@ public class LoginDialog extends DialogFragment {
 	}
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+	    Toast.makeText(mainActivity, "starting oncreate logindialog", Toast.LENGTH_LONG).show();
     	AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         loginDialogView=inflater.inflate(R.layout.logindialog, null);
-        username_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_username_id);
+        userid_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_userid_id);
         password_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_password_id);
-        if(!mainActivity.preferences.getString("loginName", "").equals("")) username_edittext.setText(mainActivity.preferences.getString("loginName", ""));
+        if(!mainActivity.preferences.getString("loginName", "").equals("")) userid_edittext.setText(mainActivity.preferences.getString("loginId", ""));
         if(!mainActivity.preferences.getString("loginPassword", "").equals("")) password_edittext.setText(mainActivity.preferences.getString("loginPassword", ""));        
 		builder.setView(loginDialogView);
         builder.setPositiveButton(R.string.logindialog_login_button_text, null);
-        builder.setNegativeButton(R.string.logindialog_cancel_button_text, new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { LoginDialog.this.getDialog().cancel(); } });      
+        builder.setNegativeButton(R.string.logindialog_cancel_button_text, null);      
         loginDialog=builder.create();
         loginDialog.setOnShowListener(new DialogInterface.OnShowListener() { @Override public void onShow(DialogInterface dialog) { Button positive_button=(Button) loginDialog.getButton(AlertDialog.BUTTON_POSITIVE); positive_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { login(); } } ); } } );
+        loginDialog.setOnShowListener(new DialogInterface.OnShowListener() { @Override public void onShow(DialogInterface dialog) { Button negative_button=(Button) loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE); negative_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { visitor(); } } ); } } );
         return loginDialog;
     }
     private void login() {
-    	mainActivity.preferenceEditor.putString("loginName",username_edittext.getText().toString());
+    	mainActivity.preferenceEditor.putString("loginId",userid_edittext.getText().toString());
     	mainActivity.preferenceEditor.putString("loginPassword",password_edittext.getText().toString());
     	mainActivity.preferenceEditor.commit();
-  	   if(mainActivity.preferences.getString("loginName", "").equals("")) {
- 		   Toast.makeText(mainActivity, "DEVELOP: warn for empty name", Toast.LENGTH_LONG).show();
- 	   }
- 	   else if(mainActivity.preferences.getString("loginPassword", "").equals("")) {
- 		   Toast.makeText(mainActivity, "DEVELOP: warn for empty password", Toast.LENGTH_LONG).show();
- 	   }
- 	   else {
- 	       Toast.makeText(mainActivity, "DEVELOP: implement login check", Toast.LENGTH_LONG).show();
- 	       loginDialog.dismiss();
-       }
-   	
+  	    if(mainActivity.preferences.getString("loginName", "").equals("")) {
+ 		    Toast.makeText(mainActivity, "DEVELOP: warn for empty name", Toast.LENGTH_LONG).show();
+ 	    }
+ 	    else if(mainActivity.preferences.getString("loginPassword", "").equals("")) {
+ 	 	   Toast.makeText(mainActivity, "DEVELOP: warn for empty password", Toast.LENGTH_LONG).show();
+ 	    }
+ 	    else {
+ 	        Toast.makeText(mainActivity, "DEVELOP: implement login check", Toast.LENGTH_LONG).show();
+ 	        loginDialog.dismiss();
+        }
+    }
+    private void visitor() {
+    	mainActivity.preferenceEditor.putString("loginId","Visitor");
+    	mainActivity.preferenceEditor.putString("loginPassword","Visitor");
+    	mainActivity.preferenceEditor.commit();
+    	loginDialog.dismiss();
     }
 }

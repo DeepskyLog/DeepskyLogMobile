@@ -23,14 +23,21 @@
     <string name="preferences_autologin_summary">"DeepskyLog Mobile probeert automatisch aan te melden"</string>
     
     <string name="logindialog_login_button_text">"Aanmelden"</string>
-    <string name="logindialog_cancel_button_text">"Annuleer"</string>
+    <string name="logindialog_cancel_button_text">"Anoniem"</string>
     
     
-    <string name="preferences_loginname_text">"Login naam"</string>
-    <string name="preferences_loginname_summary">"Naam die gebruikt wordt om in te loggen op de deeskylog server"</string>
+    <string name="preferences_loginid_text">"Login naam"</string>
+    <string name="preferences_loginid_summary">"Naam die gebruikt wordt om in te loggen op de deeskylog server"</string>
     
     <string name="preferences_loginpassword_text">"Login paswoord"</string>
     <string name="preferences_loginpassword_summary">"Paswoord dat gebruikt wordt om in te loggen op de deeskylog server"</string>
     
+    
+    <string name="actionbar_title_text">"DeepskyLog"</string>
+    <string name="actionbar_connectivity_M">"Manueel"</string>
+    <string name="actionbar_connectivity_X">"Geen verbinding"</string>
+    <string name="actionbar_connectivity_S">"Verbonden"</string>
+    <string name="actionbar_connectivity_L">"Ingelogd als "</string>
+    <string name="actionbar_connectivity_V">"Bezoeker"</string>
     
 </resources>

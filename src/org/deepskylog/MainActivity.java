@@ -1,22 +1,23 @@
 package org.deepskylog;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnSharedPreferenceChangeListener {
+public class MainActivity extends FragmentActivity implements OnSharedPreferenceChangeListener {
 
 	private static final String ACTUAL_FRAGMENT = "ACTUAL_FRAGMENT";
 	public static final boolean ADD_TO_BACKSTACK = true;
 	public static final boolean DONT_ADD_TO_BACKSTACK = false;
+	public static final String LOGGED_PERSON = "LOGGED_PERSON";
 	
 	public Fragment actualFragment;
 	public String actualFragmentName;
@@ -29,10 +30,9 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 
 	public ConnectivityTasks connectivityTasks;
 	
-	public  SharedPreferences preferences;
+	public SharedPreferences preferences;
 	public SharedPreferences.Editor preferenceEditor;
 	
-	public static String loggedPerson = "";
 
 	public static String serverUrl;
 	public static String networkStatus;
@@ -40,47 +40,38 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 	public static String loginStatus;
 	
 	public static boolean autoLogin;
-	public static String loginName;
+	public static String loginId;
 	public static String loginPassword;
+	
+	public static String loggedPerson = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainactivity);
-		
-		ActionBar actionBar=getActionBar();
-		
-		mainFragment = new MainFragment();
-		settingsFragment = new SettingsFragment();
-		loginDialog = new LoginDialog();
-        connectivityTasks = new ConnectivityTasks(this);
-        
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);		 
-		preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    	preferenceEditor = preferences.edit();
-		
-    	serverUrl="www.deepskylog.be/";
-    	
-     	autoLogin=preferences.getBoolean("autoLogin", true);
-     	loginName=preferences.getString("loginName", "");
-    	loginPassword=preferences.getString("loginPassword", "");
-    	
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+		checkStateObjects();
     	if(savedInstanceState==null) {
     		goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
 		}
 		else {
+			loggedPerson=savedInstanceState.getString(LOGGED_PERSON);
 			setFragment(savedInstanceState.getString(ACTUAL_FRAGMENT));
 		}
-		actionBar.setSubtitle("subtitle");
-		actionBar.setTitle("Title"); 
-
+    	setStateParameters();
+    	checkFirstRun();
+		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
+		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_X));
 	}
+	
 	@Override 
 	protected void onStart() {
+		super.onStart();
     	if(autoLogin) {
     		connectivityTasks.addTaskCheckTasks("setNetworkAvailabilityStatus");
     	}		
 	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -136,20 +127,57 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
+	    savedInstanceState.putString(LOGGED_PERSON, loggedPerson);
 	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
+	private void checkStateObjects() {
+    	if(actionBar==null) actionBar=getActionBar();
+		if(mainFragment==null) mainFragment=new MainFragment();
+		if(settingsFragment==null) settingsFragment=new SettingsFragment();
+		if(loginDialog==null) loginDialog=new LoginDialog();
+        if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks(this);
+        if(preferences==null) preferences=PreferenceManager.getDefaultSharedPreferences(this);
+    	if(preferenceEditor==null) preferenceEditor=preferences.edit();		
+	}
+	
+	private void setStateParameters() {
+    	serverUrl="www.deepskylog.be/";
+    	autoLogin=preferences.getBoolean("autoLogin", true);
+     	loginId=preferences.getString("loginId", "");
+    	loginPassword=preferences.getString("loginPassword", "");
+	}
+	
+	private void checkFirstRun() {
+		if(preferences.getBoolean("firstRun", true)) {
+			loginDialog.show(getFragmentManager(), "loginDialog");
+		}
+		preferenceEditor.putBoolean("firstRun", false);
 	}
 	
 	public void onTaskFinished(String theTask) {
 		if(theTask.equals("setNetworkAvailabilityStatus")) {
-			Toast.makeText(this, networkStatus, Toast.LENGTH_LONG).show();
-			if(autoLogin) connectivityTasks.addTaskCheckTasks("setServerAvailabilityStatus");
+			if((networkStatus.equals("mobile"))||(networkStatus.equals("WIFI"))) {
+				if(autoLogin) connectivityTasks.addTaskCheckTasks("setServerAvailabilityStatus");
+			}
+			else
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_X));
 		}
 		if(theTask.equals("setServerAvailabilityStatus")) {
-			Toast.makeText(this, serverStatus, Toast.LENGTH_LONG).show();
-			if(autoLogin) connectivityTasks.addTaskCheckTasks("setLoginStatus");
+			if(serverStatus.equals("alive")) {
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_S));
+				if(autoLogin) connectivityTasks.addTaskCheckTasks("setLoginStatus");				
+			}
+			else
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_X));				
 		}
 		if(theTask.equals("setLoginStatus")) {
-			Toast.makeText(this, loginStatus, Toast.LENGTH_LONG).show();
+			if(loginStatus.equals("invalid credentials")) {
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V));				
+			}
+			else {
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_L)+loggedPerson);								
+			}
 			if(autoLogin) connectivityTasks.addTaskCheckTasks("getnewobservationscount");
 		}
 		if(theTask.equals("getnewobservationscountsince")) {
@@ -157,23 +185,26 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 			connectivityTasks.checkTasks();
 		}
 	}
+	
 	private static boolean isNumeric(String str) {
 	    for (char c : str.toCharArray()) {
 	        if (!Character.isDigit(c)) return false;
 	    }
 	    return true;
 	}
+	
 	private boolean setFragment(String newFragmentName) {
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
 		else if(newFragmentName.equals("settingsFragment")) actualFragment=settingsFragment;
 		else if(newFragmentName.equals("loginDialog")) actualFragment=loginDialog;
 		else {
-			Toast.makeText(this, "Debug: Unknown fragment", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Debug: Unknown fragment "+newFragmentName, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		actualFragmentName = newFragmentName;
 		return true;
 	}
+	
 	public void goToFragment(String newFragmentName, boolean doAddToBackstack) {
 		if(setFragment(newFragmentName)) {
 			FragmentTransaction fragmentManagerTransaction;

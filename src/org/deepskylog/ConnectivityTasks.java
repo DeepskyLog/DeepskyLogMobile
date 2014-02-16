@@ -39,11 +39,11 @@ public class ConnectivityTasks {
 	}
 	public void addTask(String theTask) {
 		if(knownTask(theTask)) taskQueue.add(theTask);
-		else Toast.makeText(mainActivity, "DEBUG: unknown tast in addTask: "+theTask, Toast.LENGTH_LONG).show();
+		else Toast.makeText(mainActivity, "DEBUG: unknown task in addTask: "+theTask, Toast.LENGTH_LONG).show();
 	}
 	public void addTaskCheckTasks(String theTask) {
 		if(knownTask(theTask)) taskQueue.add(theTask);
-		else Toast.makeText(mainActivity, "DEBUG: unknown tast in addTaskCheckTask: "+theTask, Toast.LENGTH_LONG).show();
+		else Toast.makeText(mainActivity, "DEBUG: unknown task in addTaskCheckTask: "+theTask, Toast.LENGTH_LONG).show();
 		checkTasks();
 	}
 	public void checkTasks() {
@@ -80,17 +80,17 @@ public class ConnectivityTasks {
    }
   //Login
   	public void setLoginStatus() {
-  		//if(MainActivity.networkStatus.equals("No network available."))
-  		//	MainActivity.loginStatus="Problem for logging in on server, no network";
-  		//else if(!MainActivity.serverStatus.equals("Server alive"))
-  		//	MainActivity.loginStatus="Problem for logging in on server, server not alive";
-  		//else {
-  			//Toast.makeText(mainActivity, "http://"+MainActivity.serverUrl+"appgetcommand.php?command=checkuser&username="+MainActivity.loginName+"&password="+MainActivity.loginPassword, Toast.LENGTH_LONG).show();
-   			new checkLoginTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command=checkuser&username="+MainActivity.loginName+"&password="+MainActivity.loginPassword);
-  		//}
+		new checkLoginTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command=checkuser&username="+MainActivity.loginId+"&password="+MainActivity.loginPassword);
   	};
     public void postCheckLogin(String resultLogin) {
-     	MainActivity.loginStatus=resultLogin;
+    	if(resultLogin.equals("invalid credentials")) {
+    		MainActivity.loginStatus=resultLogin;
+    		MainActivity.loggedPerson="";
+    	}
+    	else {
+    		MainActivity.loginStatus="logged user";
+        	MainActivity.loggedPerson=resultLogin;    		
+    	}
 		mainActivity.onTaskFinished("setLoginStatus");
     }
     
