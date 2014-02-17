@@ -35,7 +35,8 @@ public class ConnectivityTasks {
 		return (theTask.equals("resetRegistrationParameters")||
 				theTask.equals("setNetworkAvailabilityStatus")||
 				theTask.equals("setServerAvailabilityStatus")||
-				theTask.equals("setLoginStatus"));
+				theTask.equals("setLoginStatus")||
+				theTask.equals("getnewobservationscount"));
 	}
 	public void addTask(String theTask) {
 		if(knownTask(theTask)) taskQueue.add(theTask);
@@ -87,11 +88,23 @@ public class ConnectivityTasks {
     		MainActivity.loginStatus=resultLogin;
     		MainActivity.loggedPerson="";
     	}
-    	else {
+    	else if(resultLogin.startsWith("loggedUser:")) {
     		MainActivity.loginStatus="logged user";
-        	MainActivity.loggedPerson=resultLogin;    		
+        	MainActivity.loggedPerson=resultLogin.substring(11);    		
+        	mainActivity.preferenceEditor.putString(MainActivity.LOGGED_PERSON, MainActivity.loggedPerson);
+    	}
+    	else {
+    		//DEVELOP: to change...
+    		MainActivity.loginStatus=resultLogin;
+    		MainActivity.loggedPerson=resultLogin;    		
     	}
 		mainActivity.onTaskFinished("setLoginStatus");
+    }
+  	public void getCommand(String command, String params) {
+  		new getCommandTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command="+command+params);
+  	};
+    public void postGetCommand(String result) {
+    	mainActivity.onGetCommandFinished(result);
     }
     
 	// ASync Tasks 
@@ -142,7 +155,24 @@ public class ConnectivityTasks {
         	postCheckLogin(result.trim());
         }
     }   
-   	// Helper function  
+
+    private class getCommandTask extends AsyncTask<String, Void, String> {
+    	@Override
+        protected String doInBackground(String... urls) {
+    	    try {
+                return downloadUrl(urls[0]);
+            } 
+    	    catch (IOException e) {
+                return "Command unavailable.";
+            }
+        }
+        @Override
+        protected void onPostExecute(String result) {
+        	postGetCommand(result.trim());
+        }
+    }   
+    
+    // Helper function  
     private String downloadUrl(String myurl) throws IOException {
     	InputStream is = null;
     	int len = 500;
