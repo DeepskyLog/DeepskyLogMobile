@@ -19,9 +19,6 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 	public static final boolean DONT_ADD_TO_BACKSTACK = false;
 	public static final String LOGGED_PERSON = "LOGGED_PERSON";
 	
-	public Fragment actualFragment;
-	public String actualFragmentName;
-	
 	private ActionBar actionBar;
 	
 	public MainFragment mainFragment;
@@ -32,8 +29,10 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 	
 	public SharedPreferences preferences;
 	public SharedPreferences.Editor preferenceEditor;
-	
 
+	public Fragment actualFragment;
+	public String actualFragmentName;
+	
 	public static String serverUrl;
 	public static String networkStatus;
 	public static String serverStatus;
@@ -44,6 +43,8 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 	public static String loginPassword;
 	
 	public static String loggedPerson = "";
+	
+	public String actualCommand;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -175,15 +176,20 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 			if(loginStatus.equals("invalid credentials")) {
 				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V));				
 			}
+			else if(loginStatus.equals("")) {
+				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_X));				
+			}
 			else {
 				actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_L)+loggedPerson);								
 			}
-			if(autoLogin) connectivityTasks.addTaskCheckTasks("getnewobservationscount");
+			if(autoLogin) {
+				actualCommand="newobservationcount";
+				connectivityTasks.getCommand(actualCommand, "&since=20140101");
+			}
 		}
-		if(theTask.equals("getnewobservationscountsince")) {
-			Toast.makeText(this, " new observations since TEST", Toast.LENGTH_LONG).show();
-			connectivityTasks.checkTasks();
-		}
+	}
+	public void onGetCommandFinished(String theResult) {
+		if(actualCommand.equals("newobservationcount")) Toast.makeText(this, "New observations since 20140101: "+theResult, Toast.LENGTH_LONG).show();
 	}
 	
 	private static boolean isNumeric(String str) {
