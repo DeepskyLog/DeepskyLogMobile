@@ -10,15 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class LoginDialog extends DialogFragment {
+	
+    public interface LoginDialogOnClickListener {
+        void onPositiveButtonClick();
+        void onNegativeButtonClick();
+    }
+
+    public LoginDialogOnClickListener loginDialogOnClickListener;
+
 	private MainActivity mainActivity;
+	
 	private View loginDialogView;
 	private AlertDialog loginDialog;
+	
 	private EditText userid_edittext;
 	private EditText password_edittext;
 	
+    public static LoginDialog newInstance(LoginDialogOnClickListener theOnClickListener) {
+        LoginDialog d=new LoginDialog();
+    	d.loginDialogOnClickListener=theOnClickListener;
+    	return d;
+    }
+
 	@Override
 	public void onAttach(Activity activity) {
 	    super.onAttach(activity);
@@ -45,21 +60,14 @@ public class LoginDialog extends DialogFragment {
     	mainActivity.preferenceEditor.putString("loginId",userid_edittext.getText().toString());
     	mainActivity.preferenceEditor.putString("loginPassword",password_edittext.getText().toString());
     	mainActivity.preferenceEditor.commit();
-  	    if(mainActivity.preferences.getString("loginName", "").equals("")) {
- 		    Toast.makeText(mainActivity, "DEVELOP: warn for empty name", Toast.LENGTH_LONG).show();
- 	    }
- 	    else if(mainActivity.preferences.getString("loginPassword", "").equals("")) {
- 	 	   Toast.makeText(mainActivity, "DEVELOP: warn for empty password", Toast.LENGTH_LONG).show();
- 	    }
- 	    else {
- 	        Toast.makeText(mainActivity, "DEVELOP: implement login check", Toast.LENGTH_LONG).show();
- 	        loginDialog.dismiss();
-        }
+  	    loginDialogOnClickListener.onPositiveButtonClick();
+        loginDialog.dismiss();
     }
     private void visitor() {
-    	mainActivity.preferenceEditor.putString("loginId","Visitor");
-    	mainActivity.preferenceEditor.putString("loginPassword","Visitor");
+    	mainActivity.preferenceEditor.putString("loginId","");
+    	mainActivity.preferenceEditor.putString("loginPassword","");
     	mainActivity.preferenceEditor.commit();
-    	loginDialog.dismiss();
+  	    loginDialogOnClickListener.onNegativeButtonClick();
+  	    loginDialog.dismiss();
     }
 }

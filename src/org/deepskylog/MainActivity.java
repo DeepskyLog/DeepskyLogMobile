@@ -21,6 +21,9 @@ public class MainActivity 	extends 	Activity
 	public static final boolean ADD_TO_BACKSTACK = true;
 	public static final boolean DONT_ADD_TO_BACKSTACK = false;
 	
+	public SharedPreferences preferences;
+	public SharedPreferences.Editor preferenceEditor;
+
 	private ActionBar actionBar;
 	
 	public MainFragment mainFragment;
@@ -28,17 +31,16 @@ public class MainActivity 	extends 	Activity
 	public CometsFragment cometsFragment;
 	public ObserversFragment observersFragment;
 	public EphemeridesFragment ephemeridesFragment;
-	
 	public SettingsFragment settingsFragment;
+	
 	public LoginDialog loginDialog;
+	
 	public DslDialog dslDialog;
 	public DslDialogOnClickListener dslOnClickListener;
 
 	public ConnectivityTasks connectivityTasks;
-	
-	public SharedPreferences preferences;
-	public SharedPreferences.Editor preferenceEditor;
-
+	public Observers observers;
+		
 	public Fragment actualFragment;
 	public String actualFragmentName;
 	
@@ -146,10 +148,13 @@ public class MainActivity 	extends 	Activity
     	if(cometsFragment==null) cometsFragment=new CometsFragment();
     	if(observersFragment==null) observersFragment=new ObserversFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
-		
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
+		
 		if(loginDialog==null) loginDialog=new LoginDialog();
-        if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks(this);
+        
+		if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks(this);
+        if(observers==null) observers=new Observers(this);
+		
         if(preferences==null) preferences=PreferenceManager.getDefaultSharedPreferences(this);
     	if(preferenceEditor==null) preferenceEditor=preferences.edit();		
 	}
@@ -163,27 +168,9 @@ public class MainActivity 	extends 	Activity
 	}
 	
 	private void checkFirstRun() {
- 		if(loginId.equals("firstRun")) {
-		   dslOnClickListener = new DslDialogOnClickListener() {
-	            @Override
-	            public void onPositiveButtonClick() {
-	    	    	preferenceEditor.putString("loginId","");
-	    	    	preferenceEditor.putString("loginPassword","");
-	    	    	preferenceEditor.commit();
-	    			loginDialog.show(getFragmentManager(), "loginDialog");
-	            }
-	            @Override
-	            public void onNegativeButtonClick() {
-	                //Toast.makeText(getApplicationContext(),"I am clicking the negative button in the dialog",Toast.LENGTH_LONG).show();
-	            }
-	       };
-
-            dslDialog=DslDialog.newInstance(dslOnClickListener);
-            dslDialog.text_textview_text="Do you want to enter your DSL credentials?";
-            dslDialog.positive_button_text="Yes";
-            dslDialog.negative_button_text="No";
-            dslDialog.show(getFragmentManager(), "dslDialog");
-		}
+ 		//if(loginId.equals("firstRun")) {
+ 			observers.firstRun();
+		//}
 	}
 	
 	public void onTaskFinished(String theTask) {
