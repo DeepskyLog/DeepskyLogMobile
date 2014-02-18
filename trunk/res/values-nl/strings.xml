@@ -16,15 +16,21 @@
     
     <string name="mainmenu_settings_text">"Instellingen"</string>
 
+
+
+    <string name="mainfragment_ds_button_text">"Deepsky"</string>
+    <string name="mainfragment_com_button_text">"Kometen"</string>
+    <string name="mainfragment_obs_button_text">"Waarnemers"</string>
+    <string name="mainfragment_eph_button_text">"Ephemeriden"</string>
     <string name="mainfragment_loggedperson_text">"Aangemeld als "</string>
-    <string name="mainfragment_login_button_text">"Aanmelden"</string>
-    
-    <string name="preferences_autologin_text">"Automatisch aanmelden</string>
-    <string name="preferences_autologin_summary">"DeepskyLog Mobile probeert automatisch aan te melden"</string>
+	<string name="mainfragment_login_button_text">"Aanmelden"</string>
     
     <string name="logindialog_login_button_text">"Aanmelden"</string>
     <string name="logindialog_cancel_button_text">"Anoniem"</string>
     
+    
+    <string name="preferences_autologin_text">"Automatisch aanmelden</string>
+    <string name="preferences_autologin_summary">"DeepskyLog Mobile probeert automatisch aan te melden"</string>
     
     <string name="preferences_loginid_text">"Login naam"</string>
     <string name="preferences_loginid_summary">"Naam die gebruikt wordt om in te loggen op de deeskylog server"</string>

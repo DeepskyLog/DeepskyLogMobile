@@ -23,14 +23,11 @@ public class LoginDialog extends DialogFragment {
 	public void onAttach(Activity activity) {
 	    super.onAttach(activity);
 	    mainActivity=(MainActivity) activity;
-	    mainActivity.actualFragment=this;
-	    mainActivity.actualFragmentName="loginDialog";
 	}
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-	    Toast.makeText(mainActivity, "starting oncreate logindialog", Toast.LENGTH_LONG).show();
-    	AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+	    AlertDialog.Builder builder=new AlertDialog.Builder(mainActivity);
+        LayoutInflater inflater=getActivity().getLayoutInflater();
         loginDialogView=inflater.inflate(R.layout.logindialog, null);
         userid_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_userid_id);
         password_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_password_id);
