@@ -32,7 +32,7 @@ public class ConnectivityTasks {
        	taskQueue =new LinkedList<String>();
 	}
 	private boolean knownTask(String theTask) {
-		return (theTask.equals("resetRegistrationParameters")||
+		return (theTask.equals("resetStatusParameters")||
 				theTask.equals("setNetworkAvailabilityStatus")||
 				theTask.equals("setServerAvailabilityStatus")||
 				theTask.equals("setLoginStatus")||
@@ -51,13 +51,13 @@ public class ConnectivityTasks {
 		String theTask;
 		if(!taskQueue.isEmpty()) {
 			theTask=taskQueue.remove();
-			if(theTask=="resetRegistrationParameters") resetRegistrationParameters();
+			if(theTask=="resetRegistrationParameters") resetStatusParameters();
 	    	else if(theTask=="setNetworkAvailabilityStatus") setNetworkAvailabilityStatus();
 	    	else if(theTask=="setServerAvailabilityStatus") setServerAvailabilityStatus();
 	    	else if(theTask=="setLoginStatus") setLoginStatus();		  	
 		}
 	}
-    public void resetRegistrationParameters() {
+    public void resetStatusParameters() {
     	MainActivity.networkStatus="";
     	MainActivity.serverStatus="";
     	MainActivity.loginStatus="";
@@ -91,13 +91,13 @@ public class ConnectivityTasks {
     	else if(resultLogin.startsWith("loggedUser:")) {
     		MainActivity.loginStatus="logged user";
         	MainActivity.loggedPerson=resultLogin.substring(11);    		
-        	mainActivity.preferenceEditor.putString(MainActivity.LOGGED_PERSON, MainActivity.loggedPerson);
     	}
     	else {
     		//DEVELOP: to change...
     		MainActivity.loginStatus=resultLogin;
-    		MainActivity.loggedPerson=resultLogin;    		
+    		MainActivity.loggedPerson="";
     	}
+      	mainActivity.preferenceEditor.putString("loggedPerson", MainActivity.loggedPerson);
 		mainActivity.onTaskFinished("setLoginStatus");
     }
   	public void getCommand(String command, String params) {

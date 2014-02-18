@@ -1,5 +1,9 @@
 <resources>
     
+    <dimen name="mainfragment_ds_button_textsize">12sp</dimen>
+    <dimen name="mainfragment_com_button_textsize">12sp</dimen>
+    <dimen name="mainfragment_obs_button_textsize">12sp</dimen>
+    <dimen name="mainfragment_eph_button_textsize">12sp</dimen>
     <dimen name="mainfragment_loggedperson_text_textsize">12sp</dimen>
     <dimen name="mainfragment_login_button_textsize">12sp</dimen>
     

@@ -1,29 +1,38 @@
 package org.deepskylog;
 
+import org.deepskylog.DslDialog.DslDialogOnClickListener;
+
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements OnSharedPreferenceChangeListener {
+public class MainActivity 	extends 	Activity 
+							implements 	OnSharedPreferenceChangeListener {
 
 	private static final String ACTUAL_FRAGMENT = "ACTUAL_FRAGMENT";
 	public static final boolean ADD_TO_BACKSTACK = true;
 	public static final boolean DONT_ADD_TO_BACKSTACK = false;
-	public static final String LOGGED_PERSON = "LOGGED_PERSON";
 	
 	private ActionBar actionBar;
 	
 	public MainFragment mainFragment;
+	public DeepskyFragment deepskyFragment;
+	public CometsFragment cometsFragment;
+	public ObserversFragment observersFragment;
+	public EphemeridesFragment ephemeridesFragment;
+	
 	public SettingsFragment settingsFragment;
 	public LoginDialog loginDialog;
+	public DslDialog dslDialog;
+	public DslDialogOnClickListener dslOnClickListener;
 
 	public ConnectivityTasks connectivityTasks;
 	
@@ -56,7 +65,6 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
     		goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
 		}
 		else {
-			loggedPerson=savedInstanceState.getString(LOGGED_PERSON);
 			setFragment(savedInstanceState.getString(ACTUAL_FRAGMENT));
 		}
     	setStateParameters();
@@ -128,13 +136,17 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
-	    savedInstanceState.putString(LOGGED_PERSON, loggedPerson);
 	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
 	private void checkStateObjects() {
     	if(actionBar==null) actionBar=getActionBar();
-		if(mainFragment==null) mainFragment=new MainFragment();
+    	if(mainFragment==null) mainFragment=new MainFragment();
+    	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
+    	if(cometsFragment==null) cometsFragment=new CometsFragment();
+    	if(observersFragment==null) observersFragment=new ObserversFragment();
+    	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
+		
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 		if(loginDialog==null) loginDialog=new LoginDialog();
         if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks(this);
@@ -147,13 +159,31 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
     	autoLogin=preferences.getBoolean("autoLogin", true);
      	loginId=preferences.getString("loginId", "");
     	loginPassword=preferences.getString("loginPassword", "");
+    	loggedPerson=preferences.getString("loggedPerson", "");
 	}
 	
 	private void checkFirstRun() {
-		if(preferences.getBoolean("firstRun", true)) {
-			loginDialog.show(getFragmentManager(), "loginDialog");
+ 		if(loginId.equals("firstRun")) {
+		   dslOnClickListener = new DslDialogOnClickListener() {
+	            @Override
+	            public void onPositiveButtonClick() {
+	    	    	preferenceEditor.putString("loginId","");
+	    	    	preferenceEditor.putString("loginPassword","");
+	    	    	preferenceEditor.commit();
+	    			loginDialog.show(getFragmentManager(), "loginDialog");
+	            }
+	            @Override
+	            public void onNegativeButtonClick() {
+	                //Toast.makeText(getApplicationContext(),"I am clicking the negative button in the dialog",Toast.LENGTH_LONG).show();
+	            }
+	       };
+
+            dslDialog=DslDialog.newInstance(dslOnClickListener);
+            dslDialog.text_textview_text="Do you want to enter your DSL credentials?";
+            dslDialog.positive_button_text="Yes";
+            dslDialog.negative_button_text="No";
+            dslDialog.show(getFragmentManager(), "dslDialog");
 		}
-		preferenceEditor.putBoolean("firstRun", false);
 	}
 	
 	public void onTaskFinished(String theTask) {
@@ -186,28 +216,34 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 				actualCommand="newobservationcount";
 				connectivityTasks.getCommand(actualCommand, "&since=20140101");
 			}
-		}
+		}	
 	}
 	public void onGetCommandFinished(String theResult) {
-		if(actualCommand.equals("newobservationcount")) Toast.makeText(this, "New observations since 20140101: "+theResult, Toast.LENGTH_LONG).show();
+		mainFragment.text3_textview.setText(mainFragment.text2_textview.getText());
+		mainFragment.text2_textview.setText(mainFragment.text1_textview.getText());
+		if(actualCommand.equals("newobservationcount")) mainFragment.text1_textview.setText("New deepsky observations since 20140101: "+theResult);
 	}
-	
+	/*
 	private static boolean isNumeric(String str) {
 	    for (char c : str.toCharArray()) {
 	        if (!Character.isDigit(c)) return false;
 	    }
 	    return true;
 	}
-	
+	*/
 	private boolean setFragment(String newFragmentName) {
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
+		else if(newFragmentName.equals("deepskyFragment")) actualFragment=deepskyFragment;
+		else if(newFragmentName.equals("cometsFragment")) actualFragment=cometsFragment;
+		else if(newFragmentName.equals("observersFragment")) actualFragment=observersFragment;
+		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;
 		else if(newFragmentName.equals("settingsFragment")) actualFragment=settingsFragment;
 		else if(newFragmentName.equals("loginDialog")) actualFragment=loginDialog;
 		else {
 			Toast.makeText(this, "Debug: Unknown fragment "+newFragmentName, Toast.LENGTH_LONG).show();
 			return false;
 		}
-		actualFragmentName = newFragmentName;
+		actualFragmentName=newFragmentName;
 		return true;
 	}
 	
@@ -216,8 +252,9 @@ public class MainActivity extends FragmentActivity implements OnSharedPreference
 			FragmentTransaction fragmentManagerTransaction;
 			fragmentManagerTransaction = getFragmentManager().beginTransaction();
 			fragmentManagerTransaction.replace(R.id.mainfragment_container, actualFragment);
-			if(doAddToBackstack)
+			if(doAddToBackstack) {
 				fragmentManagerTransaction.addToBackStack(null);
+			}
 			fragmentManagerTransaction.commit();
 		}
 	}
