@@ -31,6 +31,15 @@ public class DslDialog extends DialogFragment {
     	return d;
     }
     
+    public static DslDialog newInstance(DslDialogOnClickListener theOnClickListener, String theTextText, String thePositiveButtonText, String theNegativeButtonText) {
+        DslDialog d=new DslDialog();
+        d.text_textview_text=theTextText;
+        d.positive_button_text=thePositiveButtonText;
+        d.negative_button_text=theNegativeButtonText;
+        d.dslDialogOnClickListener=theOnClickListener;
+    	return d;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -40,14 +49,17 @@ public class DslDialog extends DialogFragment {
         textid_textview.setText(text_textview_text);
         builder.setView(dslDialogView);
         builder.setPositiveButton(positive_button_text, null);
-        builder.setNegativeButton(negative_button_text, null);      
+        if(!negative_button_text.equals(""))
+          builder.setNegativeButton(negative_button_text, null);      
         dslDialog=builder.create();
         dslDialog.setOnShowListener(new DialogInterface.OnShowListener() { 
         	@Override public void onShow(DialogInterface dialog) { 
         		Button positive_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_POSITIVE); 
         		positive_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onPositiveClick(); } } );  
-        		Button negative_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_NEGATIVE); 
-        		negative_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onNegativeClick(); } } ); 
+        		if(!negative_button_text.equals("")) {
+        			Button negative_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_NEGATIVE); 
+            		negative_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onNegativeClick(); } } ); 
+        		}
         	}
         } );
         return dslDialog;
