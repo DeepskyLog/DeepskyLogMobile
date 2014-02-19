@@ -41,10 +41,20 @@
     
     <string name="actionbar_title_text">"DeepskyLog"</string>
     <string name="actionbar_connectivity_M">"Manual"</string>
-    <string name="actionbar_connectivity_X">"No connection"</string>
+    <string name="actionbar_connectivity_N">"Not connected to DSL"</string>
+    <string name="actionbar_connectivity_X">"No connection possible to DSL"</string>
     <string name="actionbar_connectivity_S">"Connected"</string>
     <string name="actionbar_connectivity_L">"Logged as "</string>
     <string name="actionbar_connectivity_V">"Visitor"</string>
     
+    <string name="observers_askaboutfirstruntour">"Do you want to follow the first run tour?"</string>
+    <string name="observers_askaboutcredentials">"Do you already have DSL credentials?"</string>
+    <string name="observers_askenteringcredentials">"Do you want to enter DSL credentials and log in?"</string>
+    <string name="observers_asktocreatenewaccount">"Do you want to register a new account?"</string>
+    <string name="observers_tellaboutconfigurationmenu">"You can always enter your settings via the 'Configurations' menu."</string>
+    					  
+    <string name="general_Ok">"Ok"</string>
+    <string name="general_Yes">"Yes"</string>
+    <string name="general_No">"No"</string>
     
 </resources>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,10 @@ public class LoginDialog extends DialogFragment {
         void onNegativeButtonClick();
     }
 
-    public LoginDialogOnClickListener loginDialogOnClickListener;
+    private LoginDialogOnClickListener loginDialogOnClickListener;
 
 	private MainActivity mainActivity;
-	
+
 	private View loginDialogView;
 	private AlertDialog loginDialog;
 	
@@ -56,6 +57,7 @@ public class LoginDialog extends DialogFragment {
         loginDialog.setOnShowListener(new DialogInterface.OnShowListener() { @Override public void onShow(DialogInterface dialog) { Button negative_button=(Button) loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE); negative_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { visitor(); } } ); } } );
         return loginDialog;
     }
+    
     private void login() {
     	mainActivity.preferenceEditor.putString("loginId",userid_edittext.getText().toString());
     	mainActivity.preferenceEditor.putString("loginPassword",password_edittext.getText().toString());

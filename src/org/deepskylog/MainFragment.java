@@ -12,19 +12,21 @@ import android.widget.TextView;
 
 public class MainFragment extends Fragment {
 	
+    private Bundle savedState = null;
+	
 	private MainActivity mainActivity;
 	private View mainFragmentView;
 	
-	Button deepsky_button;
-	Button comets_button;
-	Button observers_button;
-	Button ephemerides_button;
+	private Button deepsky_button;
+	private Button comets_button;
+	private Button observers_button;
+	private Button ephemerides_button;
 	
-	TextView text1_textview;
-	TextView text2_textview;
-	TextView text3_textview;
+	private TextView text1_textview;
+	private TextView text2_textview;
+	private TextView text3_textview;
 	
-	Button command_button;
+	private Button command_button;
 	
 	@Override
 	public void onAttach(Activity activity) {
@@ -35,26 +37,34 @@ public class MainFragment extends Fragment {
 	}
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
-    	deepsky_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
-    	comets_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
-    	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
-    	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
-    	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
-    	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
-    	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
-    	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
-    	
-    	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
-
-    	text1_textview.setText("Develop: test Text 1");
-    	text2_textview.setText("Develop: test Text 1");
-    	text3_textview.setText("Develop: test Text 3");
-    	command_button.setText("Develop: Command Button");
-     	return mainFragmentView;
+ 		if(savedInstanceState==null) {
+			mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
+	    	deepsky_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
+	    	comets_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
+	    	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
+	    	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
+	    	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
+	    	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
+	    	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
+	    	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
+	    	
+	    	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
+	    	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
+	    	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
+	    	ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
+	    	command_button.setText("Develop: Command Button - Test firstRun");
+	    	command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandButtonOnClick(); } });
+	    }
+		else {
+			savedState=savedInstanceState.getBundle("savedState");
+		}
+ 		if(savedState!=null) {
+	    	text1_textview.setText(savedState.getString("text1_textview"));
+	    	text2_textview.setText(savedState.getString("text2_textview"));
+	    	text3_textview.setText(savedState.getString("text3_textview"));
+ 		}
+ 		savedState=null;		
+    	return mainFragmentView;
 	}
 	@Override
 	public void onResume() {
@@ -62,6 +72,36 @@ public class MainFragment extends Fragment {
 	    mainActivity.actualFragment=this;
 	    mainActivity.actualFragmentName="mainFragment";
 	}
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    super.onSaveInstanceState(savedInstanceState);
+	    savedInstanceState.putBundle("savedState", saveState());
+	}
+	
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState=saveState();
+    }
+
+    private Bundle saveState() {
+        Bundle state = new Bundle();
+        state.putString("text1_textview", text1_textview.getText().toString());
+        state.putString("text2_textview", text2_textview.getText().toString());
+        state.putString("text3_textview", text3_textview.getText().toString());
+        return state;
+    }
+    
+    public void setText(String theText) {
+		text3_textview.setText(text2_textview.getText());
+		text2_textview.setText(text1_textview.getText());
+		text1_textview.setText(theText);
+    }
+    
+    private void commandButtonOnClick() {
+    	mainActivity.preferenceEditor.putBoolean("firstrun", true).commit();
+    	mainActivity.checkFirstRun();
+    }
 }
 
 

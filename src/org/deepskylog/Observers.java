@@ -7,66 +7,91 @@ import android.widget.Toast;
 
 public class Observers {
 	
-	MainActivity mainActivity;
-	
-	public DslDialogOnClickListener dslOnClickListener;
-	public LoginDialogOnClickListener loginOnClickListener;
-	
+	private MainActivity mainActivity;
+		
 	public Observers(MainActivity theActivity) {
 		super();
 		mainActivity=theActivity;
 	}
 	
-	public void tellAboutConfigurationMenu() {
-	    dslOnClickListener = new DslDialogOnClickListener() {
-            @Override public void onPositiveButtonClick() { }
-            @Override public void onNegativeButtonClick() { }
-        };
-        mainActivity.dslDialog=DslDialog.newInstance(dslOnClickListener, "You can always enter your credentials via the configurations menu.", "Ok", "");
-        mainActivity.dslDialog.show(mainActivity.getFragmentManager(), "dslDialog");		
+	private void tellAboutConfigurationMenu() {
+	    DslDialog.newInstance(new DslDialogOnClickListener() {
+	    						@Override public void onPositiveButtonClick() { }
+	    						@Override public void onNeutralButtonClick() { }
+	    						@Override public void onNegativeButtonClick() { }
+	    					  }, 
+	    					  mainActivity.getResources().getString(R.string.observers_tellaboutconfigurationmenu),
+        					  mainActivity.getResources().getString(R.string.general_Ok),
+        					  "",
+        					  "")
+       .show(mainActivity.getFragmentManager(), "dslDialog");		
 	}
 	
-	public void askForRegistration() {
-	    dslOnClickListener = new DslDialogOnClickListener() {
-            @Override public void onPositiveButtonClick() { Toast.makeText(mainActivity,"DEVELOP: implement registration fragment",Toast.LENGTH_LONG).show(); }
-            @Override public void onNegativeButtonClick() { tellAboutConfigurationMenu();  }
-        };
-        mainActivity.dslDialog=DslDialog.newInstance(dslOnClickListener, "Do you want to register a new account?", "Yes", "No");
-        mainActivity.dslDialog.show(mainActivity.getFragmentManager(), "dslDialog");				
+	private void askForRegistration() {
+	    DslDialog.newInstance(new DslDialogOnClickListener() {
+            					@Override public void onPositiveButtonClick() { Toast.makeText(mainActivity,"DEVELOP: implement registration fragment",Toast.LENGTH_LONG).show(); }
+            					@Override public void onNeutralButtonClick() { }
+            					@Override public void onNegativeButtonClick() { tellAboutConfigurationMenu();  }
+        					  }, 
+        					  mainActivity.getResources().getString(R.string.observers_asktocreatenewaccount),
+        					  mainActivity.getResources().getString(R.string.general_Yes),
+        					  "",
+        					  mainActivity.getResources().getString(R.string.general_No))
+        					  .show(mainActivity.getFragmentManager(), "dslDialog");				
 	}
 
 	public void login() {
-	    loginOnClickListener = new LoginDialogOnClickListener() {
-            @Override public void onPositiveButtonClick() { Toast.makeText(mainActivity, "DEVELOP: check logn? result", Toast.LENGTH_LONG).show(); }
-            @Override public void onNegativeButtonClick() { tellAboutConfigurationMenu(); }
-        };
-        mainActivity.loginDialog=LoginDialog.newInstance(loginOnClickListener);
-        mainActivity.loginDialog.show(mainActivity.getFragmentManager(), "loginDialog");		
+	    LoginDialog.newInstance(new LoginDialogOnClickListener() {
+            						@Override public void onPositiveButtonClick() { Toast.makeText(mainActivity, "DEVELOP: check logn? result", Toast.LENGTH_LONG).show(); }
+            						@Override public void onNegativeButtonClick() { tellAboutConfigurationMenu(); }
+        						})
+        						.show(mainActivity.getFragmentManager(), "loginDialog");		
 	}
 	
-	public void askForLogin() {
-	    dslOnClickListener = new DslDialogOnClickListener() {
-            @Override public void onPositiveButtonClick() { login(); }
-            @Override public void onNegativeButtonClick() { tellAboutConfigurationMenu(); }
-        };
-        mainActivity.dslDialog=DslDialog.newInstance(dslOnClickListener,"Do you want to enter DSL credentials and log in?","Yes","No");
-        mainActivity.dslDialog.show(mainActivity.getFragmentManager(), "dslDialog");		
+	private void askForLogin() {
+	    DslDialog.newInstance(new DslDialogOnClickListener() {
+            					@Override public void onPositiveButtonClick() { login(); }
+            					@Override public void onNeutralButtonClick() { }
+            					@Override public void onNegativeButtonClick() { tellAboutConfigurationMenu(); }
+        						},
+        					  mainActivity.getResources().getString(R.string.observers_askenteringcredentials),
+        					  mainActivity.getResources().getString(R.string.general_Yes),
+        					  "",
+        					  mainActivity.getResources().getString(R.string.general_No))
+        					  .show(mainActivity.getFragmentManager(), "dslDialog");		
 	}
 	
-	public void askForUseOfCredentials() {
-	    dslOnClickListener = new DslDialogOnClickListener() {
-            @Override public void onPositiveButtonClick() { askForLogin(); }
-            @Override public void onNegativeButtonClick() { askForRegistration(); }
-        };
-        mainActivity.dslDialog=DslDialog.newInstance(dslOnClickListener,"Do you already have DSL credentials?","Yes","No");
-        mainActivity.dslDialog.show(mainActivity.getFragmentManager(), "dslDialog");		
+	private void askForUseOfCredentials() {
+	    DslDialog.newInstance(new DslDialogOnClickListener() {
+            					@Override public void onPositiveButtonClick() { askForLogin(); }
+            					@Override public void onNeutralButtonClick() { }
+            					@Override public void onNegativeButtonClick() { askForRegistration(); }
+        						},
+        					  mainActivity.getResources().getString(R.string.observers_askaboutcredentials),
+        					  mainActivity.getResources().getString(R.string.general_Yes),
+        					  "",
+        					  mainActivity.getResources().getString(R.string.general_No))
+        					  .show(mainActivity.getFragmentManager(), "dslDialog");		
+	}
+		
+	private void askForUseOfFirstRunTour() {
+	    DslDialog.newInstance(new DslDialogOnClickListener() {
+            					@Override public void onPositiveButtonClick() { askForUseOfCredentials(); }
+            					@Override public void onNeutralButtonClick() { }
+            					@Override public void onNegativeButtonClick() { tellAboutConfigurationMenu(); }
+        						},
+        					  mainActivity.getResources().getString(R.string.observers_askaboutfirstruntour),
+        					  mainActivity.getResources().getString(R.string.general_Yes),
+        					  "",
+        					  mainActivity.getResources().getString(R.string.general_No))
+        					  .show(mainActivity.getFragmentManager(), "dslDialog");		
 	}
 		
 	public void firstRun() {
     	mainActivity.preferenceEditor.putString("loginId","");
     	mainActivity.preferenceEditor.putString("loginPassword","");
     	mainActivity.preferenceEditor.commit();
-		askForUseOfCredentials();
+    	askForUseOfFirstRunTour();
 	}
 
 }

@@ -26,11 +26,77 @@ public class ConnectivityTasks {
 	public boolean serverAvailable;
 	public boolean loginPassed;
 	
+	public String serverUrl;
+	public String networkStatus;
+	public String serverStatus;
+	public String loginStatus;
+	
+	public boolean autoLogin;
+	public String loginId;
+	public String loginPassword;
+	
+	private String longRunningTask;
+
+	public void checkConnectivityStatus() {
+		longRunningTask="checkConnectivityStatus";
+		addTaskCheckTasks("setNetworkAvailabilityStatus");
+	}
+	
+	public void checkAutoConnectivityStatus() {
+    	if(autoLogin) checkConnectivityStatus();		
+	}
+
 	public ConnectivityTasks(MainActivity theMainActivity) {
 		super();
 		mainActivity=theMainActivity;
-       	taskQueue =new LinkedList<String>();
+	   	serverUrl="www.deepskylog.be/";
+	   	autoLogin=mainActivity.preferences.getBoolean("autoLogin", true);
+     	loginId=mainActivity.preferences.getString("loginId", "");
+    	loginPassword=mainActivity.preferences.getString("loginPassword", "");
+      	taskQueue=new LinkedList<String>();
+      	longRunningTask="";
 	}
+
+	private void longRunningChekConnectivityStatus(String theTask) {
+		if(theTask.equals("setNetworkAvailabilityStatus")) {
+			if((networkStatus.equals("mobile"))||(networkStatus.equals("WIFI"))) {
+				if(autoLogin) addTaskCheckTasks("setServerAvailabilityStatus");
+			}
+			else
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_X));
+		}
+		if(theTask.equals("setServerAvailabilityStatus")) {
+			if(serverStatus.equals("alive")) {
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_S));
+				if(autoLogin) addTaskCheckTasks("setLoginStatus");				
+			}
+			else
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_X));				
+		}
+		if(theTask.equals("setLoginStatus")) {
+			if(loginStatus.equals("invalid credentials")) {
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_V));				
+			}
+			else if(loginStatus.equals("")) {
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_X));				
+			}
+			else {
+				mainActivity.actionBar.setSubtitle(mainActivity.getResources().getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
+			}
+			if(autoLogin) {
+				getCommand("newobservationcount", "&since=20140101");
+			}
+		}	
+	}
+	
+	private void onTaskFinished(String theTask) {
+		if(longRunningTask.equals("checkConnectivityStatus")) longRunningChekConnectivityStatus(theTask);
+	}
+	
+	private void onGetCommandFinished(String theResult) {
+		mainActivity.mainFragment.setText("New deepsky observations since 20140101: "+theResult);
+	}
+
 	private boolean knownTask(String theTask) {
 		return (theTask.equals("resetStatusParameters")||
 				theTask.equals("setNetworkAvailabilityStatus")||
@@ -38,16 +104,16 @@ public class ConnectivityTasks {
 				theTask.equals("setLoginStatus")||
 				theTask.equals("getnewobservationscount"));
 	}
-	public void addTask(String theTask) {
+	private void addTask(String theTask) {
 		if(knownTask(theTask)) taskQueue.add(theTask);
 		else Toast.makeText(mainActivity, "DEBUG: unknown task in addTask: "+theTask, Toast.LENGTH_LONG).show();
 	}
-	public void addTaskCheckTasks(String theTask) {
+	private void addTaskCheckTasks(String theTask) {
 		if(knownTask(theTask)) taskQueue.add(theTask);
 		else Toast.makeText(mainActivity, "DEBUG: unknown task in addTaskCheckTask: "+theTask, Toast.LENGTH_LONG).show();
 		checkTasks();
 	}
-	public void checkTasks() {
+	private void checkTasks() {
 		String theTask;
 		if(!taskQueue.isEmpty()) {
 			theTask=taskQueue.remove();
@@ -57,54 +123,53 @@ public class ConnectivityTasks {
 	    	else if(theTask=="setLoginStatus") setLoginStatus();		  	
 		}
 	}
-    public void resetStatusParameters() {
-    	MainActivity.networkStatus="";
-    	MainActivity.serverStatus="";
-    	MainActivity.loginStatus="";
-		checkTasks();
+    private void resetStatusParameters() {
+    	networkAvailable=false;
+    	serverAvailable=false;
+    	loginPassed=false;
     }
 	//Network connection
-	public void setNetworkAvailabilityStatus() {
+	private void setNetworkAvailabilityStatus() {
 		new checkNetworkTask().execute();
 	}	
-	public void postCheckNetworkAvailability(String resultNetworkAvailability) {
-		MainActivity.networkStatus=resultNetworkAvailability;
-		mainActivity.onTaskFinished("setNetworkAvailabilityStatus");
+	private void postCheckNetworkAvailability(String resultNetworkAvailability) {
+		networkStatus=resultNetworkAvailability;
+		onTaskFinished("setNetworkAvailabilityStatus");
 	}
 	//Server connection
-	public void setServerAvailabilityStatus() {
-		new checkServerTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command=alive?");
+	private void setServerAvailabilityStatus() {
+		new checkServerTask().execute("http://"+serverUrl+"appgetcommand.php?command=alive?");
 	}
-    public void postCheckServerAvailability(String resultServerAvailability) {
-    	MainActivity.serverStatus=resultServerAvailability;
-		mainActivity.onTaskFinished("setServerAvailabilityStatus");
+    private void postCheckServerAvailability(String resultServerAvailability) {
+    	serverStatus=resultServerAvailability;
+		onTaskFinished("setServerAvailabilityStatus");
    }
   //Login
-  	public void setLoginStatus() {
-		new checkLoginTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command=checkuser&username="+MainActivity.loginId+"&password="+MainActivity.loginPassword);
+  	private void setLoginStatus() {
+		new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
   	};
-    public void postCheckLogin(String resultLogin) {
+    private void postCheckLogin(String resultLogin) {
     	if(resultLogin.equals("invalid credentials")) {
-    		MainActivity.loginStatus=resultLogin;
+    		loginStatus=resultLogin;
     		MainActivity.loggedPerson="";
     	}
     	else if(resultLogin.startsWith("loggedUser:")) {
-    		MainActivity.loginStatus="logged user";
+    		loginStatus="logged user";
         	MainActivity.loggedPerson=resultLogin.substring(11);    		
     	}
     	else {
     		//DEVELOP: to change...
-    		MainActivity.loginStatus=resultLogin;
+    		loginStatus=resultLogin;
     		MainActivity.loggedPerson="";
     	}
       	mainActivity.preferenceEditor.putString("loggedPerson", MainActivity.loggedPerson);
-		mainActivity.onTaskFinished("setLoginStatus");
+		onTaskFinished("setLoginStatus");
     }
-  	public void getCommand(String command, String params) {
-  		new getCommandTask().execute("http://"+MainActivity.serverUrl+"appgetcommand.php?command="+command+params);
+  	private void getCommand(String command, String params) {
+  		new getCommandTask().execute("http://"+serverUrl+"appgetcommand.php?command="+command+params);
   	};
-    public void postGetCommand(String result) {
-    	mainActivity.onGetCommandFinished(result);
+    private void postGetCommand(String result) {
+    	onGetCommandFinished(result);
     }
     
 	// ASync Tasks 
@@ -205,7 +270,7 @@ public class ConnectivityTasks {
 	        } 
  	    }
     }    
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    private String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
     	Reader reader=null;
     	reader=new InputStreamReader(stream, "UTF-8");        
     	char[] buffer=new char[len];

@@ -16,8 +16,6 @@
     
     <string name="mainmenu_settings_text">"Instellingen"</string>
 
-
-
     <string name="mainfragment_ds_button_text">"Deepsky"</string>
     <string name="mainfragment_com_button_text">"Kometen"</string>
     <string name="mainfragment_obs_button_text">"Waarnemers"</string>
@@ -41,9 +39,20 @@
     
     <string name="actionbar_title_text">"DeepskyLog"</string>
     <string name="actionbar_connectivity_M">"Manueel"</string>
-    <string name="actionbar_connectivity_X">"Geen verbinding"</string>
+    <string name="actionbar_connectivity_N">"Niet verbonden met DSL"</string>
+    <string name="actionbar_connectivity_X">"Geen verbinding mogelijk met DSL"</string>
     <string name="actionbar_connectivity_S">"Verbonden"</string>
     <string name="actionbar_connectivity_L">"Ingelogd als "</string>
     <string name="actionbar_connectivity_V">"Bezoeker"</string>
+    
+    <string name="observers_askaboutfirstruntour">"Wil je de rondgang voor het eerste gebruik volgen?"</string>
+    <string name="observers_askaboutcredentials">"Heb je al een DSL account?"</string>
+    <string name="observers_askenteringcredentials">"Wil je nu je DSL gegevens ingeven en aanmelden?"</string>
+    <string name="observers_asktocreatenewaccount">"Wil je een nieuw profiel aanmaken?"</string>
+    <string name="observers_tellaboutconfigurationmenu">"Je kan je gegevens steeds wijzigen via het menu 'Instellingen'."</string>
+    
+    <string name="general_Ok">"Ok"</string>
+    <string name="general_Yes">"Ja"</string>
+    <string name="general_No">"Nee"</string>
     
 </resources>
