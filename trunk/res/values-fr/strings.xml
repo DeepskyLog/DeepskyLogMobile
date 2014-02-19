@@ -17,7 +17,7 @@
     
     
     <string name="mainmenu_settings_text">"Configuration"</string>
-    
+    <string name="mainmenu_login_text">"Login on DSL"</string>
     
     <string name="mainfragment_ds_button_text">"Deepsky"</string>
     <string name="mainfragment_com_button_text">"Comets"</string>
@@ -52,9 +52,11 @@
     <string name="observers_askenteringcredentials">"Do you want to enter DSL credentials and log in?"</string>
     <string name="observers_asktocreatenewaccount">"Do you want to register a new account?"</string>
     <string name="observers_tellaboutconfigurationmenu">"You can always enter your settings via the 'Configurations' menu."</string>
+    <string name="observers_invalidcredentials">"Invalid DSL credentials. Please enter your settings via the 'Configurations' menu."</string>
     					  
     <string name="general_Ok">"Ok"</string>
     <string name="general_Yes">"Yes"</string>
     <string name="general_No">"No"</string>
+    <string name="general_Cancel">"Cancel"</string>
     
 </resources>

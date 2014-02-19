@@ -1,7 +1,5 @@
 package org.deepskylog;
 
-import org.deepskylog.DslDialog.DslDialogOnClickListener;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -78,6 +76,9 @@ public class MainActivity 	extends 	Activity
 	    switch (item.getItemId()) {
     	case R.id.mainmenu_settings_id:
 	    	goToFragment("settingsFragment",ADD_TO_BACKSTACK);	
+			break;
+    	case R.id.mainmenu_login_id:
+	    	connectivityTasks.checkLogin();	
 			break;
 	    default:
 	        return super.onOptionsItemSelected(item);

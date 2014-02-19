@@ -15,6 +15,9 @@
     <string name="manifest_application_description">"DeepskyLog applicatie"</string>
     
     <string name="mainmenu_settings_text">"Instellingen"</string>
+    <string name="mainmenu_login_text">"Aanmelden bij DSL"</string>
+    
+    
 
     <string name="mainfragment_ds_button_text">"Deepsky"</string>
     <string name="mainfragment_com_button_text">"Kometen"</string>
@@ -50,9 +53,11 @@
     <string name="observers_askenteringcredentials">"Wil je nu je DSL gegevens ingeven en aanmelden?"</string>
     <string name="observers_asktocreatenewaccount">"Wil je een nieuw profiel aanmaken?"</string>
     <string name="observers_tellaboutconfigurationmenu">"Je kan je gegevens steeds wijzigen via het menu 'Instellingen'."</string>
+     <string name="observers_invalidcredentials">"Ongeldige DSL credentials. Gelieve je gegevens te wijzigen via het menu 'Instellingen'."</string>
     
     <string name="general_Ok">"Ok"</string>
     <string name="general_Yes">"Ja"</string>
     <string name="general_No">"Nee"</string>
+    <string name="general_Cancel">"Annuleer"</string>
     
 </resources>
