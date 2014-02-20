@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 public class DeepskyFragment extends Fragment {
 	
-	View deepskyFragmentView;
+	private View deepskyFragmentView;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -2,7 +2,7 @@ package org.deepskylog;
 
 public class Database {
 	
-	public void firstRun() {
+	public static void firstRun() {
 		
 	}
 
