@@ -3,9 +3,11 @@ package org.deepskylog;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -14,57 +16,66 @@ import android.widget.Toast;
 
 public class MainActivity 	extends 	Activity 
 							implements 	OnSharedPreferenceChangeListener {
-
+	
 	private static final String ACTUAL_FRAGMENT = "ACTUAL_FRAGMENT";
 	public static final boolean ADD_TO_BACKSTACK = true;
 	public static final boolean DONT_ADD_TO_BACKSTACK = false;
 	
-	public SharedPreferences preferences;
-	public SharedPreferences.Editor preferenceEditor;
+	public static MainActivity mainActivity;
+	
+	public static ActionBar actionBar;
+	public static FragmentManager fragmentManager;
+	public static Resources resources;
+	public static SharedPreferences preferences;
+	public static SharedPreferences.Editor preferenceEditor;
+	
+	public static MainFragment mainFragment;
+	public static DeepskyFragment deepskyFragment;
+	public static CometsFragment cometsFragment;
+	public static ObserversFragment observersFragment;
+	public static EphemeridesFragment ephemeridesFragment;
+	public static SettingsFragment settingsFragment;
+	
+	public static Fragment actualFragment;
+	public static String actualFragmentName;
 
 	public static String loggedPerson = "";
 
-	public ActionBar actionBar;
-	
-	public MainFragment mainFragment;
-	public DeepskyFragment deepskyFragment;
-	public CometsFragment cometsFragment;
-	public ObserversFragment observersFragment;
-	public EphemeridesFragment ephemeridesFragment;
-	public SettingsFragment settingsFragment;
-	
-	public ConnectivityTasks connectivityTasks;
-	public Database database;
-	public Observers observers;
+	//public ConnectivityTasks connectivityTasks;
+	//public Database database;
+	//public Observers observers;
 		
-	public Fragment actualFragment;
-	public String actualFragmentName;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainactivity);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		checkStateObjects();
+    	setStateParametersFromPreferences();
     	if(savedInstanceState==null) {
-    	goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
+         	goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
 		}
 		else {
 			setFragment(savedInstanceState.getString(ACTUAL_FRAGMENT));
 		}
-    	setStateParameters();
 		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
 		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_N));
     	checkFirstRun();
-		connectivityTasks.checkAutoConnectivityStatus();
+		ConnectivityTasks.checkAutoConnectivityStatus();
 	}
 
 	@Override 
 	protected void onStart() {
     	super.onStart();
-		//connectivityTasks.checkAutoConnectivityStatus();
+    	//connectivityTasks.checkAutoConnectivityStatus();
 	}
-	
+
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -78,20 +89,13 @@ public class MainActivity 	extends 	Activity
 	    	goToFragment("settingsFragment",ADD_TO_BACKSTACK);	
 			break;
     	case R.id.mainmenu_login_id:
-	    	connectivityTasks.checkLogin();	
+	    	ConnectivityTasks.checkLogin();	
 			break;
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
 	    return true;
 	}
-
-	@Override
-	protected void onResume() {
-	    super.onResume();
-	    preferences.registerOnSharedPreferenceChangeListener(this);
-	}
-
 	
 	@Override
 	protected void onPause() {
@@ -102,14 +106,7 @@ public class MainActivity 	extends 	Activity
 	@Override
 	protected void onStop() {
 		super.onStop();
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    super.onSaveInstanceState(savedInstanceState);
-	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
-	}
-	
+	}	
 		
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {    	
@@ -127,24 +124,35 @@ public class MainActivity 	extends 	Activity
 	}
 	
 	private void checkStateObjects() {
+		mainActivity=this;
 		if(actionBar==null) actionBar=getActionBar();
-    	if(mainFragment==null) mainFragment=new MainFragment();
+		if(fragmentManager==null) fragmentManager=getFragmentManager();
+        if(preferences==null) preferences=PreferenceManager.getDefaultSharedPreferences(this);
+    	if(preferenceEditor==null) preferenceEditor=preferences.edit();		
+		if(resources==null) resources=getResources();
+    	
+		if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
     	if(cometsFragment==null) cometsFragment=new CometsFragment();
     	if(observersFragment==null) observersFragment=new ObserversFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 		
-        if(preferences==null) preferences=PreferenceManager.getDefaultSharedPreferences(this);
-    	if(preferenceEditor==null) preferenceEditor=preferences.edit();		
-
-    	if(database==null) database=new Database();
-		if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks(this);
-        if(observers==null) observers=new Observers(this);
+    	//if(database==null) database=new Database();
+    	//if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks();
+		ConnectivityTasks.initConnectivityTasks();
+        //if(observers==null) observers=new Observers(this);
 	}
 	
-	private void setStateParameters() {
+	private void setStateParametersFromPreferences() {
      	loggedPerson=preferences.getString("loggedPerson", "");
+	}
+	
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    super.onSaveInstanceState(savedInstanceState);
+	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
 	}
 	
 	private boolean setFragment(String newFragmentName) {
@@ -176,8 +184,8 @@ public class MainActivity 	extends 	Activity
 
 	public void checkFirstRun() {
 		if (preferences.getBoolean("firstrun", true)) {
-			database.firstRun();
-			observers.firstRun();
+			Database.firstRun();
+			Observers.firstRun();
 			preferenceEditor.putBoolean("firstrun", false).commit();
 	    }
 	}
