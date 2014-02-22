@@ -51,7 +51,7 @@ public class MainActivity 	extends 	Activity
 		setContentView(R.layout.mainactivity);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		checkStateObjects();
-    	setStateParametersFromPreferences();
+		setStateParametersFromPreferences();
     	if(savedInstanceState==null) {
          	goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
 		}
@@ -61,13 +61,14 @@ public class MainActivity 	extends 	Activity
 		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
 		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_N));
     	checkFirstRun();
-		ConnectivityTasks.checkAutoConnectivityStatus();
 	}
 
 	@Override 
 	protected void onStart() {
     	super.onStart();
-    	//connectivityTasks.checkAutoConnectivityStatus();
+		checkStateObjects();
+		setStateParametersFromPreferences();
+    	ConnectivityTasks.checkAutoConnectivityStatus();
 	}
 
 	@Override
@@ -110,7 +111,7 @@ public class MainActivity 	extends 	Activity
 		
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {    	
-	Toast.makeText(this, "DEVELOP: code for changes in login name, password or auto login etc",Toast.LENGTH_LONG).show();
+    //	Toast.makeText(this, "DEVELOP: code for changes in login name, password or auto login etc",Toast.LENGTH_LONG).show();
 	/*
 	if(key.equals("usertypeTSCHNA")) {
 	    if(preferences.getBoolean("usertypeTSCHNA", true))
@@ -125,11 +126,11 @@ public class MainActivity 	extends 	Activity
 	
 	private void checkStateObjects() {
 		mainActivity=this;
-		if(actionBar==null) actionBar=getActionBar();
-		if(fragmentManager==null) fragmentManager=getFragmentManager();
-        if(preferences==null) preferences=PreferenceManager.getDefaultSharedPreferences(this);
-    	if(preferenceEditor==null) preferenceEditor=preferences.edit();		
-		if(resources==null) resources=getResources();
+		actionBar=getActionBar();
+		fragmentManager=getFragmentManager();
+        preferences=PreferenceManager.getDefaultSharedPreferences(this);
+    	preferenceEditor=preferences.edit();		
+		resources=getResources();
     	
 		if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
@@ -138,13 +139,11 @@ public class MainActivity 	extends 	Activity
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 		
-    	//if(database==null) database=new Database();
-    	//if(connectivityTasks==null) connectivityTasks=new ConnectivityTasks();
-		ConnectivityTasks.initConnectivityTasks();
-        //if(observers==null) observers=new Observers(this);
+    	ConnectivityTasks.initConnectivityTasks();
+
 	}
 	
-	private void setStateParametersFromPreferences() {
+	private static void setStateParametersFromPreferences() {
      	loggedPerson=preferences.getString("loggedPerson", "");
 	}
 	
@@ -155,7 +154,7 @@ public class MainActivity 	extends 	Activity
 	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
 	}
 	
-	private boolean setFragment(String newFragmentName) {
+	private static boolean setFragment(String newFragmentName) {
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
 		else if(newFragmentName.equals("deepskyFragment")) actualFragment=deepskyFragment;
 		else if(newFragmentName.equals("cometsFragment")) actualFragment=cometsFragment;
@@ -163,17 +162,17 @@ public class MainActivity 	extends 	Activity
 		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;
 		else if(newFragmentName.equals("settingsFragment")) actualFragment=settingsFragment;
 		else {
-			Toast.makeText(this, "Debug: Unknown fragment "+newFragmentName, Toast.LENGTH_LONG).show();
+			Toast.makeText(mainActivity, "Debug: Unknown fragment "+newFragmentName, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		actualFragmentName=newFragmentName;
 		return true;
 	}
 	
-	public void goToFragment(String newFragmentName, boolean doAddToBackstack) {
+	public static void goToFragment(String newFragmentName, boolean doAddToBackstack) {
 		if(setFragment(newFragmentName)) {
 			FragmentTransaction fragmentManagerTransaction;
-			fragmentManagerTransaction = getFragmentManager().beginTransaction();
+			fragmentManagerTransaction = fragmentManager.beginTransaction();
 			fragmentManagerTransaction.replace(R.id.mainfragment_container, actualFragment);
 			if(doAddToBackstack) {
 				fragmentManagerTransaction.addToBackStack(actualFragmentName);
@@ -182,7 +181,7 @@ public class MainActivity 	extends 	Activity
 		}
 	}	
 
-	public void checkFirstRun() {
+	public static void checkFirstRun() {
 		if (preferences.getBoolean("firstrun", true)) {
 			Database.firstRun();
 			Observers.firstRun();

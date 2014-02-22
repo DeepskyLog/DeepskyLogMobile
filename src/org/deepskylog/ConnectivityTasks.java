@@ -34,11 +34,6 @@ public class ConnectivityTasks {
       	longRunningTask="";		
 	}
 	
-/*	public ConnectivityTasks(MainActivity theMainActivity) {
-		super();
-		mainActivity=theMainActivity;
-	}
-*/
 	private static void onTaskFinished(String theTask) {
 		if(longRunningTask.equals("checkConnectivityStatus")) longRunningChekConnectivityStatus(theTask);
 		if(longRunningTask.equals("checkLogin")) longRunningChekLogin(theTask);
@@ -66,7 +61,7 @@ public class ConnectivityTasks {
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
 			    DslDialog.newInstance(new DslDialogOnClickListener() {
-					@Override public void onPositiveButtonClick() { MainActivity.mainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK); }
+					@Override public void onPositiveButtonClick() { MainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK); }
 					@Override public void onNeutralButtonClick() { }
 					@Override public void onNegativeButtonClick() { }
 				  }, 
@@ -84,12 +79,13 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getDslCommandOnResult = new GetDslCommandOnResult() {
-					@Override public void onResultAvailable(String result) {
-						MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
-					}
-				};
-				GetDslCommand.getCommand("newobservationcount", "&since=20140101");
+				GetDslCommand.getCommand("newobservationcount", 
+										 "&since=20140101",
+										 new GetDslCommandOnResult() {
+											@Override public void onResultAvailable(String result) {
+												MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
+											}
+										 });
 			}
 		}	
 
@@ -122,12 +118,13 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getDslCommandOnResult = new GetDslCommandOnResult() {
-					@Override public void onResultAvailable(String result) {
-						MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
-					}
-				};
-				GetDslCommand.getCommand("newobservationcount", "&since=20140101");
+				GetDslCommand.getCommand("newobservationcount", 
+										 "&since=20140101",
+										 new GetDslCommandOnResult() {
+											@Override public void onResultAvailable(String result) {
+												MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
+											}
+										 });
 			}
 		}	
 	}

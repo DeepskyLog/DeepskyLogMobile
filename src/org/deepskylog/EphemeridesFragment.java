@@ -8,12 +8,32 @@ import android.view.ViewGroup;
 
 public class EphemeridesFragment extends Fragment {
 	
-	View ephemeridesFragmentView;
+    private Bundle savedState = null;
+	
+	private View ephemeridesFragmentView;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ephemeridesFragmentView=inflater.inflate(R.layout.ephemeridesfragment, container, false);
-     	return ephemeridesFragmentView;
+		if(savedInstanceState==null) {
+	    }
+		else {
+			savedState=savedInstanceState.getBundle("savedState");
+		}
+ 		if(savedState!=null) {
+	    	//text1_textview.setText(savedState.getString("text1_textview"));
+ 		}
+ 		savedState=null;		
+    	return ephemeridesFragmentView;
 	}
-
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    super.onSaveInstanceState(savedInstanceState);
+	    savedInstanceState.putBundle("savedState", saveState());
+	}
+    private Bundle saveState() {
+        Bundle state = new Bundle();
+        //state.putString("text1_textview", text1_textview.getText().toString());
+        return state;
+    }
 }

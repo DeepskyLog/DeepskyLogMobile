@@ -14,7 +14,6 @@ public class MainFragment extends Fragment {
 	
     private Bundle savedState = null;
 	
-	private MainActivity mainActivity;
 	private View mainFragmentView;
 	
 	private Button deepsky_button;
@@ -31,29 +30,28 @@ public class MainFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 	    super.onAttach(activity);
-	    mainActivity=(MainActivity) activity;
-	    mainActivity.actualFragment=this;
-	    mainActivity.actualFragmentName="mainFragment";
+	    MainActivity.actualFragment=this;
+	    MainActivity.actualFragmentName="mainFragment";
 	}
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
+    	deepsky_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
+    	comets_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
+    	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
+    	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
+    	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
+    	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
+    	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
+    	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
+    	
+    	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
+    	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
+    	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
+    	ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
+    	command_button.setText("Develop: Command Button - Test firstRun");
+    	command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandButtonOnClick(); } });
  		if(savedInstanceState==null) {
-			mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
-	    	deepsky_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
-	    	comets_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
-	    	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
-	    	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
-	    	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
-	    	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
-	    	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
-	    	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
-	    	
-	    	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
-	    	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
-	    	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
-	    	ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { mainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
-	    	command_button.setText("Develop: Command Button - Test firstRun");
-	    	command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandButtonOnClick(); } });
 	    }
 		else {
 			savedState=savedInstanceState.getBundle("savedState");
@@ -64,13 +62,14 @@ public class MainFragment extends Fragment {
 	    	text3_textview.setText(savedState.getString("text3_textview"));
  		}
  		savedState=null;		
+		MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_N));
     	return mainFragmentView;
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-	    mainActivity.actualFragment=this;
-	    mainActivity.actualFragmentName="mainFragment";
+	    MainActivity.actualFragment=this;
+	    MainActivity.actualFragmentName="mainFragment";
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -98,9 +97,9 @@ public class MainFragment extends Fragment {
 		text1_textview.setText(theText);
     }
     
-    private void commandButtonOnClick() {
-    	mainActivity.preferenceEditor.putBoolean("firstrun", true).commit();
-    	mainActivity.checkFirstRun();
+    private static void commandButtonOnClick() {
+    	MainActivity.preferenceEditor.putBoolean("firstrun", true).commit();
+    	MainActivity.checkFirstRun();
     }
 }
 

@@ -6,5 +6,11 @@
     <dimen name="mainfragment_eph_button_textsize">12sp</dimen>
     <dimen name="mainfragment_loggedperson_text_textsize">12sp</dimen>
     <dimen name="mainfragment_login_button_textsize">12sp</dimen>
+ 
+    
+    <dimen name="deepskyfragment_observations_button_textsize">12sp</dimen>
+    <dimen name="deepskyfragment_objects_button_textsize">12sp</dimen>
+    <dimen name="deepskyfragment_search_button_textsize">12sp</dimen>
+    <dimen name="deepskyfragment_mode_button_textsize">12sp</dimen>
     
 </resources>
