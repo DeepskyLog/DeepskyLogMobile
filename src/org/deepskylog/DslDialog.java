@@ -19,16 +19,12 @@ public class DslDialog extends DialogFragment {
 	
 	private String dslDialogOnClickListenerClassname;
 	private String dslDialogOnClickListenerMethodname;
+	private boolean autoDismiss;
+	
 	private String text_textview_text;
 	private String positive_button_text;
 	private String neutral_button_text;
 	private String negative_button_text;
-	private boolean autoDismiss;
-	
-	private TextView textid_textview;
-	private Button positive_button;
-	private Button neutral_button;
-	private Button negative_button;
 	
 	private View dslDialogView;
 	private AlertDialog dslDialog;
@@ -65,14 +61,14 @@ public class DslDialog extends DialogFragment {
 			savedState=savedInstanceState.getBundle("savedState");
 		}
  		if(savedState!=null) {
- 			dslDialogOnClickListenerClassname=savedState.getString("dslDialogOnClickListenerClassname");
-			dslDialogOnClickListenerMethodname=savedState.getString("dslDialogOnClickListenerMethodname");
-			text_textview_text=savedState.getString("textid_textview");
+ 			text_textview_text=savedState.getString("textid_textview");
 	    	positive_button_text=savedState.getString("positive_button");
 	    	neutral_button_text=savedState.getString("neutral_button");
 	    	negative_button_text=savedState.getString("negative_button");
 	    	negative_button_text=savedState.getString("negative_button");
-	    	Toast.makeText(MainActivity.mainActivity,"WP "+dslDialogOnClickListenerClassname+" "+dslDialogOnClickListenerMethodname, Toast.LENGTH_SHORT).show();
+			dslDialogOnClickListenerClassname=savedState.getString("dslDialogOnClickListenerClassname");
+			dslDialogOnClickListenerMethodname=savedState.getString("dslDialogOnClickListenerMethodname");
+			autoDismiss=savedState.getBoolean("autoDismiss");
 	    	if((!dslDialogOnClickListenerClassname.equals(""))&&(!dslDialogOnClickListenerMethodname.equals(""))) { 
 	    		try { dslDialogOnClickListener=Class.forName(dslDialogOnClickListenerClassname).getMethod(dslDialogOnClickListenerMethodname, String.class); } 
 	    		catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 2 in dslDialog "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
@@ -84,8 +80,7 @@ public class DslDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         dslDialogView=inflater.inflate(R.layout.dsldialog, null);
         builder.setView(dslDialogView);
-        textid_textview=(TextView)dslDialogView.findViewById(R.id.dsldialog_textid_id);
-        textid_textview.setText(text_textview_text);
+        ((TextView)dslDialogView.findViewById(R.id.dsldialog_textid_id)).setText(text_textview_text);
         if(positive_button_text.equals("")) positive_button_text="Ok";
         builder.setPositiveButton(positive_button_text, null);
         if(!neutral_button_text.equals("")) builder.setNegativeButton(neutral_button_text, null);      
@@ -93,15 +88,15 @@ public class DslDialog extends DialogFragment {
         dslDialog=builder.create();
         dslDialog.setOnShowListener(new DialogInterface.OnShowListener() { 
         	@Override public void onShow(DialogInterface dialog) { 
-        		positive_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_POSITIVE); 
-        		positive_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onButtonClick("positive"); } } );  
+        		((Button) dslDialog.getButton(AlertDialog.BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() { 
+        			@Override public void onClick(View view) { onButtonClick("positive"); } } );  
         		if(!neutral_button_text.equals("")) {
-        			neutral_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_NEUTRAL); 
-            		neutral_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onButtonClick("neutral"); } } ); 
+        			((Button) dslDialog.getButton(AlertDialog.BUTTON_NEUTRAL)).setOnClickListener(new View.OnClickListener() { 
+        				@Override public void onClick(View view) { onButtonClick("neutral"); } } ); 
         		}
         		if(!negative_button_text.equals("")) {
-        			negative_button=(Button) dslDialog.getButton(AlertDialog.BUTTON_NEGATIVE); 
-            		negative_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { onButtonClick("negative"); } } ); 
+        			((Button) dslDialog.getButton(AlertDialog.BUTTON_NEGATIVE)).setOnClickListener(new View.OnClickListener() { 
+        				@Override public void onClick(View view) { onButtonClick("negative"); } } ); 
         		}
         	}
         } ); 		
@@ -120,6 +115,7 @@ public class DslDialog extends DialogFragment {
         state.putString("positive_button", positive_button_text);
         state.putString("neutral_button", neutral_button_text);
         state.putString("negative_button", negative_button_text);
+        state.putBoolean("autoDismiss", autoDismiss);
         return state;
     }
 

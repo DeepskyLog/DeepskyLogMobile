@@ -50,8 +50,7 @@ public class ConnectivityTasks {
 		longRunningTask="checkLogin";
      	loginId=MainActivity.preferences.getString("loginId", "");
     	loginPassword=MainActivity.preferences.getString("loginPassword", "");
-    	Toast.makeText(MainActivity.mainActivity, "username="+loginId+"&password="+loginPassword, Toast.LENGTH_LONG).show();
-		new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
+    	new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
 	}
 	
 	public static void ConnectivityTasksDslDialogListener1(String theKey) {
