@@ -61,11 +61,12 @@ public class ConnectivityTasks {
 		if(theTask.equals("setLoginStatus")) {
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
-			    DslDialog.newInstance("ConnectivityTasksDslDialogListener1", 
+			    DslDialog.newInstance("ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
 			    		MainActivity.resources.getString(R.string.observers_invalidcredentials),
 			    		MainActivity.resources.getString(R.string.general_Ok),
 			    		"",
-			    		MainActivity.resources.getString(R.string.general_Cancel))
+			    		MainActivity.resources.getString(R.string.general_Cancel),
+			    		true)
 			    		.show(MainActivity.fragmentManager, "dslDialog");				
 			}
 			else if(loginStatus.equals("")) {
