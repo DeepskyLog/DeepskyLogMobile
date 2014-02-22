@@ -1,6 +1,5 @@
 package org.deepskylog;
 
-import org.deepskylog.DslDialog.DslDialogOnClickListener;
 import org.deepskylog.GetDslCommand.GetDslCommandOnResult;
 
 import android.content.Context;
@@ -55,21 +54,19 @@ public class ConnectivityTasks {
 		new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
 	}
 	
-
+	public static void ConnectivityTasksDslDialogListener1(String theKey) {
+		if(theKey.equals("positive")) MainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK);
+	}
 	private static void longRunningChekLogin(String theTask) {
 		if(theTask.equals("setLoginStatus")) {
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
-			    DslDialog.newInstance(new DslDialogOnClickListener() {
-					@Override public void onPositiveButtonClick() { MainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK); }
-					@Override public void onNeutralButtonClick() { }
-					@Override public void onNegativeButtonClick() { }
-				  }, 
-				  MainActivity.resources.getString(R.string.observers_invalidcredentials),
-				  MainActivity.resources.getString(R.string.general_Ok),
-				  "",
-				  MainActivity.resources.getString(R.string.general_Cancel))
-				  .show(MainActivity.fragmentManager, "dslDialog");				
+			    DslDialog.newInstance("ConnectivityTasksDslDialogListener1", 
+			    		MainActivity.resources.getString(R.string.observers_invalidcredentials),
+			    		MainActivity.resources.getString(R.string.general_Ok),
+			    		"",
+			    		MainActivity.resources.getString(R.string.general_Cancel))
+			    		.show(MainActivity.fragmentManager, "dslDialog");				
 			}
 			else if(loginStatus.equals("")) {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));				
