@@ -55,7 +55,15 @@
     <string name="observers_tellaboutconfigurationmenu">"Je kan je gegevens steeds wijzigen via het menu 'Instellingen'."</string>
      <string name="observers_invalidcredentials">"Ongeldige DSL credentials. Gelieve je gegevens te wijzigen via het menu 'Instellingen'."</string>
     
-    <string name="general_Ok">"Ok"</string>
+    <string name="deepskyfragment_text1_textview_text">"Deepsky"</string>
+    <string name="deepskyfragment_observations_button_text">"Waarnemingen"</string>
+    <string name="deepskyfragment_objects_button_text">"Objecten"</string>
+    <string name="deepskyfragment_search_button_text">"Zoeken"</string>
+    <string name="deepskyfragment_mode_button_text1">"Lijst"</string>
+    <string name="deepskyfragment_mode_button_text2">"Compact"</string>
+    <string name="deepskyfragment_mode_button_text3">"Detail"</string>
+    
+     <string name="general_Ok">"Ok"</string>
     <string name="general_Yes">"Ja"</string>
     <string name="general_No">"Nee"</string>
     <string name="general_Cancel">"Annuleer"</string>

@@ -10,7 +10,8 @@ public class GetDslCommand {
 	 
     public static GetDslCommandOnResult getDslCommandOnResult;
 		
-  	public static void getCommand(String command, String params) {
+  	public static void getCommand(String command, String params, GetDslCommandOnResult theDslCommandOnResult) {
+  		getDslCommandOnResult=theDslCommandOnResult;
   		new getCommandTask().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params);
   	};
         

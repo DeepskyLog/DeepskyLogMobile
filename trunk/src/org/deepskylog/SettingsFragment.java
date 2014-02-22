@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 public class SettingsFragment extends PreferenceFragment {
-	private MainActivity mainActivity;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -15,19 +14,17 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onAttach(Activity activity) {
 	    super.onAttach(activity);
-	    mainActivity=(MainActivity) activity;
-	    mainActivity.actualFragment=this;
-	    mainActivity.actualFragmentName="settingsFragment";
+	    MainActivity.actualFragment=this;
+	    MainActivity.actualFragmentName="settingsFragment";
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-	    mainActivity.actualFragment=this;
-	    mainActivity.actualFragmentName="settingsFragment";
+	    MainActivity.actualFragment=this;
+	    MainActivity.actualFragmentName="settingsFragment";
 	}
 	public void refreshPreferences() {
 		getPreferenceScreen().removeAll();
 		addPreferencesFromResource(R.xml.preferences);		
 	}
-
 }
