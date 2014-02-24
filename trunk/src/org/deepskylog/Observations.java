@@ -3,7 +3,6 @@ package org.deepskylog;
 import org.deepskylog.GetDslCommand.GetDslCommandOnResult;
 
 import android.database.Cursor;
-import android.widget.Toast;
 
 public class Observations {
 
@@ -11,22 +10,19 @@ public class Observations {
         void onResultAvailable(String result);
     }
 
-    public static GetObservationOnResult getObservationOnResult;
-
-	public static void getObservation(String observationid, GetObservationOnResult theObservationOnResult) {
-    	getObservationOnResult=theObservationOnResult;
-		Cursor cursor=DslDatabase.getObservation(observationid);
+	public static void getObservation(final String observationid, final GetObservationOnResult getObservationOnResult) {
+    	Cursor cursor=DslDatabase.getObservation(observationid);
 		if(cursor.moveToFirst()) {
-			getObservationOnResult.onResultAvailable("[ { \"observationid\":\""+cursor.getString(0)+"\", " +
-				      "\"objectname\":\""+cursor.getString(1)+"\", "+
-				      "\"observername\":\""+cursor.getString(2)+"\", "+
-				      "\"observationdescription\":\""+cursor.getString(3)+"\", "+
-				      "\"observationdate\":\""+cursor.getString(4)+"\""+
+			getObservationOnResult.onResultAvailable("[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
+				      "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
+				      "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
+				      "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription"))+"\", "+
+				      "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\""+
 					  "} ]"
 			);
 		}
 		else {
-			GetDslCommand.getCommand("observationsfromto", "&from="+observationid+"&to="+observationid, new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { DslDatabase.insertObservation(result); getObservationOnResult.onResultAvailable(result); } });
+			GetDslCommand.getCommand("observationsfromto", "&from="+observationid+"&to="+observationid, new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { DslDatabase.insertObservation(result,observationid); getObservationOnResult.onResultAvailable(result); } });
 		}
 	}
 	

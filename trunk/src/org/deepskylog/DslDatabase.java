@@ -49,16 +49,25 @@ public class DslDatabase {
         }
         return sqlLiteDatabase.insert("observations", null, initialValues);
     }
-    public static long insertObservation(String result) {
+    public static long insertObservation(String result, String observationid) {
     	ContentValues initialValues = new ContentValues();
         try {
 	    	JSONArray jsonArray = new JSONArray(result);
-		    JSONObject jsonObject=jsonArray.getJSONObject(0);
-        	initialValues.put("observationid", jsonObject.getString("observationid"));
-            initialValues.put("objectname", jsonObject.getString("objectname"));
-            initialValues.put("observername", jsonObject.getString("observername"));
-            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
-            initialValues.put("observationdate", jsonObject.getString("observationdate"));
+	    	if(jsonArray.length()>0) {
+			    JSONObject jsonObject=jsonArray.getJSONObject(0);
+	        	initialValues.put("observationid", jsonObject.getString("observationid"));
+	            initialValues.put("objectname", jsonObject.getString("objectname"));
+	            initialValues.put("observername", jsonObject.getString("observername"));
+	            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
+	            initialValues.put("observationdate", jsonObject.getString("observationdate"));
+	    	}
+	    	else {
+	        	initialValues.put("observationid", observationid);
+	            initialValues.put("objectname", "");
+	            initialValues.put("observername", "");
+	            initialValues.put("observationdescription", "");
+	            initialValues.put("observationdate", "");	    		
+	    	}
         } catch (Exception e) {
             Toast.makeText(MainActivity.mainActivity, "Database Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
         }
