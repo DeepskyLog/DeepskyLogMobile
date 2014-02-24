@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 public class MainActivity 	extends 	Activity 
@@ -42,12 +43,13 @@ public class MainActivity 	extends 	Activity
 	public static String loggedPerson = "";
 
 	//public ConnectivityTasks connectivityTasks;
-	//public Database database;
+	//public static DslDatabase dslDatabase;
 	//public Observers observers;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.mainactivity);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		checkStateObjects();
@@ -60,6 +62,7 @@ public class MainActivity 	extends 	Activity
 		}
 		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
 		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_N));
+    	setProgressBarIndeterminateVisibility(false);
     	checkFirstRun();
 	}
 
@@ -140,6 +143,7 @@ public class MainActivity 	extends 	Activity
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 		
     	ConnectivityTasks.initConnectivityTasks();
+    	DslDatabase.open();
 
 	}
 	
@@ -183,7 +187,6 @@ public class MainActivity 	extends 	Activity
 
 	public static void checkFirstRun() {
 		if (preferences.getBoolean("firstrun", true)) {
-			Database.firstRun();
 			Observers.firstRun();
 			preferenceEditor.putBoolean("firstrun", false).commit();
 	    }
