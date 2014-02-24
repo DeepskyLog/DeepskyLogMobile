@@ -29,7 +29,7 @@ public class Utils {
 	        conn.connect();
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
-		        return readIt(inputStream, 500);
+		        return readIt(inputStream, 50000);
 	        }
 	        else {
 	        	return "Unavailable url: "+theUrl;
