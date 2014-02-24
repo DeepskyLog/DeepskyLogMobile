@@ -8,9 +8,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +30,6 @@ public class DeepskyFragment extends Fragment {
 		deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);
 		text1_textview=((TextView)deepskyFragmentView.findViewById(R.id.deepskyfragment_text1_textview_id));
 		text2_textview=((TextView)deepskyFragmentView.findViewById(R.id.deepskyfragment_text2_textview_id));
-		((Button)deepskyFragmentView.findViewById(R.id.deepskyfragment_previous_button_id)).setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { previousObservation(); } });
-		((Button)deepskyFragmentView.findViewById(R.id.deepskyfragment_next_button_id)).setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { nextObservation(); } });
  		if(savedInstanceState==null) {
 	    }
 		else {
@@ -43,8 +39,14 @@ public class DeepskyFragment extends Fragment {
 	    	//text1_textview.setText(savedState.getString("text1_textview"));
  		}
  		savedState=null;
- 		text1_textview.setText("Test line 1\nTest Line 2");
+ 		text1_textview.setText("Fetching observations...");
  		text2_textview.setText("Observations come here");
+ 		text2_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
+ 		    public void onSwipeTop() { }
+ 		    public void onSwipeRight() { previousObservation(); }
+ 		    public void onSwipeLeft() { nextObservation(); }
+ 		    public void onSwipeBottom() { }
+		});
  		GetDslCommand.getCommand("maxobservationid", "", new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { getObservationsFromMaxId(result); } });
  		return deepskyFragmentView;
 	}
@@ -61,17 +63,26 @@ public class DeepskyFragment extends Fragment {
     
     private void getObservationsFromMaxId(String result) {
     	observationId=Integer.valueOf(result);
+    	observationMaxId=Integer.valueOf(result);
+    	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
     	GetDslCommand.getCommand("observationsfromto", "&from="+((Integer)(Integer.valueOf(result)-0)).toString()+"&to="+result, new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { displayObservations(result); } });    	
     }
     
     private void previousObservation() {
     	observationId--;
+		text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
     	getObservationsFromId();
     }
     
     private void nextObservation() {
-    	if(observationId<observationMaxId) observationId++;
-    	getObservationsFromId();
+    	if(observationId<observationMaxId) {
+    		observationId++;
+    		text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
+        	getObservationsFromId();
+    	}
+    	else {
+    		Toast.makeText(MainActivity.mainActivity, "No more observations", Toast.LENGTH_LONG).show();
+    	}
     }
     
     private void getObservationsFromId() {
@@ -84,16 +95,15 @@ public class DeepskyFragment extends Fragment {
     	    for(int i=0; i<jsonArray.length();i++) {
     	    	JSONObject jsonObject=jsonArray.getJSONObject(i);
     	    	text2_textview.setText(jsonObject.getString("observationdate"));
-    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("objectname"));
-    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observername"));
+    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("objectname"));
+    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observername"));
+    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
     	    	text2_textview.setText(text2_textview.getText()+"\n");
     	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observationdescription"));
-    	    	    
+    	    	text1_textview.setText("Observation: "+observationId.toString()+" of "+observationMaxId.toString());   	    	    
     	    }
         } catch (Exception e) {
             Toast.makeText(MainActivity.mainActivity, "DeepskyFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
         }
-
     }
-
 }
