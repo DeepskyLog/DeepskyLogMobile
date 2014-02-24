@@ -1,6 +1,7 @@
 package org.deepskylog;
 
 import org.deepskylog.GetDslCommand.GetDslCommandOnResult;
+import org.deepskylog.Observations.GetObservationOnResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -65,7 +66,7 @@ public class DeepskyFragment extends Fragment {
     	observationId=Integer.valueOf(result);
     	observationMaxId=Integer.valueOf(result);
     	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
-    	GetDslCommand.getCommand("observationsfromto", "&from="+((Integer)(Integer.valueOf(result)-0)).toString()+"&to="+result, new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { displayObservations(result); } });    	
+    	getObservationsFromId();    	
     }
     
     private void previousObservation() {
@@ -86,15 +87,18 @@ public class DeepskyFragment extends Fragment {
     }
     
     private void getObservationsFromId() {
-    	GetDslCommand.getCommand("observationsfromto", "&from="+((Integer)(Integer.valueOf(observationId)-0)).toString()+"&to="+((Integer)(Integer.valueOf(observationId)-0)).toString(), new GetDslCommandOnResult() { @Override public void onResultAvailable(String result) { displayObservations(result); } });    	
+    	MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+    	Observations.getObservation(observationId.toString(), new GetObservationOnResult() {
+			@Override public void onResultAvailable(String result) { displayObservations(result); } } 
+    	);
     }
     
-    private void displayObservations(String result){
+    private void displayObservations(String result) {
     	try {
     		JSONArray jsonArray = new JSONArray(result);
     	    for(int i=0; i<jsonArray.length();i++) {
-    	    	JSONObject jsonObject=jsonArray.getJSONObject(i);
-    	    	text2_textview.setText(jsonObject.getString("observationdate"));
+    			JSONObject jsonObject=jsonArray.getJSONObject(i);
+    			text2_textview.setText(jsonObject.getString("observationdate"));
     	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("objectname"));
     	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observername"));
     	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
@@ -105,5 +109,6 @@ public class DeepskyFragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(MainActivity.mainActivity, "DeepskyFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
         }
+    	MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false);
     }
 }
