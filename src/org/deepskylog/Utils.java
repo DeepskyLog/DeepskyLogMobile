@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.widget.Toast;
+
 public class Utils {
 	
 	public static boolean isNumeric(String str) {
@@ -50,5 +52,16 @@ public class Utils {
     	reader.read(buffer);
     	return new String(buffer).trim();
     }	
+    
+    public static String getTagContent(String result, String tag) {
+    	Integer datatag1=result.indexOf("<"+tag+">")+(tag.length()+2);
+    	return result.substring(datatag1+1,result.indexOf("</"+tag+">",datatag1+1)-1);
+    }
+
+    public static void onResult(String result) {
+    	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,getTagContent(result,"result")); }
+    	catch(Exception e) {Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
+    }
+
 
 }

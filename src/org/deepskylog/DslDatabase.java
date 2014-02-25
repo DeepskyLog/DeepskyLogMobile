@@ -1,8 +1,5 @@
 package org.deepskylog;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -33,45 +30,11 @@ public class DslDatabase {
     public static void open() throws SQLException {
         databaseHelper=new DatabaseHelper(MainActivity.mainActivity);
         try { sqlLiteDatabase=databaseHelper.getWritableDatabase(); }
-        catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "Database xception "+e.toString(), Toast.LENGTH_LONG).show(); }
+        catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "Database exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
     }
     
-    public static long insertObservation(JSONObject jsonObject) {
-        ContentValues initialValues = new ContentValues();
-        try {
-        	initialValues.put("observationid", jsonObject.getString("observationid"));
-            initialValues.put("objectname", jsonObject.getString("objectname"));
-            initialValues.put("observername", jsonObject.getString("observername"));
-            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
-            initialValues.put("observationdate", jsonObject.getString("observationdate"));
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.mainActivity, "Database Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
-        }
-        return sqlLiteDatabase.insert("observations", null, initialValues);
-    }
-    public static long insertObservation(String result, String observationid) {
-    	ContentValues initialValues = new ContentValues();
-        try {
-	    	JSONArray jsonArray = new JSONArray(result);
-	    	if(jsonArray.length()>0) {
-			    JSONObject jsonObject=jsonArray.getJSONObject(0);
-	        	initialValues.put("observationid", jsonObject.getString("observationid"));
-	            initialValues.put("objectname", jsonObject.getString("objectname"));
-	            initialValues.put("observername", jsonObject.getString("observername"));
-	            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
-	            initialValues.put("observationdate", jsonObject.getString("observationdate"));
-	    	}
-	    	else {
-	        	initialValues.put("observationid", observationid);
-	            initialValues.put("objectname", "");
-	            initialValues.put("observername", "");
-	            initialValues.put("observationdescription", "");
-	            initialValues.put("observationdate", "");	    		
-	    	}
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.mainActivity, "Database Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
-        }
-        return sqlLiteDatabase.insert("observations", null, initialValues);
+    public static long insert(String table, ContentValues data) {
+    	return sqlLiteDatabase.insert(table, null, data);
     }
     
     public static int getAllEntries() {

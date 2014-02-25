@@ -1,12 +1,9 @@
 package org.deepskylog;
 
-import org.deepskylog.GetDslCommand.GetDslCommandOnResult;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 public class ConnectivityTasks {
 		
@@ -56,6 +53,9 @@ public class ConnectivityTasks {
 	public static void ConnectivityTasksDslDialogListener1(String theKey) {
 		if(theKey.equals("positive")) MainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
+	public static void ConnectivityTasksGetDslCommandListener1(String result) {
+		MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+Utils.getTagContent(result, "result"));
+	}
 	private static void longRunningChekLogin(String theTask) {
 		if(theTask.equals("setLoginStatus")) {
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
@@ -76,13 +76,7 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getCommand("newobservationcount", 
-										 "&since=20140101",
-										 new GetDslCommandOnResult() {
-											@Override public void onResultAvailable(String result) {
-												MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
-											}
-										 });
+				GetDslCommand.getCommand("newobservationcount", "&since=20140101","ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 
@@ -115,13 +109,7 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getCommand("newobservationcount", 
-										 "&since=20140101",
-										 new GetDslCommandOnResult() {
-											@Override public void onResultAvailable(String result) {
-												MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
-											}
-										 });
+				GetDslCommand.getCommand("newobservationcount", "&since=20140101","ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 	}
