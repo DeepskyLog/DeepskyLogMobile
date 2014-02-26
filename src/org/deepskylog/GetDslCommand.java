@@ -3,7 +3,6 @@ package org.deepskylog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
 public class GetDslCommand {
 	
@@ -21,7 +20,6 @@ public class GetDslCommand {
   	public static void getCommandRaw(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
   		params="&onResultMethod="+getDslCommandOnResultMethod+params;
   		params="&onResultClass="+getDslCommandOnResultClass+params;
-  		Toast.makeText(MainActivity.mainActivity, "http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params, Toast.LENGTH_LONG).show();
   		new getCommandTaskRaw().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params);
   	};
   	
@@ -29,7 +27,7 @@ public class GetDslCommand {
     	@Override protected String doInBackground(String... urls) { return Utils.downloadUrl(urls[0]); }
         @Override protected void onPostExecute(String result) {  Utils.onResultRaw(result.trim()); }
     }
-    
+    /*
   	public static void getCommandTest(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
   		params="&onResultMethod="+getDslCommandOnResultMethod+params;
   		params="&onResultClass="+getDslCommandOnResultClass+params;
@@ -40,7 +38,7 @@ public class GetDslCommand {
     	@Override protected String doInBackground(String... urls) { return Utils.downloadUrl(urls[0]); }
         @Override protected void onPostExecute(String result) { Utils.onResultTest(result.trim()); }
     }
- 
+    */
   	public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
   		new getCommandAndBroadcastTask().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command,broadcastIntent);
   	};

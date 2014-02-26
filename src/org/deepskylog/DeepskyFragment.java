@@ -115,28 +115,22 @@ public class DeepskyFragment extends Fragment {
     }
     
     public static void getObservationFromIdDsl(String result) {
-    	Toast.makeText(MainActivity.mainActivity, "fetched observation from dsl "+result, Toast.LENGTH_LONG).show();
-		String observation=Utils.getTagContent(result,"result");
-    	Toast.makeText(MainActivity.mainActivity, "fetched observation from dsl "+observation, Toast.LENGTH_LONG).show();
-		Observations.storeObservationToDb(observation);
+    	String observation=Utils.getTagContent(result,"result");
+    	if(!(observation.equals(""))) Observations.storeObservationToDb(observation);
     	displayObservations(observation);
     }
     
     public static void getObservationFromIdDb(String result) {
     	if(Utils.getTagContent(result,"fromDb").equals("true")) {
-    		Toast.makeText(MainActivity.mainActivity, "observation from db to be shown", Toast.LENGTH_LONG).show();
     		displayObservations(Utils.getTagContent(result,"result"));
     	}
     	else {
-    		Toast.makeText(MainActivity.mainActivity, "fetching observation from dsl", Toast.LENGTH_LONG).show();
     		Observations.getObservationFromDSLRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDsl");
     	}
     }
     
     private static void getObservationsFromId() {
-    	MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
     	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
-    	MainActivity.preferenceEditor.putInt("observationId", observationId);
     	Observations.getObservationFromDbRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDb");
     }
     
@@ -169,7 +163,7 @@ public class DeepskyFragment extends Fragment {
     }
     
     private static void displayObservations(String result) {
-    	if(result.equals("No data")) {
+    	if(result.equals("[No data]")||result.equals("[]")) {
     		text2_textview.setText("Observation "+observationId+" was deleted by the observer.");
     	}
     	else {

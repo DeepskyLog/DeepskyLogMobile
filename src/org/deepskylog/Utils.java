@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -71,7 +70,7 @@ public class Utils {
     	catch(Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 2 in Utils "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     }
 
-    
+    /*
     public static void onResultTest(String result) {
     	try { 
     		//Class utilsOnClickListener=Class.forName(getTagContent(result,"onResultClass"));
@@ -82,6 +81,6 @@ public class Utils {
     		DeepskyFragment.text2_textview.setText(result+e.getMessage().toString());
     		Toast.makeText(MainActivity.mainActivity,"Exception 3 in Utils "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     }
-	
+	*/
 
 }
