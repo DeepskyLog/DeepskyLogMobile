@@ -12,7 +12,7 @@ public class Observations {
  	public static void getObservationFromDbRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
     	Cursor cursor=DslDatabase.getObservation(observationid);
 		if(cursor.moveToFirst()) {
-			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</nResultClass>" +
+			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</onResultClass>" +
 					          "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
 					          "<fromDb>true</fromDb>" +
 					          "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
