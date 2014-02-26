@@ -27,6 +27,7 @@ public class AtlasUtil {
 	// Millenium StarAtlas pages
 	private static final int[] P_ZONE = { 2, 4, 8, 10, 12, 14, 16, 20, 20, 22, 22, 24, 24, 24, 24, 24, 24, 24, 24, 24, 22, 22, 20, 20, 16, 14, 12, 10, 8, 4, 2 };
 	
+	@SuppressWarnings("unused")
 	public static int getSkyAtlas2000Page(EquPosition position) {
 		
 		int start = 472;		

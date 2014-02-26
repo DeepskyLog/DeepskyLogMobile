@@ -46,7 +46,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     // ------------------
 
     // List of component stars as TargetStar unique IDs
-    private List components = null;
+    @SuppressWarnings("rawtypes")
+	private List components = null;
     
 
 	
@@ -69,7 +70,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * @param targetElement The origin XML DOM <target> Element 
      * @throws SchemaException if given targetElement was <code>null</code>
      */ 
-    public DeepSkyTargetMS(Node targetElement, 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public DeepSkyTargetMS(Node targetElement, 
                            IObserver[] observers)
                            throws SchemaException {
                                
@@ -105,6 +107,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
     
     
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public DeepSkyTargetMS(String starName,
 	                       String datasource, 
 	                       List componentStars) {
@@ -116,6 +119,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
 
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("rawtypes")
 	public DeepSkyTargetMS(String starName,
 			 	           IObserver observer, 
 			 	           List componentStars) {
@@ -166,6 +170,7 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */	
+	@SuppressWarnings({ "unused", "rawtypes" })
 	public Element addToXmlElement(Element element) {
 		
         if( element == null ) {
@@ -255,7 +260,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * @return A list with all components of this multiple star, as 
      *         unique IDs. 
      */
-    public List getComponents() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public List getComponents() {
                
         return new ArrayList(this.components);
         
@@ -274,7 +280,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      *         components of this multiple star coundn't be found
      *         in the given array.
      */
-    public List getComponentTargets(ITarget[] targets) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public List getComponentTargets(ITarget[] targets) {
         
     	ArrayList result = new ArrayList();
     	
@@ -313,7 +320,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * that represent the components of this multiple star system
      * @return <code>true</code> only if operation succeeded. 
      */
-    public boolean setComponents(List newComponents) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean setComponents(List newComponents) {
     	
     	if(   (newComponents == null)
            || (newComponents.size() == 0)    		
@@ -360,7 +368,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * @param additionalComponents A list of new components stars
      * @return <code>true</code> only if operation succeeded. 
      */
-    public boolean addComponents(List additionalComponents) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean addComponents(List additionalComponents) {
     	
     	if(   (additionalComponents == null)
            || (additionalComponents.size() == 0)    		
@@ -406,7 +415,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * @param additionalStar A new component star
      * @return <code>true</code> only if operation succeeded. 
      */
-    public boolean addComponent(TargetStar additionalStar) {
+    @SuppressWarnings("unchecked")
+	public boolean addComponent(TargetStar additionalStar) {
     	
     	if( additionalStar == null ) {
     		return false;
@@ -433,7 +443,8 @@ public class DeepSkyTargetMS extends Target implements ITargetContaining {
      * @param additionalStar A new component star (as unique ID string)
      * @return <code>true</code> only if operation succeeded. 
      */
-    public boolean addComponent(String additionalStar) {
+    @SuppressWarnings("unchecked")
+	public boolean addComponent(String additionalStar) {
     	
     	if( additionalStar == null ) {
     		return false;

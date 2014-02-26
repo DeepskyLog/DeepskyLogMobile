@@ -4,7 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +19,26 @@ import android.widget.Toast;
 public class DeepskyFragment extends Fragment {
 
 	private static final Integer DISPLAY_MODE_NORMAL=1;
+	@SuppressWarnings("unused")
 	private static final Integer DISPLAY_MODE_LIST  =2;
 	
 	private Bundle savedState = null;
 
-	private View deepskyFragmentView;
-	private TextView text1_textview;
-	private TextView text2_textview;
+	private static View deepskyFragmentView;
+	private static TextView text1_textview;
+	private static TextView text2_textview;
 	
-	private Integer observationId;
-	private Integer observationMaxId;
+	private static Integer observationId;
+	private static Integer observationMaxId;
 	
 	private Integer displayMode;
 		
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(observationsMaxIdBroadcastReceiver, new IntentFilter("observationsMaxIdBroadcastReceiver"));
+	}
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);
@@ -60,13 +72,22 @@ public class DeepskyFragment extends Fragment {
  			getObservationsFromId();
  		}
  		savedState=null;
+ 		getObservationsMaxIdAndBroadcast();
  		return deepskyFragmentView;
 	}
+	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    super.onSaveInstanceState(savedInstanceState);
 	    savedInstanceState.putBundle("savedState", saveState());
 	}
+	
+	@Override
+	public void onDestroy() {
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(observationsMaxIdBroadcastReceiver);
+		super.onDestroy();
+	}
+	
     private Bundle saveState() {
         Bundle state = new Bundle();
         state.putString("text1_textview", text1_textview.getText().toString());
@@ -75,7 +96,6 @@ public class DeepskyFragment extends Fragment {
         state.putInt("displayMode", displayMode);
         return state;
     }
-    
     
     private void previousObservation() {
     	observationId--;
@@ -94,47 +114,57 @@ public class DeepskyFragment extends Fragment {
     	}
     }
     
-    private void getObservationFromIdDsl(String result) {
-    	String observation=Utils.getTagContent(result, "result");
+    public static void getObservationFromIdDsl(String result) {
+    	String observation=Utils.getTagContent(result,"result");
     	Observations.storeObservationToDb(observation);
     	displayObservations(observation);
     }
     
-    private void getObservationFromIdDb(String result) {
+    public static void getObservationFromIdDb(String result) {
     	if(Utils.getTagContent(result,"fromDb").equals("true")) {
-    		displayObservations(Utils.getTagContent(result, "result"));
+    		displayObservations(Utils.getTagContent(result,"result"));
     	}
     	else {
-        	Observations.getObservationFromDSL(observationId.toString(), "DeepskyFragment", "getObservationFromIdDSL");
+        	Observations.getObservationFromDSLRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDsl");
     	}
     }
     
-    private void getObservationsFromId() {
+    private static void getObservationsFromId() {
     	MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
     	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
     	MainActivity.preferenceEditor.putInt("observationId", observationId);
-    	Observations.getObservationFromDb(observationId.toString(), "DeepskyFragment", "getObservationFromIdDb");
+    	Observations.getObservationFromDbRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDb");
     }
     
-    private void getObservationsMaxIdAndObservationOnResult1(String result) {
-    	observationMaxId=Integer.valueOf(Utils.getTagContent(result, "result"));
+    public static void getObservationsMaxIdAndObservationOnResult1(String result) {
+    	observationMaxId=Integer.valueOf(Utils.getTagContent(result,"result"));
     	observationId=observationMaxId;
     	getObservationsFromId();
     }
     
-    private void getObservationsMaxIdAndObservation() {
-    	Observations.getObservationsMaxId("DeepskyFragment", "getObservationsMaxIdAndObservationOnResult1");
+    private static void getObservationsMaxIdAndObservation() {
+    	Observations.getObservationsMaxIdRaw("org.deepskylog.DeepskyFragment", "getObservationsMaxIdAndObservationOnResult1");
     }
     
-    private void getObservationsMaxIdOnResult1(String result) {
+    public static void getObservationsMaxIdOnResult1(String result) {
+    	MainActivity.mainFragment.setText("ObservationsMaxId"+Utils.getTagContent(result,"result"));
     	observationMaxId=Integer.valueOf(Utils.getTagContent(result, "result"));
     }
-
-    private void getObservationsMaxId() {
-    	Observations.getObservationsMaxId("DeepskyFragment", "getObservationsMaxIdOnResult1");
+    
+	
+	public BroadcastReceiver observationsMaxIdBroadcastReceiver=new BroadcastReceiver() {
+		  @Override public void onReceive(Context context, Intent intent) { Toast.makeText(MainActivity.mainActivity, "Broadcast observationsMaxId: "+ Utils.getTagContent(intent.getStringExtra("resultRAW"),"result"), Toast.LENGTH_LONG).show(); }
+	};
+	
+    private static void getObservationsMaxIdAndBroadcast() {
+    	Observations.getObservationsMaxIdAndBroadcast("observationsMaxIdBroadcastReceiver");
     }
     
-    private void displayObservations(String result) {
+    private static void getObservationsMaxId() {
+    	Observations.getObservationsMaxIdRaw("org.deepskylog.DeepskyFragment", "getObservationsMaxIdOnResult1");
+    }
+    
+    private static void displayObservations(String result) {
     	try {
     		JSONArray jsonArray = new JSONArray(result);
     	    for(int i=0; i<jsonArray.length();i++) {

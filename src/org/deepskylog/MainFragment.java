@@ -63,7 +63,7 @@ public class MainFragment extends Fragment {
  		}
  		savedState=null;		
 		MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_N));
-    	return mainFragmentView;
+		return mainFragmentView;
 	}
 	@Override
 	public void onResume() {

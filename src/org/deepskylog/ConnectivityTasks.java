@@ -38,6 +38,7 @@ public class ConnectivityTasks {
 	public static void checkAutoConnectivityStatus() {
     	if(autoLogin) checkConnectivityStatus();		
 	}
+	
 	public static void checkConnectivityStatus() {
 		longRunningTask="checkConnectivityStatus";
 		new checkNetworkTask().execute();
@@ -53,14 +54,18 @@ public class ConnectivityTasks {
 	public static void ConnectivityTasksDslDialogListener1(String theKey) {
 		if(theKey.equals("positive")) MainActivity.goToFragment("settingsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
+	
 	public static void ConnectivityTasksGetDslCommandListener1(String result) {
-		MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+Utils.getTagContent(result, "result"));
+		MainActivity.mainFragment.setText("New deepsky observations since 20140101: "+result);
 	}
+	
 	private static void longRunningChekLogin(String theTask) {
+		MainActivity.mainFragment.setText("The task: "+theTask);
 		if(theTask.equals("setLoginStatus")) {
+			MainActivity.mainFragment.setText("Login status: "+loginStatus);
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
-			    DslDialog.newInstance("ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
+			    DslDialog.newInstance("org.deepskylog.ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
 			    		MainActivity.resources.getString(R.string.observers_invalidcredentials),
 			    		MainActivity.resources.getString(R.string.general_Ok),
 			    		"",
@@ -72,11 +77,10 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));				
 			}
 			else {
-				MainActivity.mainFragment.setText(loginStatus);
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getCommand("newobservationcount", "&since=20140101","ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
+				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 
@@ -109,25 +113,29 @@ public class ConnectivityTasks {
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
 			}
 			if(autoLogin) {
-				GetDslCommand.getCommand("newobservationcount", "&since=20140101","ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
+				MainActivity.mainFragment.setText("Getting observation data");
+				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 	}
 		
-	
 	//Network connection
 	private static void postCheckNetworkAvailability(String resultNetworkAvailability) {
+		MainActivity.mainFragment.setText("Network: "+resultNetworkAvailability);
 		networkStatus=resultNetworkAvailability;
 		onTaskFinished("setNetworkAvailabilityStatus");
 	}
 	//Server connection
     private static void postCheckServerAvailability(String resultServerAvailability) {
-    	serverStatus=resultServerAvailability;
+    	serverStatus=Utils.getTagContent(resultServerAvailability,"result");
+		MainActivity.mainFragment.setText("Server: "+serverStatus);
 		onTaskFinished("setServerAvailabilityStatus");
    }
   //Login
     private static void postCheckLogin(String resultLogin) {
-    	if(resultLogin.equals("invalid credentials")) {
+    	resultLogin=Utils.getTagContent(resultLogin, "result");
+    	MainActivity.mainFragment.setText("Login: "+resultLogin);
+		if(resultLogin.equals("invalid credentials")) {
     		loginStatus=resultLogin;
     		MainActivity.loggedPerson="";
     	}

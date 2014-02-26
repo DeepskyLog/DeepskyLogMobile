@@ -129,33 +129,43 @@ public class RootElement {
 	// ------------------
 
 	// All obervation objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList observationList = new ArrayList();
 
 	// All observer objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList observerList = new ArrayList();
 
 	// All site objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList siteList = new ArrayList();
 	
 	// All scope objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList scopeList = new ArrayList();
 	
 	// All eyepiece objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList eyepieceList = new ArrayList();
 	
 	// All imager objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList imagerList = new ArrayList();	
 	
 	// All session objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList sessionList = new ArrayList();
 	
 	// All target objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList targetList = new ArrayList();	
 
 	// All filter objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList filterList = new ArrayList();	
 	
 	// All lens objects belonging to this RootElement group
+	@SuppressWarnings("rawtypes")
 	private ArrayList lensList = new ArrayList();
 	
 	
@@ -165,13 +175,15 @@ public class RootElement {
 	// --------------
 
     // -------------------------------------------------------------------  
-    public Collection getObservations() {
+    @SuppressWarnings("rawtypes")
+	public Collection getObservations() {
         
         return this.observationList;
         
     }
 
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getEyepieceList() {
 		
 		return this.eyepieceList;
@@ -179,6 +191,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getImagerList() {
 		
 		return this.imagerList;
@@ -186,6 +199,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getObserverList() {
 		
 		return this.observerList;
@@ -193,6 +207,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getScopeList() {
 		
 		return this.scopeList;
@@ -200,6 +215,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getSessionList() {
 		
 		return this.sessionList;
@@ -207,6 +223,7 @@ public class RootElement {
 	}
 
     // -------------------------------------------------------------------
+	@SuppressWarnings("rawtypes")
 	public Collection getSiteList() {
 		
 		return this.siteList;
@@ -214,6 +231,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("rawtypes")
 	public Collection getTargetList() {
 		
 		return this.targetList;
@@ -221,6 +239,7 @@ public class RootElement {
 	}    
 
     // -------------------------------------------------------------------	
+	@SuppressWarnings("rawtypes")
 	public Collection getFilterList() {
 		
 		return this.filterList;
@@ -228,6 +247,7 @@ public class RootElement {
 	}    	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("rawtypes")
 	public Collection getLensList() {
 		
 		return this.lensList;
@@ -235,6 +255,7 @@ public class RootElement {
 	} 	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked" })
 	public void addObservation(IObservation observation) throws SchemaException {
 		
 		if( observation != null ) {
@@ -246,6 +267,7 @@ public class RootElement {
 	}
 
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addObservations(Collection observations) throws SchemaException {
 		
 		if( observations != null ) {
@@ -257,6 +279,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked" })
 	public void addEyepiece(IEyepiece eyepiece) throws SchemaException {
 		
 		if( eyepiece != null ) {
@@ -268,6 +291,7 @@ public class RootElement {
 	}
 		
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addEyepieces(Collection eyepieces) throws SchemaException {
 		
 		if( eyepieces != null ) {
@@ -279,6 +303,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addImager(IImager imager) throws SchemaException {
 		
 		if( imager != null ) {
@@ -290,6 +315,7 @@ public class RootElement {
 	}		
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addImagers(Collection imagers) throws SchemaException {
 		
 		if( imagers != null ) {
@@ -301,6 +327,7 @@ public class RootElement {
 	}		
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addSite(ISite site) throws SchemaException {
 		
 		if( site != null ) {
@@ -312,6 +339,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addSites(Collection sites) throws SchemaException {
 		
 		if( sites != null ) {
@@ -323,6 +351,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addScope(IScope scope) throws SchemaException {
 		
 		if( scope != null ) {
@@ -334,6 +363,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addScopes(Collection scopes) throws SchemaException {
 		
 		if( scopes != null ) {
@@ -345,6 +375,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addSession(ISession session) throws SchemaException {
 		
 		if( session != null ) {
@@ -356,6 +387,7 @@ public class RootElement {
 	}
 		
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addSessions(Collection sessions) throws SchemaException {
 		
 		if( sessions != null ) {
@@ -367,6 +399,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addObserver(IObserver observer) throws SchemaException {
 		
 		if( observer != null ) {
@@ -378,6 +411,7 @@ public class RootElement {
 	}
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addObservers(Collection observers) throws SchemaException {
 		
 		if( observers != null ) {
@@ -389,6 +423,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addTarget(ITarget target) throws SchemaException {
 		
 		if( target != null ) {
@@ -400,6 +435,7 @@ public class RootElement {
 	}		
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addTargets(Collection targets) throws SchemaException {
 		
 		if( targets != null ) {
@@ -411,6 +447,7 @@ public class RootElement {
 	}		
 
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addFilter(IFilter filter) throws SchemaException {
 		
 		if( filter != null ) {
@@ -422,6 +459,7 @@ public class RootElement {
 	}		
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addFilters(Collection filters) throws SchemaException {
 		
 		if( filters != null ) {
@@ -433,6 +471,7 @@ public class RootElement {
 	}	
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings("unchecked")
 	public void addLens(ILens lens) throws SchemaException {
 		
 		if( lens != null ) {
@@ -444,6 +483,7 @@ public class RootElement {
 	}		
 	
     // -------------------------------------------------------------------	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addLenses(Collection lenses) throws SchemaException {
 		
 		if( lenses != null ) {
@@ -481,7 +521,8 @@ public class RootElement {
 		
 	}
 
-    public Document getDocument() throws SchemaException {
+    @SuppressWarnings("rawtypes")
+	public Document getDocument() throws SchemaException {
     
 		Document newSchema = null;
 		try {
@@ -523,6 +564,7 @@ public class RootElement {
     	
     }	
     
+	@SuppressWarnings("rawtypes")
 	private Element addEyepieceToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -552,6 +594,7 @@ public class RootElement {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Element addImagerToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -581,6 +624,7 @@ public class RootElement {
 		
 	}	
 	
+	@SuppressWarnings("rawtypes")
 	private Element addSiteToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -610,6 +654,7 @@ public class RootElement {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Element addObserverToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -639,6 +684,7 @@ public class RootElement {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Element addTargetToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -668,6 +714,7 @@ public class RootElement {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Element addFilterToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -697,6 +744,7 @@ public class RootElement {
 		
 	}	
 	
+	@SuppressWarnings("rawtypes")
 	private Element addLensToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -726,6 +774,7 @@ public class RootElement {
 		
 	}		
 	
+	@SuppressWarnings("rawtypes")
 	private Element addSessionToXmlElement(Element root) {
 		
     	if( root == null ) {
@@ -755,6 +804,7 @@ public class RootElement {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Element addScopeToXmlElement(Element root) {
 		
     	if( root == null ) {

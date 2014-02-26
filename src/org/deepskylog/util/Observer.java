@@ -65,10 +65,12 @@ public class Observer extends SchemaElement implements IObserver {
     private String surname = new String();
     
     // The sites latitude in degrees
-    private LinkedList contacts = new LinkedList();
+    @SuppressWarnings("rawtypes")
+	private LinkedList contacts = new LinkedList();
     
     // Usernames/UserIDs/accountNames of the observer in external applications/websites
-    private HashMap accounts = new HashMap();
+    @SuppressWarnings("rawtypes")
+	private HashMap accounts = new HashMap();
     
     // Personal fst Offset of the observer
     private float fstOffset = Float.NaN;
@@ -91,7 +93,8 @@ public class Observer extends SchemaElement implements IObserver {
      * @throws SchemaException if the given Node does not match the XML
      * Schema specifications 
      */
-    public Observer(Node observer) 
+    @SuppressWarnings({ "unchecked", "deprecation" })
+	public Observer(Node observer) 
                     throws SchemaException,
                            IllegalArgumentException {
 
@@ -340,6 +343,7 @@ public class Observer extends SchemaElement implements IObserver {
 	 * @return This observers name, surname and contact informations 
 	 * @see java.lang.Object
 	 */
+	@SuppressWarnings("rawtypes")
 	public String toString() {
         
 		StringBuffer buffer = new StringBuffer();
@@ -474,6 +478,7 @@ public class Observer extends SchemaElement implements IObserver {
      * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */    	
+	@SuppressWarnings("rawtypes")
 	public Element addToXmlElement(Element element) {
 		
     	if( element == null ) {
@@ -675,6 +680,7 @@ public class Observer extends SchemaElement implements IObserver {
 	 * @return a List with contact information of the observer, or
 	 *         <code>null</code> if not informations are given. 
 	 */ 	
+	@SuppressWarnings("rawtypes")
 	public List getContacts() {
         
 		return contacts;
@@ -691,7 +697,8 @@ public class Observer extends SchemaElement implements IObserver {
 	 * could be added successfully. <b>false</b> if the
 	 * new contact information could not be added.
 	 */ 	
-    public boolean addContact(String newContact) {
+    @SuppressWarnings("unchecked")
+	public boolean addContact(String newContact) {
         
         if(   newContact == null 
            || "".equals(newContact) 
@@ -717,7 +724,8 @@ public class Observer extends SchemaElement implements IObserver {
 	 * could be set successfully. <b>false</b> if the
 	 * new contact information could not be set.
 	 */ 	
-    public boolean setContacts(List newContacts) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean setContacts(List newContacts) {
         
         if( newContacts == null ) {                               
             return false;            
@@ -843,7 +851,8 @@ public class Observer extends SchemaElement implements IObserver {
 	 *         or <code>null</code> if no informations are given. 
 	 * @since 2.0
 	 */ 	
-    public java.util.Map getAccounts() {
+    @SuppressWarnings("rawtypes")
+	public java.util.Map getAccounts() {
     	
     	return (Map)this.accounts.clone();
     	
@@ -863,6 +872,7 @@ public class Observer extends SchemaElement implements IObserver {
 	 * new accout information could not be added.
 	 * @since 2.0
 	 */ 	           
+	@SuppressWarnings("unchecked")
 	public boolean addAccount(String accountName, String username) {
 		
 		if(   (accountName == null)
@@ -912,7 +922,8 @@ public class Observer extends SchemaElement implements IObserver {
 	 * new account information could not be set.
 	 * @since 2.0
 	 */ 	
-    public boolean setAccounts(Map newAccounts) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean setAccounts(Map newAccounts) {
     	
     	if( newAccounts == null ) {
     		newAccounts = new HashMap();
@@ -991,6 +1002,7 @@ public class Observer extends SchemaElement implements IObserver {
 	// ---------------
 
 	// -------------------------------------------------------------------
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
 	private List sortContactList(List contacts) {
 		
 		Collections.sort(contacts, new Comparator() {

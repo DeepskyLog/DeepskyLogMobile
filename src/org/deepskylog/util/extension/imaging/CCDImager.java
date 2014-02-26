@@ -82,6 +82,7 @@ public class CCDImager extends Imager {
     private byte binning = 1;
     
 	// Flag indicating whether Imager is still available
+	@SuppressWarnings("unused")
 	private boolean available = true;   
     
     

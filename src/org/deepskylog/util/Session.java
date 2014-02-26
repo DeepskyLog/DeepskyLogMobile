@@ -57,7 +57,8 @@ public class Session extends SchemaElement implements ISession {
   private String comments = null;
 
   // Coobservers of the session
-  private LinkedList coObservers = new LinkedList();
+  @SuppressWarnings("rawtypes")
+private LinkedList coObservers = new LinkedList();
 
   // Language (since 1.5)
   private String lang = null;
@@ -66,7 +67,8 @@ public class Session extends SchemaElement implements ISession {
   /**
    * @since 2.1
    */
-  private List images = new LinkedList();
+  @SuppressWarnings("rawtypes")
+private List images = new LinkedList();
 
   // ------------
   // Constructors ------------------------------------------------------
@@ -90,7 +92,8 @@ public class Session extends SchemaElement implements ISession {
    * @throws SchemaException
    *           if the given Node does not match the XML Schema specifications
    */
-  public Session(Node session, IObserver[] observers, ISite[] sites) throws SchemaException, IllegalArgumentException {
+  @SuppressWarnings("null")
+public Session(Node session, IObserver[] observers, ISite[] sites) throws SchemaException, IllegalArgumentException {
 
     if (session == null) {
       throw new IllegalArgumentException("Parameter session node cannot be NULL. ");
@@ -381,7 +384,8 @@ public class Session extends SchemaElement implements ISession {
    * @return This Sessions field values
    * @see java.lang.Object
    */
-  public String toString() {
+  @SuppressWarnings("rawtypes")
+public String toString() {
 
     StringBuffer buffer = new StringBuffer();
     buffer.append("Session: Begin=");
@@ -473,7 +477,8 @@ public class Session extends SchemaElement implements ISession {
    *         Might return <code>null</code> if parent was <code>null</code>.
    * @see org.w3c.dom.Element
    */
-  public Element addToXmlElement(Element element) {
+  @SuppressWarnings("rawtypes")
+public Element addToXmlElement(Element element) {
 
     if (element == null) {
       return null;
@@ -761,7 +766,8 @@ public class Session extends SchemaElement implements ISession {
    * 
    * @return List of images or <code>null</code> if no images were set.
    */
-  public List getImages() {
+  @SuppressWarnings("rawtypes")
+public List getImages() {
 
     if ((this.images == null) || (this.images.isEmpty())) {
       return null;
@@ -880,7 +886,8 @@ public class Session extends SchemaElement implements ISession {
    *         the lists elements does not implement the IObserver interface. If <b>false</b> is returned the existing
    *         list is not changed at all.
    */
-  public boolean setCoObservers(List coObservers) {
+  @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+public boolean setCoObservers(List coObservers) {
 
     if (coObservers == null) {
       this.coObservers = null;
@@ -917,7 +924,8 @@ public class Session extends SchemaElement implements ISession {
    *         e.g. one of the lists elements does not implement the IObserver interface. If <b>false</b> is returned the
    *         existing list is not changed at all.
    */
-  public boolean addCoObservers(List coObservers) {
+  @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+public boolean addCoObservers(List coObservers) {
 
     if (coObservers == null) {
       return true;
@@ -948,7 +956,8 @@ public class Session extends SchemaElement implements ISession {
    * @return <b>true</b> if the new coobserver could be added, <b>false</b> if the operation fails, because e.g. the
    *         given IObserver is <code>null</code>
    */
-  public boolean addCoObserver(IObserver coObserver) {
+  @SuppressWarnings("unchecked")
+public boolean addCoObserver(IObserver coObserver) {
 
     if (coObserver == null) {
       return false;
@@ -966,7 +975,8 @@ public class Session extends SchemaElement implements ISession {
    * 
    * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
    */
-  public List getCoObservers() {
+  @SuppressWarnings("rawtypes")
+public List getCoObservers() {
 
     return this.coObservers;
 
@@ -1026,7 +1036,8 @@ public class Session extends SchemaElement implements ISession {
    *         list could not be added and the old list remains unchanged.
    * @see de.lehmannet.om.ISession#setResults(java.util.List images)
    */
-  public boolean addImages(List images) {
+  @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+public boolean addImages(List images) {
 
     if ((images == null) || (images.isEmpty())) {
       return false;
@@ -1055,7 +1066,8 @@ public class Session extends SchemaElement implements ISession {
    * @param imagePath
    *          A new image for this session
    */
-  public void addImage(String imagePath) {
+  @SuppressWarnings("unchecked")
+public void addImage(String imagePath) {
 
     if (imagePath == null) {
       return;
@@ -1083,7 +1095,8 @@ public class Session extends SchemaElement implements ISession {
    * @throws IllegalArgumentException
    *           if new image list is <code>null</code>
    */
-  public boolean setImages(List imagesList) throws IllegalArgumentException {
+  @SuppressWarnings({ "rawtypes", "unused" })
+public boolean setImages(List imagesList) throws IllegalArgumentException {
 
     if (imagesList == null) {
       throw new IllegalArgumentException("Images list cannot be null. ");

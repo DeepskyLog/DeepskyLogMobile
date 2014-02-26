@@ -100,6 +100,7 @@ public class FindingVariableStar extends Finding {
 	
 	// The label of the first comparison star used. Could be the magnitude label on the chart, and auid, 
 	// or something else.
+	@SuppressWarnings("rawtypes")
 	private List comparismStars = new ArrayList(4);
 	
 	// Flag indicating whether this finding was already exported into the AAVSO format
@@ -339,6 +340,7 @@ public class FindingVariableStar extends Finding {
 	
 	
 	// -------------------------------------------------------------------	
+	@SuppressWarnings("rawtypes")
 	public FindingVariableStar(float magnitude,
 			                   List comparismStars,
 			                   String chartDate) {
@@ -394,6 +396,7 @@ public class FindingVariableStar extends Finding {
 	 * @return This FindingVariableStar field values
 	 * @see java.lang.Object
 	 */
+	@SuppressWarnings("rawtypes")
 	public String toString() {
 
 		StringBuffer buffer = new StringBuffer();
@@ -511,6 +514,7 @@ public class FindingVariableStar extends Finding {
 	 * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */
+	@SuppressWarnings("rawtypes")
 	public Element addToXmlElement(Element parent) {
 
 		Document ownerDoc = parent.getOwnerDocument();
@@ -669,6 +673,7 @@ public class FindingVariableStar extends Finding {
 	 * @return java.lang.List containing java.lang.String objects representing
 	 * the comparism star
 	 */	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getComparismStars() {
 		
 		return new ArrayList(this.comparismStars);
@@ -780,6 +785,7 @@ public class FindingVariableStar extends Finding {
      * @throws IllegalArgumentException if the given new List doesn't contain at 
      * least one entry
 	 */     	
+	@SuppressWarnings("rawtypes")
 	public void setComparismStars(List comparismStars) throws IllegalArgumentException {
 		
 		// List is null or empty
@@ -813,6 +819,7 @@ public class FindingVariableStar extends Finding {
 	 * <b>false</b> if the operation fails, because e.g. the 
 	 * given comparism star is <code>null</code> or an empty string
 	 */  		
+	@SuppressWarnings("unchecked")
 	public boolean addComparismStar(String comparismStar) {
 		
 		// Check on NULL and Float.NaN
@@ -839,6 +846,7 @@ public class FindingVariableStar extends Finding {
      * <b>false</b> if the operation fails, because the list was <code>null</code> or empty<br>
      * <b>false</b> is also returned the existing list is not changed at all.
 	 */ 	
+	@SuppressWarnings("rawtypes")
 	public boolean addAllComparismStars(List comparismStars) {
 		
 		// List is null or empty

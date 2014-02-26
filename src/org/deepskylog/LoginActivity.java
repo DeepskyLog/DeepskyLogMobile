@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 public class LoginActivity extends Activity {
 	private EditText login;
+	@SuppressWarnings("unused")
 	private EditText password;
 
 	/** Called when the activity is first created. */

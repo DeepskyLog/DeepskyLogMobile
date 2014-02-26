@@ -18,6 +18,7 @@ public class Observers {
 		if(theKey.equals("positive")) Toast.makeText(MainActivity.mainActivity,"DEVELOP: implement registration fragment",Toast.LENGTH_LONG).show();
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
+	
 	private static void askForRegistration() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener4", 
         					  MainActivity.resources.getString(R.string.observers_asktocreatenewaccount),
@@ -27,11 +28,12 @@ public class Observers {
         					  true)
         					  .show(MainActivity.fragmentManager, "dslDialog");				
 	}
-
+	
 	public static void LoginDialogOnClickListener1(String theKey) {
 		if(theKey.equals("positive")) ConnectivityTasks.checkLogin(); 
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
+	
 	public static void login() {
 	    LoginDialog.newInstance("org.deepskylog.Observers","LoginDialogOnClickListener1",true)
         						.show(MainActivity.fragmentManager, "loginDialog");		
@@ -41,6 +43,7 @@ public class Observers {
 		if(theKey.equals("positive")) login();
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
+	
 	private static void askForLogin() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener3",
         					  MainActivity.resources.getString(R.string.observers_askenteringcredentials),
@@ -55,6 +58,7 @@ public class Observers {
 		if(theKey.equals("positive")) askForLogin();
 		if(theKey.equals("negative")) askForRegistration();
 	}
+	
 	private static void askForUseOfCredentials() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener2",
         					  MainActivity.resources.getString(R.string.observers_askaboutcredentials),
@@ -69,6 +73,7 @@ public class Observers {
     	if(theKey.equals("positive")) askForUseOfCredentials();
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
+	
 	private static void askForUseOfFirstRunTour() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener1",
         					  MainActivity.resources.getString(R.string.observers_askaboutfirstruntour),
