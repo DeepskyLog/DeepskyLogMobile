@@ -62,24 +62,25 @@ public class Utils {
     public static void onResultUpacked(String result) {
     	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,getTagContent(result,"result")); }
     	catch(Exception e) {
-    		Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); 
+    		Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); 
     	};
     }
     
     public static void onResultRaw(String result) {
     	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,result); }
-    	catch(Exception e) {
-    		Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); 
-    	};
+    	catch(Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 2 in Utils "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     }
 
     
     public static void onResultTest(String result) {
     	try { 
+    		//Class utilsOnClickListener=Class.forName(getTagContent(result,"onResultClass"));
     		Method utilsOnClickListener=Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class);
-        	utilsOnClickListener.invoke(null, "positive".toString()); 
+        	utilsOnClickListener.invoke(null, result); 
     		}
-    	catch(Exception e) {Toast.makeText(MainActivity.mainActivity,"Exception 2 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
+    	catch(Exception e) {
+    		DeepskyFragment.text2_textview.setText(result+e.getMessage().toString());
+    		Toast.makeText(MainActivity.mainActivity,"Exception 3 in Utils "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     }
 	
 
