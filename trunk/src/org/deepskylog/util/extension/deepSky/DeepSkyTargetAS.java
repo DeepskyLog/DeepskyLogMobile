@@ -8,14 +8,12 @@
  
 package org.deepskylog.util.extension.deepSky;
 
+import org.deepskylog.util.IObserver;
+import org.deepskylog.util.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import org.deepskylog.util.Angle;
-import org.deepskylog.util.IObserver;
-import org.deepskylog.util.util.SchemaException;
 
 
 /**

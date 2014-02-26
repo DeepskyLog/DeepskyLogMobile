@@ -9,18 +9,16 @@
 package org.deepskylog.util;
 
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
+import org.deepskylog.util.util.SchemaException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import org.deepskylog.util.util.SchemaException;
 
 
 /**
@@ -56,7 +54,8 @@ public abstract class Target extends SchemaElement implements ITarget {
     private String name = new String();
     
     // Alternative names of the astronomical object
-    private List aliasNames = new LinkedList();
+    @SuppressWarnings("rawtypes")
+	private List aliasNames = new LinkedList();
 
     // Celestial position of the astronomical object
     private EquPosition position = null;
@@ -595,6 +594,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 	 * If <code>false</code> is returned the new alias was <code>null</code>
 	 * or an empty String.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean addAliasName(String newAliasName) {
         
 		if(   newAliasName == null 
@@ -620,6 +620,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 	 * 
 	 * @param newAliasNames An array with new alias name 
 	 */
+	@SuppressWarnings("unchecked")
 	public void setAliasNames(String[] newAliasNames) {
         
 		if(   (newAliasNames == null)
@@ -652,6 +653,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 	 * names. If no alias names were set <code>null</code>
 	 * is returned.
 	 */ 	
+	@SuppressWarnings("unchecked")
 	public String[] getAliasNames() {
         
         if( aliasNames.size() == 0 ) {
@@ -945,6 +947,7 @@ public abstract class Target extends SchemaElement implements ITarget {
      * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */  
+	@SuppressWarnings("rawtypes")
 	protected Element createXmlTargetElement(Element parent) {
     
 		if( parent == null ) {                        
@@ -1073,6 +1076,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 	 * could be added.
 	 * If <code>false</code> is returned the new alias was <code>null</code>.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean addAliasNames(String aliasNames) {
 		
 		if( aliasNames == null ) {

@@ -282,7 +282,8 @@ public interface IObservation extends ISchemaElement {
      * 
      * @return List of images or <code>null</code> if no images were set.
      */ 
-    public java.util.List getImages();
+    @SuppressWarnings("rawtypes")
+	public java.util.List getImages();
 
 
     // -------------------------------------------------------------------    
@@ -314,7 +315,8 @@ public interface IObservation extends ISchemaElement {
 	 * 
 	 * @return A List containing the results of the observation.
 	 */
-    public java.util.List getResults();
+    @SuppressWarnings("rawtypes")
+	public java.util.List getResults();
 
 
     // -------------------------------------------------------------------    
@@ -418,6 +420,7 @@ public interface IObservation extends ISchemaElement {
 	 * @see de.lehmannet.om.IFinding
 	 * @throws IllegalArgumentException if new results list is <code>null</code> or empty
 	 */		
+	@SuppressWarnings("rawtypes")
 	public boolean setResults(java.util.List results) throws IllegalArgumentException;
 
 
@@ -440,6 +443,7 @@ public interface IObservation extends ISchemaElement {
 	 * remains unchanged.
 	 * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
 	 */	    
+	@SuppressWarnings("rawtypes")
 	public boolean addResults(java.util.List results);
 
 
@@ -471,7 +475,8 @@ public interface IObservation extends ISchemaElement {
      * remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */   
-    public boolean addImages(java.util.List images);
+    @SuppressWarnings("rawtypes")
+	public boolean addImages(java.util.List images);
 
 
     // -------------------------------------------------------------------
@@ -506,7 +511,8 @@ public interface IObservation extends ISchemaElement {
      * @see de.lehmannet.om.IObservation#addImage(String image)
      * @throws IllegalArgumentException if new image list is <code>null</code> or empty
      */ 
-    public boolean setImages(java.util.List imagesList) throws IllegalArgumentException;
+    @SuppressWarnings("rawtypes")
+	public boolean setImages(java.util.List imagesList) throws IllegalArgumentException;
 
     
 	// -------------------------------------------------------------------

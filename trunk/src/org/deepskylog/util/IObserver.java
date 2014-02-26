@@ -219,7 +219,8 @@ public interface IObserver extends ISchemaElement {
 	 * @return a List with contact information of the observer, or
 	 *         <code>null</code> if no informations are given. 
 	 */ 	
-    public java.util.List getContacts();
+    @SuppressWarnings("rawtypes")
+	public java.util.List getContacts();
           
 
 	// -------------------------------------------------------------------    
@@ -237,7 +238,8 @@ public interface IObserver extends ISchemaElement {
 	 *         or <code>null</code> if no informations are given. 
 	 * @since 2.0
 	 */ 	
-    public java.util.Map getAccounts();
+    @SuppressWarnings("rawtypes")
+	public java.util.Map getAccounts();
     
 
 	// -------------------------------------------------------------------    
@@ -327,7 +329,8 @@ public interface IObserver extends ISchemaElement {
 	 * new account information could not be set.
 	 * @since 2.0
 	 */ 	
-    public boolean setAccounts(Map newAccounts);	
+    @SuppressWarnings("rawtypes")
+	public boolean setAccounts(Map newAccounts);	
 	
     
     // -------------------------------------------------------------------    
@@ -356,7 +359,8 @@ public interface IObserver extends ISchemaElement {
 	 * could be set successfully. <b>false</b> if the
 	 * new contact information could not be set.
 	 */ 	
-    public boolean setContacts(List newContacts);
+    @SuppressWarnings("rawtypes")
+	public boolean setContacts(List newContacts);
 	
 
     // -------------------------------------------------------------------    

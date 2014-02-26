@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -13,7 +14,7 @@ import android.widget.Toast;
 public class Utils {
 	
 	public static boolean isNumeric(String str) {
-	    for (char c : str.toCharArray()) {
+	    for (char c:str.toCharArray()) {
 	        if (!Character.isDigit(c)) return false;
 	    }
 	    return true;
@@ -34,14 +35,14 @@ public class Utils {
 		        return readIt(inputStream, 50000);
 	        }
 	        else {
-	        	return "Unavailable url: "+theUrl;
+	        	return "<result>"+"Unavailable url: "+theUrl+"</result>";
 	        }
 	    }
- 	    catch (Exception e) { return "Unavailable url: "+theUrl; }
+ 	    catch (Exception e) { return "<result>"+"Unavailable url: "+theUrl+"</result>"; }
  	    finally {
  	    	if (inputStream!=null) {
  	    		try { inputStream.close(); }
- 	    		catch(IOException e) { return "Command unavailable."; }
+ 	    		catch(IOException e) { return "<result>"+"Command unavailable."+"</result>"; }
 	        } 
  	    }
     }    
@@ -55,13 +56,31 @@ public class Utils {
     
     public static String getTagContent(String result, String tag) {
     	Integer datatag1=result.indexOf("<"+tag+">")+(tag.length()+2);
-    	return result.substring(datatag1+1,result.indexOf("</"+tag+">",datatag1+1)-1);
+    	return result.substring(datatag1,result.indexOf("</"+tag+">",datatag1));
     }
 
-    public static void onResult(String result) {
+    public static void onResultUpacked(String result) {
     	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,getTagContent(result,"result")); }
-    	catch(Exception e) {Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
+    	catch(Exception e) {
+    		Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); 
+    	};
+    }
+    
+    public static void onResultRaw(String result) {
+    	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,result); }
+    	catch(Exception e) {
+    		Toast.makeText(MainActivity.mainActivity,"Exception 1 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); 
+    	};
     }
 
+    
+    public static void onResultTest(String result) {
+    	try { 
+    		Method utilsOnClickListener=Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class);
+        	utilsOnClickListener.invoke(null, "positive".toString()); 
+    		}
+    	catch(Exception e) {Toast.makeText(MainActivity.mainActivity,"Exception 2 in Utils "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
+    }
+	
 
 }

@@ -138,6 +138,7 @@ public class SolarSystemTargetComet extends SolarSystemTarget {
      * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */    	
+	@SuppressWarnings("unused")
 	public Element addToXmlElement(Element element) {   
 		
         if( element == null ) {

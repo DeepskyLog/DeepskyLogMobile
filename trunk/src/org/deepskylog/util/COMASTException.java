@@ -17,6 +17,7 @@ package org.deepskylog.util;
  * @since 1.7
  * @deprecated Use OALException instead
  */
+@SuppressWarnings("serial")
 public class COMASTException extends Exception {
 	
 	// ------------

@@ -22,6 +22,7 @@ import org.deepskylog.util.OALException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressWarnings("serial")
 public class ConfigException extends OALException {
 	
 	// ------------

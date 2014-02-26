@@ -9,32 +9,32 @@ import android.widget.Toast;
 
 public class Observations {
 
- 	public static void getObservationFromDb(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
+ 	public static void getObservationFromDbRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
     	Cursor cursor=DslDatabase.getObservation(observationid);
 		if(cursor.moveToFirst()) {
-			Utils.onResult("<onResultClass>"+getObservationOnResultClass+"</nResultClass>" +
-					       "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
-					       "<fromDb>true</fromDb>" +
-					       "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
+			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</nResultClass>" +
+					          "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
+					          "<fromDb>true</fromDb>" +
+					          "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
 					       			   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
 					       			   "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
 					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription"))+"\", "+
 					       			   "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\""+
 					       			   "} ]>" +
-					       "</result>"
-					       );
+					          "</result>"
+					          );
 		}
 		else {
-			Utils.onResult("<onResultClass>"+getObservationOnResultClass+"</onResultClass>" +
-			       	   	   "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
-			       	   	   "<fromDb>false</fromDb>" +
-			       	   	   "<result></result>"
-			       	   	   );
+			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</onResultClass>" +
+			       	   	      "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
+			       	   	      "<fromDb>false</fromDb>" +
+			       	   	      "<result></result>"
+			       	   	      );
 		}
 	}
 	
- 	public static void getObservationFromDSL(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
-    	GetDslCommand.getCommand("observationsfromto", "&from="+observationid+"&to="+observationid, getObservationOnResultClass, getObservationOnResultMethod);
+ 	public static void getObservationFromDSLRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
+    	GetDslCommand.getCommandRaw("observationsfromto", "&from="+observationid+"&to="+observationid, getObservationOnResultClass, getObservationOnResultMethod);
 	}
 	
 	public static void storeObservationToDb(String observation) {
@@ -55,7 +55,12 @@ public class Observations {
         }
 	}
 	
-	public static void getObservationsMaxId(String getObservationOnResultClass, String getObservationOnResultMethod) {
-    	GetDslCommand.getCommand("maxobservationid", "", getObservationOnResultClass, getObservationOnResultMethod);
+	public static void getObservationsMaxIdRaw(String getObservationOnResultClass, String getObservationOnResultMethod) {
+    	GetDslCommand.getCommandRaw("maxobservationid", "", getObservationOnResultClass, getObservationOnResultMethod);
 	}
+	
+	public static void getObservationsMaxIdAndBroadcast(String observationsMaxIdBroadcastReceiver) {
+    	GetDslCommand.getCommandAndBroadcast("maxobservationid", "", observationsMaxIdBroadcastReceiver);
+	}
+
 }

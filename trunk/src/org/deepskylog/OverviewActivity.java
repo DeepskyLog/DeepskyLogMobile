@@ -50,6 +50,7 @@ public class OverviewActivity extends Activity {
 			loader.load(fis, schema);
 			List<IEyepiece> eyepieces = Arrays.asList(loader.getEyepieces());
 			List<IFilter> filters = Arrays.asList(loader.getFilters());
+			@SuppressWarnings("unused")
 			List<IImager> imagers = Arrays.asList(loader.getImagers());
 			IObserver[] observers = loader.getObservers();
 			List<IScope> telescopes = Arrays.asList(loader.getScopes());

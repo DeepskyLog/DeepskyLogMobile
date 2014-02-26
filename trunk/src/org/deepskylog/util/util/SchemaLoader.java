@@ -10,8 +10,6 @@ package org.deepskylog.util.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -25,16 +23,6 @@ import java.util.ListIterator;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import org.deepskylog.util.Eyepiece;
 import org.deepskylog.util.Filter;
@@ -57,6 +45,15 @@ import org.deepskylog.util.RootElement;
 import org.deepskylog.util.Scope;
 import org.deepskylog.util.Session;
 import org.deepskylog.util.Site;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -117,10 +114,12 @@ public class SchemaLoader {
 	// Add doublicate catalog targets in here
 	// Key is the doublicate target entry, value is the "new" target which 
 	// will be used to replace the doublicate target in the corsp. observations
-    private HashMap doublicateTargets = new HashMap(); 
+    @SuppressWarnings("rawtypes")
+	private HashMap doublicateTargets = new HashMap(); 
     
     // List of additional classLoader which can be used to find classes using reflection
-    private static ArrayList extensionClassLoaders = new ArrayList();
+    @SuppressWarnings("rawtypes")
+	private static ArrayList extensionClassLoaders = new ArrayList();
 	
 	
 
@@ -271,6 +270,7 @@ public class SchemaLoader {
      * @throws OALException if schema File cannot be accessed
      * @throws SchemaException if XML File is not valid 
      */    	
+	@SuppressWarnings("unused")
 	public RootElement load(FileInputStream xmlFile,
 			                File schemaPath) throws OALException, 
 	                                         		SchemaException {
@@ -324,6 +324,7 @@ public class SchemaLoader {
      * 
      * @param classloader A new classloader
      */  
+	@SuppressWarnings("unchecked")
 	public static void addClassloader(ClassLoader classloader) {
 		
 		if( classloader != null ) {
@@ -476,7 +477,8 @@ public class SchemaLoader {
      * @param observers Needed for Target Objects, can be <code>null</code>
      * for Findings
      */     
-    private static Object getObjectFromXSIType(String xsiType,
+    @SuppressWarnings("rawtypes")
+	private static Object getObjectFromXSIType(String xsiType,
                                                Node currentNode,
                                                IObserver[] observers,
                                                int schemaElementType) throws SchemaException {
@@ -563,6 +565,7 @@ public class SchemaLoader {
     // ---------------
 
     // -------------------------------------------------------------------        
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private IObservation[] createObservationElements(Node observations) 
 	                                                 throws SchemaException {
 
@@ -603,6 +606,7 @@ public class SchemaLoader {
 
 
     // -------------------------------------------------------------------
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ITarget[] createTargetElements(Node targets, IObserver[] observers) 
 										   throws SchemaException {
 									
@@ -814,6 +818,7 @@ public class SchemaLoader {
 	
 	
     // -------------------------------------------------------------------
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private IImager[] createImagerElements(Node imagers) 
 											   throws SchemaException {
 
@@ -901,6 +906,7 @@ public class SchemaLoader {
 	
 	// -------------------------------------------------------------------
 	// Remove doublicate catalog targets
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void removeDoublicateTargets() {
 			
 		if(   (this.doublicateTargets.isEmpty()) 

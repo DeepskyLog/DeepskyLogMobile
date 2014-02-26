@@ -22,6 +22,7 @@ import java.util.List;
  */
 public interface ITargetContaining {
 
+	@SuppressWarnings("rawtypes")
 	public List getComponentTargets(ITarget[] targets);
 	
 }

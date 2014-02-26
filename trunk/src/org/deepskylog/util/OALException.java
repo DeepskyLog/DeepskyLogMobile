@@ -16,6 +16,7 @@ package org.deepskylog.util;
  * @author doergn@users.sourceforge.net
  * @since 1.7
  */
+@SuppressWarnings("serial")
 public class OALException extends Exception {
 	
 	// ------------

@@ -199,7 +199,8 @@ public interface ISession extends ISchemaElement {
    * 
    * @return Returns a List of coobserver or <code>null</code> if coobservers were never added.
    */
-  public java.util.List getCoObservers();
+  @SuppressWarnings("rawtypes")
+public java.util.List getCoObservers();
 
   // -------------------------------------------------------------------
   /**
@@ -325,7 +326,8 @@ public interface ISession extends ISchemaElement {
    *         the lists elements does not implement the IObserver interface. If <b>false</b> is returned the existing
    *         list is not changed at all.
    */
-  public boolean setCoObservers(java.util.List coObservers);
+  @SuppressWarnings("rawtypes")
+public boolean setCoObservers(java.util.List coObservers);
 
   // -------------------------------------------------------------------
   /**
@@ -339,7 +341,8 @@ public interface ISession extends ISchemaElement {
    *         e.g. one of the lists elements does not implement the IObserver interface. If <b>false</b> is returned the
    *         existing list is not changed at all.
    */
-  public boolean addCoObservers(java.util.List coObservers);
+  @SuppressWarnings("rawtypes")
+public boolean addCoObservers(java.util.List coObservers);
 
   // -------------------------------------------------------------------
   /**
@@ -392,7 +395,8 @@ public interface ISession extends ISchemaElement {
    * @throws IllegalArgumentException
    *           if new image list is <code>null</code>
    */
-  public boolean setImages(List imagesList) throws IllegalArgumentException;
+  @SuppressWarnings("rawtypes")
+public boolean setImages(List imagesList) throws IllegalArgumentException;
 
   // -------------------------------------------------------------------
   /**
@@ -417,7 +421,8 @@ public interface ISession extends ISchemaElement {
    *         list could not be added and the old list remains unchanged.
    * @see de.lehmannet.om.ISession#setResults(java.util.List images)
    */
-  public boolean addImages(List images);
+  @SuppressWarnings("rawtypes")
+public boolean addImages(List images);
 
   // -------------------------------------------------------------------
   /**
@@ -426,6 +431,7 @@ public interface ISession extends ISchemaElement {
    * 
    * @return List of images or <code>null</code> if no images were set.
    */
-  public List getImages();
+  @SuppressWarnings("rawtypes")
+public List getImages();
 
 }

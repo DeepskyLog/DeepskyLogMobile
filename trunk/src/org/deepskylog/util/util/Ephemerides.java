@@ -33,6 +33,7 @@ public class Ephemerides {
 	private static final String KEY_SUN = "SUN";
 	private static final String KEY_MERCURY = "MERCURY";
 	private static final String KEY_VENUS = "VENUS";
+	@SuppressWarnings("unused")
 	private static final String KEY_EARTH = "EARTH";
 	private static final String KEY_MOON = "MOON";
 	private static final String KEY_MARS = "MARS";
@@ -624,6 +625,7 @@ public class Ephemerides {
 		
 	}		
 		
+	@SuppressWarnings("unused")
 	private static double getPerturbationsForMoonDistance(double distance, Calendar date) {
 		
 		double Mm = Ephemerides.getMeanAnomaly(Ephemerides.MOON, date);

@@ -72,7 +72,8 @@ public class Observation extends SchemaElement implements IObservation {
     private int seeing = -1;
     
     // Relative paths to an image (list of String)
-    private List images = new LinkedList();
+    @SuppressWarnings("rawtypes")
+	private List images = new LinkedList();
     
     // Imager used for this observation
     private IImager imager = null;
@@ -105,7 +106,8 @@ public class Observation extends SchemaElement implements IObservation {
     private ILens lens = null;    
     
     // The results (IFinding) of the observation as List
-    private List results = new LinkedList();
+    @SuppressWarnings("rawtypes")
+	private List results = new LinkedList();
  
 
 
@@ -156,7 +158,8 @@ public class Observation extends SchemaElement implements IObservation {
      * @throws SchemaException if the given Node does not match the XML Schema
      * specifications
      */
-    public Observation(Node observation,
+    @SuppressWarnings("deprecation")
+	public Observation(Node observation,
                        ITarget[] targets,
                        IObserver[] observers,
                        ISite[] sites,
@@ -774,7 +777,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * @throws IllegalArgumentException if one of the parameters is <code>null</code>
 	 *         or the result list is empty
 	 */
-    public Observation(Calendar begin,
+    @SuppressWarnings("rawtypes")
+	public Observation(Calendar begin,
                        ITarget target,
                        IObserver observer,
                        List results) throws IllegalArgumentException {
@@ -817,7 +821,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 *         except end date, is <code>null</code>, or the result 
 	 *         list is empty
 	 */
-    public Observation(Calendar begin,
+    @SuppressWarnings("rawtypes")
+	public Observation(Calendar begin,
     		           Calendar end,
                        ITarget target,
                        IObserver observer,
@@ -949,7 +954,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 *         is <code>null</code>: begin, target, observer, site, results or
 	 *         result list is empty. Also if seeing is < 1 or > 5
 	 */
-    public Observation(Calendar begin,
+    @SuppressWarnings("rawtypes")
+	public Observation(Calendar begin,
     		           Calendar end,
                        float faintestStar,
                        SurfaceBrightness sq,
@@ -1035,6 +1041,7 @@ public class Observation extends SchemaElement implements IObservation {
 	 * @return This Observation field values
 	 * @see java.lang.Object
 	 */
+	@SuppressWarnings("rawtypes")
 	public String toString() {
         
 		StringBuffer buffer = new StringBuffer();
@@ -1211,7 +1218,8 @@ public class Observation extends SchemaElement implements IObservation {
      * Might return <code>null</code> if parent was <code>null</code>.
 	 * @see org.w3c.dom.Element
 	 */    
-    public Element addToXmlElement(Element parent) {
+    @SuppressWarnings("rawtypes")
+	public Element addToXmlElement(Element parent) {
     
     	if( parent == null ) {
     		return null;
@@ -1502,7 +1510,8 @@ public class Observation extends SchemaElement implements IObservation {
      * 
      * @return List of images or <code>null</code> if no images were set.
      */ 
-    public List getImages() {
+    @SuppressWarnings("rawtypes")
+	public List getImages() {
         
         if(   (this.images == null)
            || (this.images.isEmpty())
@@ -1567,7 +1576,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * @see de.lehmannet.om.IFinding
 	 * @throws IllegalArgumentException if the new result is <code>null</code>
 	 */	
-    public boolean setResult(IFinding result) throws IllegalArgumentException {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public boolean setResult(IFinding result) throws IllegalArgumentException {
         
         if( results == null) {
 			throw new IllegalArgumentException("Result cannot be null. ");
@@ -1604,7 +1614,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * @see de.lehmannet.om.IFinding
 	 * @throws IllegalArgumentException if new results list is <code>null</code> or empty
 	 */	
-    public boolean setResults(List results) throws IllegalArgumentException {
+    @SuppressWarnings({ "rawtypes", "unused" })
+	public boolean setResults(List results) throws IllegalArgumentException {
         
         if(   (results == null)
            || (results.isEmpty())  
@@ -1675,7 +1686,8 @@ public class Observation extends SchemaElement implements IObservation {
      * @see de.lehmannet.om.IObservation#addImage(String image)
      * @throws IllegalArgumentException if new image list is <code>null</code>
      */ 
-    public boolean setImages(List imagesList) throws IllegalArgumentException {
+    @SuppressWarnings({ "rawtypes", "unused" })
+	public boolean setImages(List imagesList) throws IllegalArgumentException {
         
         if( imagesList == null ) {
             throw new IllegalArgumentException("Images list cannot be null. ");
@@ -1735,7 +1747,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * remains unchanged.
 	 * @see de.lehmannet.om.IObservation#setResults(java.util.List results)
 	 */	  
-    public boolean addResults(List results) {
+    @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+	public boolean addResults(List results) {
        
 		if(   (results == null)
 		   || (results.isEmpty())  
@@ -1766,7 +1779,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * 
 	 * @param result A new result for this observation
 	 */	  
-    public void addResult(IFinding result) {
+    @SuppressWarnings("unchecked")
+	public void addResult(IFinding result) {
         
 		if( result == null ) {
 			return;
@@ -1796,7 +1810,8 @@ public class Observation extends SchemaElement implements IObservation {
      * remains unchanged.
      * @see de.lehmannet.om.IObservation#setResults(java.util.List images)
      */   
-    public boolean addImages(List images) {
+    @SuppressWarnings({ "rawtypes", "unused", "unchecked" })
+	public boolean addImages(List images) {
        
         if(   (images == null)
            || (images.isEmpty())  
@@ -1827,7 +1842,8 @@ public class Observation extends SchemaElement implements IObservation {
      * 
      * @param imagePath A new image for this observation
      */   
-    public void addImage(String imagePath) {
+    @SuppressWarnings("unchecked")
+	public void addImage(String imagePath) {
         
         if( imagePath == null ) {
             return;
@@ -1845,7 +1861,8 @@ public class Observation extends SchemaElement implements IObservation {
 	 * 
 	 * @return A List containing the results of the observation.
 	 */
-    public List getResults() {
+    @SuppressWarnings("rawtypes")
+	public List getResults() {
         
         return this.results;
         
@@ -2237,6 +2254,7 @@ public class Observation extends SchemaElement implements IObservation {
     }   
 
 	// -------------------------------------------------------------------
+	@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 	private List sortResultList(List results) {
 		
 		Collections.sort(results, new Comparator() {

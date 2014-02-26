@@ -51,10 +51,13 @@ public class ConfigLoader {
 	// Instance variables ------------------------------------------------
 	// ------------------
 	// All target xsi:types as key and Java classname as value
+	@SuppressWarnings("rawtypes")
 	private static HashMap targets = new HashMap();
 	// All finding xsi:types as key and Java classname as value
+	@SuppressWarnings("rawtypes")
 	private static HashMap findings = new HashMap();	
 	// All target xsi:types as key and finding xsi:types as value
+	@SuppressWarnings("rawtypes")
 	private static HashMap target_findings = new HashMap();	
 	
 	
@@ -83,6 +86,7 @@ public class ConfigLoader {
 	 * <code>null</code> if the type could not be resolved.
 	 * @throws ConfigException if problems occured during load of config
 	 */
+	@SuppressWarnings("rawtypes")
 	public static String getTargetClassnameFromType(String type) throws ConfigException {
 		if( type == null ) {
 			return null;
@@ -139,6 +143,7 @@ public class ConfigLoader {
 	 * <code>null</code> if the type could not be resolved.
 	 * @throws ConfigException if problems occured during load of config
 	 */
+	@SuppressWarnings("rawtypes")
 	public static String getFindingClassnameFromType(String type) throws ConfigException {
 		if( type == null ) {
 			return null;
@@ -236,6 +241,7 @@ public class ConfigLoader {
 	}	
 
 	// -------------------------------------------------------------------
+	@SuppressWarnings({ "resource", "rawtypes" })
 	private static void scanJarFile(File jar) throws ConfigException {
 		ZipFile archive = null;
 		try {
@@ -273,6 +279,7 @@ public class ConfigLoader {
 	}
 
 	// -------------------------------------------------------------------
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void addConfig(Properties newProperties) throws ConfigException {          
 		Iterator keys = newProperties.keySet().iterator();
 		String currentKey = null;
@@ -318,6 +325,7 @@ public class ConfigLoader {
 	}
 	
 	// -------------------------------------------------------------------
+	@SuppressWarnings("unchecked")
 	private static void addGenericElements() {
 		
 		// This is the most simple element relation

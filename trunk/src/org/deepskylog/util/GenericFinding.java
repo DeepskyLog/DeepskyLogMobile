@@ -188,6 +188,7 @@ public class GenericFinding extends Finding {
 			return null;
 		}
 
+		@SuppressWarnings("unused")
 		Document ownerDoc = parent.getOwnerDocument();
 
 		Element e_Finding = super.createXmlFindingElement(parent);
