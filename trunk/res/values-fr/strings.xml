@@ -62,6 +62,9 @@
     <string name="deepskyfragment_mode_button_text2">"Compact"</string>
     <string name="deepskyfragment_mode_button_text3">"Detail"</string>
     
+    <string name="ephemerides_text1_textview_text">"Ephemerides"</string>
+    <string name="observersfragment_text1_textview_text">"Observers"</string>
+    
     <string name="general_Ok">"Ok"</string>
     <string name="general_Yes">"Yes"</string>
     <string name="general_No">"No"</string>
