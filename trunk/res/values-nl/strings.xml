@@ -16,8 +16,6 @@
     
     <string name="mainmenu_settings_text">"Instellingen"</string>
     <string name="mainmenu_login_text">"Aanmelden bij DSL"</string>
-    
-    
 
     <string name="mainfragment_ds_button_text">"Deepsky"</string>
     <string name="mainfragment_com_button_text">"Kometen"</string>
@@ -28,8 +26,7 @@
     
     <string name="logindialog_login_button_text">"Aanmelden"</string>
     <string name="logindialog_cancel_button_text">"Anoniem"</string>
-    
-    
+
     <string name="preferences_autologin_text">"Automatisch aanmelden</string>
     <string name="preferences_autologin_summary">"DeepskyLog Mobile probeert automatisch aan te melden"</string>
     
@@ -39,8 +36,9 @@
     <string name="preferences_loginpassword_text">"Login paswoord"</string>
     <string name="preferences_loginpassword_summary">"Paswoord dat gebruikt wordt om in te loggen op de deeskylog server"</string>
     
-    
     <string name="actionbar_title_text">"DeepskyLog"</string>
+    <string name="actionbar_subtitle_text_online">" - Online"</string>
+    <string name="actionbar_subtitle_text_offline">" - Offline"</string>
     <string name="actionbar_connectivity_M">"Manueel"</string>
     <string name="actionbar_connectivity_N">"Niet verbonden met DSL"</string>
     <string name="actionbar_connectivity_X">"Geen verbinding mogelijk met DSL"</string>

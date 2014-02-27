@@ -89,7 +89,7 @@ public class ConnectivityTasks {
 	private static void longRunningChekConnectivityStatus(String theTask) {
 		if(theTask.equals("setNetworkAvailabilityStatus")) {
 			if((networkStatus.equals("mobile"))||(networkStatus.equals("WIFI"))) {
-				if(autoLogin) new checkServerTask().execute("http://"+serverUrl+"appgetcommand.php?command=alive");
+				if(autoLogin) new checkServerTask().execute("http://"+serverUrl+"appgetcommand.php?command=alive?");
 			}
 			else
 				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));
