@@ -37,24 +37,34 @@ public class Observations {
     	GetDslCommand.getCommandRaw("observationsfromto", "&from="+observationid+"&to="+observationid, getObservationOnResultClass, getObservationOnResultMethod);
 	}
 	
-	public static void storeObservationToDb(String observation) {
-        try {
-	    	JSONArray jsonArray = new JSONArray(observation);
-	    	if(jsonArray.length()>0) {
-			    JSONObject jsonObject=jsonArray.getJSONObject(0);
-		    	ContentValues initialValues = new ContentValues();
-	        	initialValues.put("observationid", jsonObject.getString("observationid"));
-	            initialValues.put("objectname", jsonObject.getString("objectname"));
-	            initialValues.put("observername", jsonObject.getString("observername"));
-	            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
-	            initialValues.put("observationdate", jsonObject.getString("observationdate"));
-	            DslDatabase.insert("observations", initialValues);
-	    	}
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
-        }
-	}
-	
+	public static void storeObservationToDb(String observation, String observationId) {
+    	if(observation.equals("[\"No data\"]")||observation.equals("[]")||observation.equals("")) {
+	    	ContentValues initialValues = new ContentValues();
+        	initialValues.put("observationid", observationId);
+            initialValues.put("objectname", "No data");
+            initialValues.put("observername", "No data");
+            initialValues.put("observationdescription", "No data");
+            initialValues.put("observationdate", "No data");
+            DslDatabase.insert("observations", initialValues);
+    	}
+    	else {
+    		try {
+		    	JSONArray jsonArray = new JSONArray(observation);
+		    	if(jsonArray.length()>0) {
+				    JSONObject jsonObject=jsonArray.getJSONObject(0);
+			    	ContentValues initialValues = new ContentValues();
+		        	initialValues.put("observationid", jsonObject.getString("observationid"));
+		            initialValues.put("objectname", jsonObject.getString("objectname"));
+		            initialValues.put("observername", jsonObject.getString("observername"));
+		            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
+		            initialValues.put("observationdate", jsonObject.getString("observationdate"));
+		            DslDatabase.insert("observations", initialValues);
+		    	}
+	        } catch (Exception e) {
+	            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
+	        }
+    	}
+    }
 	public static void getObservationsMaxIdRaw(String getObservationOnResultClass, String getObservationOnResultMethod) {
     	GetDslCommand.getCommandRaw("maxobservationid", "", getObservationOnResultClass, getObservationOnResultMethod);
 	}

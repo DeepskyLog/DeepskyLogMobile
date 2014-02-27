@@ -72,7 +72,6 @@ public class DeepskyFragment extends Fragment {
  			getObservationsFromId();
  		}
  		savedState=null;
- 		//getObservationsMaxIdAndBroadcast();
  		return deepskyFragmentView;
 	}
 	
@@ -116,7 +115,7 @@ public class DeepskyFragment extends Fragment {
     
     public static void getObservationFromIdDsl(String result) {
     	String observation=Utils.getTagContent(result,"result");
-    	if(!(observation.equals(""))) Observations.storeObservationToDb(observation);
+    	if(!(observation.equals(""))) Observations.storeObservationToDb(observation, observationId.toString());
     	displayObservations(observation);
     }
     
@@ -125,11 +124,14 @@ public class DeepskyFragment extends Fragment {
     		displayObservations(Utils.getTagContent(result,"result"));
     	}
     	else {
+    	    MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
     		Observations.getObservationFromDSLRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDsl");
     	}
     }
     
     private static void getObservationsFromId() {
+    	MainActivity.preferenceEditor.putInt("observationId", observationId);
+    	MainActivity.preferenceEditor.commit();
     	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
     	Observations.getObservationFromDbRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDb");
     }
@@ -163,7 +165,7 @@ public class DeepskyFragment extends Fragment {
     }
     
     private static void displayObservations(String result) {
-    	if(result.equals("[No data]")||result.equals("[]")) {
+    	if(result.equals("[\"No data\"]")||result.equals("[]")||result.equals("")) {
     		text2_textview.setText("Observation "+observationId+" was deleted by the observer.");
     	}
     	else {
@@ -171,16 +173,21 @@ public class DeepskyFragment extends Fragment {
 	    		JSONArray jsonArray = new JSONArray(result);
 	    	    for(int i=0; i<jsonArray.length();i++) {
 	    			JSONObject jsonObject=jsonArray.getJSONObject(i);
-	    			text2_textview.setText(jsonObject.getString("observationdate"));
-	    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("objectname"));
-	    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observername"));
-	    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
-	    	    	text2_textview.setText(text2_textview.getText()+"\n");
-	    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observationdescription"));
-	    	    	text1_textview.setText("Observation: "+observationId.toString()+" of "+observationMaxId.toString());   	    	    
-	    	    }
+	    		   	if(jsonObject.getString("objectname").equals("No data")) {
+	    	    		text2_textview.setText("Observation "+observationId+" was deleted by the observer.");
+	    	    	}
+	    		   	else {
+	    		   		text2_textview.setText(jsonObject.getString("observationdate"));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("objectname"));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observername"));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
+		    	    	text2_textview.setText(text2_textview.getText()+"\n");
+		    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observationdescription"));
+		    	    	text1_textview.setText("Observation: "+observationId.toString()+" of "+observationMaxId.toString());   	    	    
+	    		   	}
+	    		}
 	        } catch (Exception e) {
-	            Toast.makeText(MainActivity.mainActivity, "DeepskyFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
+	        	Toast.makeText(MainActivity.mainActivity, "DeepskyFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
 	        }
     	}
 	    MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false);
