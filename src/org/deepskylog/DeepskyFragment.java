@@ -156,7 +156,8 @@ public class DeepskyFragment extends Fragment {
 		  @Override public void onReceive(Context context, Intent intent) { Toast.makeText(MainActivity.mainActivity, "Broadcast observationsMaxId: "+ Utils.getTagContent(intent.getStringExtra("resultRAW"),"result"), Toast.LENGTH_LONG).show(); }
 	};
 	
-    private static void getObservationsMaxIdAndBroadcast() {
+    @SuppressWarnings("unused")
+	private static void getObservationsMaxIdAndBroadcast() {
     	Observations.getObservationsMaxIdAndBroadcast("observationsMaxIdBroadcastReceiver");
     }
     
