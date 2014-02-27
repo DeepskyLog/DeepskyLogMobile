@@ -31,6 +31,7 @@ public class Observations {
 			       	   	      "<result></result>"
 			       	   	      );
 		}
+		cursor.close();
 	}
 	
  	public static void getObservationFromDSLRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {

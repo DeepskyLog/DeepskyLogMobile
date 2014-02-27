@@ -53,8 +53,9 @@ public class DeepskyFragment extends Fragment {
  		    public void onSwipeBottom() { }
 		});
  		observationId=MainActivity.preferences.getInt("observationId", 0);
+ 		observationMaxId=MainActivity.preferences.getInt("observationMaxId", 0);
  		displayMode=DISPLAY_MODE_NORMAL;
-    	if(savedInstanceState==null) {
+ 		if(savedInstanceState==null) {
 	    }
 		else {
 			savedState=savedInstanceState.getBundle("savedState");
@@ -65,8 +66,9 @@ public class DeepskyFragment extends Fragment {
  			observationId=(savedState.getInt("observationId"));
  			displayMode=(savedState.getInt("displayMode"));
  		}
- 		if(observationId==0)
+ 		if(observationId==0) {
  			getObservationsMaxIdAndObservation();
+ 		}
  		else {
  		    getObservationsMaxId();
  			getObservationsFromId();
@@ -138,6 +140,8 @@ public class DeepskyFragment extends Fragment {
     
     public static void getObservationsMaxIdAndObservationOnResult1(String result) {
     	observationMaxId=Integer.valueOf(Utils.getTagContent(result,"result"));
+		MainActivity.preferenceEditor.putInt("observationMaxId", observationMaxId);
+    	MainActivity.preferenceEditor.commit();
     	observationId=observationMaxId;
     	getObservationsFromId();
     }
@@ -147,9 +151,11 @@ public class DeepskyFragment extends Fragment {
     }
     
     public static void getObservationsMaxIdOnResult1(String result) {
-    	MainActivity.mainFragment.setText("ObservationsMaxId"+Utils.getTagContent(result,"result"));
+		MainActivity.mainFragment.setText("ObservationsMaxId"+Utils.getTagContent(result,"result"));
     	observationMaxId=Integer.valueOf(Utils.getTagContent(result, "result"));
-    }
+		MainActivity.preferenceEditor.putInt("observationMaxId", observationMaxId);
+    	MainActivity.preferenceEditor.commit();
+   }
     
 	
 	public BroadcastReceiver observationsMaxIdBroadcastReceiver=new BroadcastReceiver() {

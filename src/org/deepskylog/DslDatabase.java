@@ -37,14 +37,6 @@ public class DslDatabase {
     	return sqlLiteDatabase.insert(table, null, data);
     }
     
-    public static int getAllEntries() {
-        Cursor cursor=sqlLiteDatabase.rawQuery("SELECT COUNT(observationid) FROM observations", null);
-        if(cursor.moveToFirst()) {
-            return cursor.getInt(0);
-        }
-        return cursor.getInt(0);
-    }
-        
     public static Cursor getObservation(String observationid) {
         return sqlLiteDatabase.rawQuery("SELECT observations.* FROM observations WHERE observationid=\""+observationid+"\"", null);
     }

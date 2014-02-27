@@ -5,11 +5,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -62,7 +67,8 @@ public class MainActivity 	extends 	Activity
 		}
 		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
 		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_N));
-    	setProgressBarIndeterminateVisibility(false);
+		LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver, new IntentFilter("OnOffLine"));
+		setProgressBarIndeterminateVisibility(false);
     	checkFirstRun();
 	}
 
@@ -109,6 +115,7 @@ public class MainActivity 	extends 	Activity
 	
 	@Override
 	protected void onStop() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(actionBarSubTitleReceiver);
 		DslDatabase.close();
 		super.onStop();
 	}	
@@ -127,6 +134,20 @@ public class MainActivity 	extends 	Activity
 	}
 	 */
 	}
+	
+	public BroadcastReceiver actionBarSubTitleReceiver=new BroadcastReceiver() {
+		@Override 
+		public void onReceive(Context context, Intent intent) { 
+			if(intent.getStringExtra("org.deepskylog.onLine").equals("onLine")) {
+				if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_online));
+				else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_online));
+			}
+			else {
+				if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_offline));
+				else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_offline));
+			}
+		}
+	};
 	
 	private void checkStateObjects() {
 		mainActivity=this;

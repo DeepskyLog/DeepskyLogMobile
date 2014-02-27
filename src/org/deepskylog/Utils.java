@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 public class Utils {
@@ -31,13 +33,24 @@ public class Utils {
 	        conn.connect();
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
+	        	Intent intent = new Intent("OnOffLine");
+	        	intent.putExtra("org.deepskylog.onLine", "onLine");
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
 		        return readIt(inputStream, 50000);
 	        }
 	        else {
+	        	Intent intent = new Intent("OnOffLine");
+	        	intent.putExtra("org.deepskylog.onLine", "offLine");
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
 	        	return "<result>"+"Unavailable url: "+theUrl+"</result>";
 	        }
 	    }
- 	    catch (Exception e) { return "<result>"+"Unavailable url: "+theUrl+"</result>"; }
+ 	    catch (Exception e) { 
+        	Intent intent = new Intent("OnOffLine");
+        	intent.putExtra("org.deepskylog.onLine", "offLine");
+        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
+        	return "<result>"+"Unavailable url: "+theUrl+"</result>"; 
+        }
  	    finally {
  	    	if (inputStream!=null) {
  	    		try { inputStream.close(); }

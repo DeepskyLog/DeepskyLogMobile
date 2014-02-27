@@ -14,8 +14,6 @@
     <string name="manifest_application_name">"DeepskyLog mobile"</string>
     <string name="manifest_application_description">"A mobile version for DeepskyLog"</string>
     
-    
-    
     <string name="mainmenu_settings_text">"Configuration"</string>
     <string name="mainmenu_login_text">"Login on DSL"</string>
     
@@ -40,6 +38,8 @@
     <string name="preferences_loginpassword_summary">"Password that is used to log in to the deeskylog server"</string>
     
     <string name="actionbar_title_text">"DeepskyLog"</string>
+    <string name="actionbar_subtitle_text_online">" - Online"</string>
+    <string name="actionbar_subtitle_text_offline">" - Offline"</string>
     <string name="actionbar_connectivity_M">"Manual"</string>
     <string name="actionbar_connectivity_N">"Not connected to DSL"</string>
     <string name="actionbar_connectivity_X">"No connection possible to DSL"</string>
