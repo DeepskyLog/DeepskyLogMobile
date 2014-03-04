@@ -24,17 +24,14 @@ public class DslDatabase {
     private static DatabaseHelper databaseHelper;
     private static SQLiteDatabase sqlLiteDatabase;
     
-    public DslDatabase() {
-    }
-     
     public static void open() throws SQLException {
-        databaseHelper=new DatabaseHelper(MainActivity.mainActivity);
-        try { sqlLiteDatabase=databaseHelper.getWritableDatabase(); }
+        if(databaseHelper==null) databaseHelper=new DatabaseHelper(MainActivity.mainActivity);
+        try { if(sqlLiteDatabase==null) sqlLiteDatabase=databaseHelper.getWritableDatabase(); }
         catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "Database exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
     }
     
-    public static long insert(String table, ContentValues data) {
-    	return sqlLiteDatabase.insert(table, null, data);
+    public static long insert(String table, ContentValues values) {
+    	return sqlLiteDatabase.insert(table, null, values);
     }
     
     public static Cursor getObservation(String observationid) {

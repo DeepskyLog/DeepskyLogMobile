@@ -1,9 +1,11 @@
 package org.deepskylog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 
 public class ConnectivityTasks {
 		
@@ -64,8 +66,8 @@ public class ConnectivityTasks {
 		if(theTask.equals("setLoginStatus")) {
 			MainActivity.mainFragment.setText("Login status: "+loginStatus);
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
-			    DslDialog.newInstance("org.deepskylog.ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
+	        	DslDialog.newInstance("org.deepskylog.ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
 			    		MainActivity.resources.getString(R.string.observers_invalidcredentials),
 			    		MainActivity.resources.getString(R.string.general_Ok),
 			    		"",
@@ -74,10 +76,10 @@ public class ConnectivityTasks {
 			    		.show(MainActivity.fragmentManager, "dslDialog");				
 			}
 			else if(loginStatus.equals("")) {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));				
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 			}
 			else {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 			}
 			if(autoLogin) {
 				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
@@ -91,27 +93,13 @@ public class ConnectivityTasks {
 			if((networkStatus.equals("mobile"))||(networkStatus.equals("WIFI"))) {
 				if(autoLogin) new checkServerTask().execute("http://"+serverUrl+"appgetcommand.php?command=alive");
 			}
-			else
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));
 		}
 		if(theTask.equals("setServerAvailabilityStatus")) {
 			if(serverStatus.equals("alive")) {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_S));
 				if(autoLogin) new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
 			}
-			else
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));				
 		}
 		if(theTask.equals("setLoginStatus")) {
-			if(loginStatus.equals("invalid credentials")) {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_V));				
-			}
-			else if(loginStatus.equals("")) {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_X));				
-			}
-			else {
-				MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_L)+MainActivity.loggedPerson);								
-			}
 			if(autoLogin) {
 				MainActivity.mainFragment.setText("Getting observation data");
 				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
@@ -123,33 +111,22 @@ public class ConnectivityTasks {
 	private static void postCheckNetworkAvailability(String resultNetworkAvailability) {
 		MainActivity.mainFragment.setText("Network: "+resultNetworkAvailability);
 		networkStatus=resultNetworkAvailability;
-		onTaskFinished("setNetworkAvailabilityStatus");
+		ConnectivityTasks.onTaskFinished("setNetworkAvailabilityStatus");
 	}
 	//Server connection
     private static void postCheckServerAvailability(String resultServerAvailability) {
     	serverStatus=Utils.getTagContent(resultServerAvailability,"result");
 		MainActivity.mainFragment.setText("Server: "+serverStatus);
-		onTaskFinished("setServerAvailabilityStatus");
-   }
-  //Login
+		ConnectivityTasks.onTaskFinished("setServerAvailabilityStatus");
+    }
+    //Login
     private static void postCheckLogin(String resultLogin) {
     	resultLogin=Utils.getTagContent(resultLogin, "result");
-    	MainActivity.mainFragment.setText("Login: "+resultLogin);
-		if(resultLogin.equals("invalid credentials")) {
-    		loginStatus=resultLogin;
-    		MainActivity.loggedPerson="";
-    	}
-    	else if(resultLogin.startsWith("loggedUser:")) {
-    		loginStatus="logged user";
-        	MainActivity.loggedPerson=resultLogin.substring(11);    		
-    	}
-    	else {
-    		//DEVELOP: to change...
-    		loginStatus=resultLogin;
-    		MainActivity.loggedPerson="";
-    	}
-      	MainActivity.preferenceEditor.putString("loggedPerson", MainActivity.loggedPerson);
-		onTaskFinished("setLoginStatus");
+    	resultLogin=(resultLogin.startsWith("loggedUser:")?resultLogin.substring(11):"");
+    	MainActivity.preferenceEditor.putString("loggedPerson", resultLogin);
+      	MainActivity.preferenceEditor.commit();
+    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", resultLogin));
+      	ConnectivityTasks.onTaskFinished("setLoginStatus");
     }
     
     

@@ -36,7 +36,7 @@ public class DeepskyFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(observationsMaxIdBroadcastReceiver, new IntentFilter("observationsMaxIdBroadcastReceiver"));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(observationsMaxIdBroadcastReceiver, new IntentFilter("org.deepskylog.maxobservationid"));
 	}
 	
 	@Override
@@ -74,6 +74,7 @@ public class DeepskyFragment extends Fragment {
  			getObservationsFromId();
  		}
  		savedState=null;
+ 		Observations.getObservationsMaxIdAndBroadcast();
  		return deepskyFragmentView;
 	}
 	
@@ -88,7 +89,14 @@ public class DeepskyFragment extends Fragment {
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(observationsMaxIdBroadcastReceiver);
 		super.onDestroy();
 	}
-	
+
+	private BroadcastReceiver observationsMaxIdBroadcastReceiver=new BroadcastReceiver() {
+		  @Override public void onReceive(Context context, Intent intent) { 
+			  observationMaxId=Integer.valueOf(Utils.getTagContent(intent.getStringExtra("resultRAW"),"result"));
+			  Toast.makeText(MainActivity.mainActivity, "Broadcast observationsMaxId: "+observationMaxId.toString(), Toast.LENGTH_LONG).show(); 
+			  }
+	};
+	    
     private Bundle saveState() {
         Bundle state = new Bundle();
         state.putString("text1_textview", text1_textview.getText().toString());
@@ -100,7 +108,7 @@ public class DeepskyFragment extends Fragment {
     
     private void previousObservation() {
     	observationId--;
-		text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
+    	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
     	getObservationsFromId();
     }
     
@@ -158,15 +166,6 @@ public class DeepskyFragment extends Fragment {
    }
     
 	
-	public BroadcastReceiver observationsMaxIdBroadcastReceiver=new BroadcastReceiver() {
-		  @Override public void onReceive(Context context, Intent intent) { Toast.makeText(MainActivity.mainActivity, "Broadcast observationsMaxId: "+ Utils.getTagContent(intent.getStringExtra("resultRAW"),"result"), Toast.LENGTH_LONG).show(); }
-	};
-	
-    @SuppressWarnings("unused")
-	private static void getObservationsMaxIdAndBroadcast() {
-    	Observations.getObservationsMaxIdAndBroadcast("observationsMaxIdBroadcastReceiver");
-    }
-    
     private static void getObservationsMaxId() {
     	Observations.getObservationsMaxIdRaw("org.deepskylog.DeepskyFragment", "getObservationsMaxIdOnResult1");
     }
@@ -177,6 +176,7 @@ public class DeepskyFragment extends Fragment {
     	}
     	else {
 	    	try {
+	    		//text2_textview.setText(result);
 	    		JSONArray jsonArray = new JSONArray(result);
 	    	    for(int i=0; i<jsonArray.length();i++) {
 	    			JSONObject jsonObject=jsonArray.getJSONObject(i);

@@ -23,13 +23,12 @@ import android.widget.Toast;
 public class MainActivity 	extends 	Activity 
 							implements 	OnSharedPreferenceChangeListener {
 	
-	private static final String ACTUAL_FRAGMENT = "ACTUAL_FRAGMENT";
-	public static final boolean ADD_TO_BACKSTACK = true;
-	public static final boolean DONT_ADD_TO_BACKSTACK = false;
+	private static final String ACTUAL_FRAGMENT="ACTUAL_FRAGMENT";
+	public static final boolean ADD_TO_BACKSTACK= true;
+	public static final boolean DONT_ADD_TO_BACKSTACK=false;
 	
 	public static MainActivity mainActivity;
 	
-	public static ActionBar actionBar;
 	public static FragmentManager fragmentManager;
 	public static Resources resources;
 	public static SharedPreferences preferences;
@@ -45,12 +44,15 @@ public class MainActivity 	extends 	Activity
 	public static Fragment actualFragment;
 	public static String actualFragmentName;
 
-	public static String loggedPerson = "";
 
 	//public ConnectivityTasks connectivityTasks;
 	//public static DslDatabase dslDatabase;
 	//public Observers observers;
-		
+
+	private static ActionBar actionBar;
+	private static String onLine="offLine";
+	private static String loggedPerson="";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,9 +67,9 @@ public class MainActivity 	extends 	Activity
 		else {
 			setFragment(savedInstanceState.getString(ACTUAL_FRAGMENT));
 		}
-		actionBar.setTitle(getResources().getString(R.string.actionbar_title_text));
-		actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_N));
-		LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver, new IntentFilter("OnOffLine"));
+    	setActionBar();
+    	LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver1, new IntentFilter("org.deepskylog.online"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver2, new IntentFilter("org.deepskylog.loggedperson"));
 		setProgressBarIndeterminateVisibility(false);
     	checkFirstRun();
 	}
@@ -115,7 +117,8 @@ public class MainActivity 	extends 	Activity
 	
 	@Override
 	protected void onStop() {
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(actionBarSubTitleReceiver);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(actionBarSubTitleReceiver1);
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(actionBarSubTitleReceiver2);
 		DslDatabase.close();
 		super.onStop();
 	}	
@@ -135,17 +138,33 @@ public class MainActivity 	extends 	Activity
 	 */
 	}
 	
-	public BroadcastReceiver actionBarSubTitleReceiver=new BroadcastReceiver() {
+	private void setActionBar() {
+		if(MainActivity.onLine.equals("online")) {
+			if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_online));
+			else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_online));
+		}
+		else if(MainActivity.onLine.equals("offline")) {
+			if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_offline));
+			else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_offline));
+		}
+		else {
+			if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_offline));
+			else actionBar.setSubtitle(loggedPerson);
+		}
+	}
+	
+	public BroadcastReceiver actionBarSubTitleReceiver1=new BroadcastReceiver() {
 		@Override 
-		public void onReceive(Context context, Intent intent) { 
-			if(intent.getStringExtra("org.deepskylog.onLine").equals("onLine")) {
-				if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_online));
-				else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_online));
-			}
-			else {
-				if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_offline));
-				else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_offline));
-			}
+		public void onReceive(Context context, Intent intent) {
+			MainActivity.onLine=intent.getStringExtra("org.deepskylog.online");
+			setActionBar();
+		}
+	};
+	public BroadcastReceiver actionBarSubTitleReceiver2=new BroadcastReceiver() {
+		@Override 
+		public void onReceive(Context context, Intent intent) {
+			MainActivity.loggedPerson=intent.getStringExtra("org.deepskylog.loggedperson");
+			setActionBar();
 		}
 	};
 	
