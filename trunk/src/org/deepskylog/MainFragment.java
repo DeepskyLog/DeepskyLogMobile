@@ -62,7 +62,6 @@ public class MainFragment extends Fragment {
 	    	text3_textview.setText(savedState.getString("text3_textview"));
  		}
  		savedState=null;		
-		MainActivity.actionBar.setSubtitle(MainActivity.resources.getString(R.string.actionbar_connectivity_N));
 		return mainFragmentView;
 	}
 	@Override

@@ -18,7 +18,7 @@ public class Observations {
 					          "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
 					       			   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
 					       			   "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
-					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription"))+"\", "+
+					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription")).replace("\"", "'")+"\", "+
 					       			   "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\""+
 					       			   "} ]>" +
 					          "</result>"
@@ -57,7 +57,7 @@ public class Observations {
 		        	initialValues.put("observationid", jsonObject.getString("observationid"));
 		            initialValues.put("objectname", jsonObject.getString("objectname"));
 		            initialValues.put("observername", jsonObject.getString("observername"));
-		            initialValues.put("observationdescription", jsonObject.getString("observationdescription"));
+		            initialValues.put("observationdescription", jsonObject.getString("observationdescription").replace("\"", "'"));
 		            initialValues.put("observationdate", jsonObject.getString("observationdate"));
 		            DslDatabase.insert("observations", initialValues);
 		    	}
@@ -70,8 +70,8 @@ public class Observations {
     	GetDslCommand.getCommandRaw("maxobservationid", "", getObservationOnResultClass, getObservationOnResultMethod);
 	}
 	
-	public static void getObservationsMaxIdAndBroadcast(String observationsMaxIdBroadcastReceiver) {
-    	GetDslCommand.getCommandAndBroadcast("maxobservationid", "", observationsMaxIdBroadcastReceiver);
+	public static void getObservationsMaxIdAndBroadcast() {
+    	GetDslCommand.getCommandAndBroadcast("maxobservationid", "", "org.deepskylog.maxobservationid");
 	}
-
+	
 }

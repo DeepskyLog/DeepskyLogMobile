@@ -33,22 +33,16 @@ public class Utils {
 	        conn.connect();
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
-	        	Intent intent = new Intent("OnOffLine");
-	        	intent.putExtra("org.deepskylog.onLine", "onLine");
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "online"));
 		        return readIt(inputStream, 50000);
 	        }
 	        else {
-	        	Intent intent = new Intent("OnOffLine");
-	        	intent.putExtra("org.deepskylog.onLine", "offLine");
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
+	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
 	        	return "<result>"+"Unavailable url: "+theUrl+"</result>";
 	        }
 	    }
  	    catch (Exception e) { 
-        	Intent intent = new Intent("OnOffLine");
-        	intent.putExtra("org.deepskylog.onLine", "offLine");
-        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
+        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
         	return "<result>"+"Unavailable url: "+theUrl+"</result>"; 
         }
  	    finally {
@@ -60,7 +54,7 @@ public class Utils {
     }    
     
     private static String readIt(InputStream inputStream, int len) throws IOException, UnsupportedEncodingException {
-    	Reader reader=new InputStreamReader(inputStream, "UTF-8");        
+    	Reader reader=new InputStreamReader(inputStream);        
     	char[] buffer=new char[len];
     	reader.read(buffer);
     	return new String(buffer).trim();

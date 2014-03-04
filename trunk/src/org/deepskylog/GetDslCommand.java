@@ -39,18 +39,13 @@ public class GetDslCommand {
         @Override protected void onPostExecute(String result) { Utils.onResultTest(result.trim()); }
     }
     */
+   
   	public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
   		new getCommandAndBroadcastTask().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command,broadcastIntent);
   	};
   	
     private static class getCommandAndBroadcastTask extends AsyncTask<String, Void, String> {
     	@Override protected String doInBackground(String... urls) { return "<broadcastIntent>"+urls[1]+"</broadcastIntent>"+Utils.downloadUrl(urls[0]); }
-        @Override protected void onPostExecute(String result) {     
-        	Intent intent = new Intent(Utils.getTagContent(result, "broadcastIntent"));
-        	intent.putExtra("resultRAW", result.trim());
-        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent);
-        	}
+        @Override protected void onPostExecute(String result) { LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent(Utils.getTagContent(result, "broadcastIntent")).putExtra("resultRAW", result.trim())); }
     }
-
-    
 }
