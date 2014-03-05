@@ -31,11 +31,13 @@ public class DslDatabase {
     }
     
     public static long insert(String table, ContentValues values) {
+    	open();
     	return sqlLiteDatabase.insert(table, null, values);
     }
     
-    public static Cursor getObservation(String observationid) {
-        return sqlLiteDatabase.rawQuery("SELECT observations.* FROM observations WHERE observationid=\""+observationid+"\"", null);
+    public static Cursor execSql(String sql) {
+        open();
+        return sqlLiteDatabase.rawQuery(sql, null);
     }
      
     public static void close() {
@@ -49,13 +51,13 @@ public class DslDatabase {
      
         @Override
         public void onCreate(SQLiteDatabase db) {
-        	Toast.makeText(MainActivity.mainActivity, "Database create", Toast.LENGTH_LONG).show();
+        	//Toast.makeText(MainActivity.mainActivity, "Database create", Toast.LENGTH_LONG).show();
         	db.execSQL(DATABASE_CREATE);
         }
      
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        	Toast.makeText(MainActivity.mainActivity, "Database upgrade", Toast.LENGTH_LONG).show();
+        	//Toast.makeText(MainActivity.mainActivity, "Database upgrade", Toast.LENGTH_LONG).show();
         	db.execSQL("DROP TABLE IF EXISTS observations");
             onCreate(db);
         }

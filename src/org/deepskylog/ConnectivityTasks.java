@@ -66,7 +66,7 @@ public class ConnectivityTasks {
 		if(theTask.equals("setLoginStatus")) {
 			MainActivity.mainFragment.setText("Login status: "+loginStatus);
 			if((loginStatus.equals("invalid credentials"))||(loginStatus.equals("user invalid"))) {
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
+		      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 	        	DslDialog.newInstance("org.deepskylog.ConnectivityTasks","ConnectivityTasksDslDialogListener1", 
 			    		MainActivity.resources.getString(R.string.observers_invalidcredentials),
 			    		MainActivity.resources.getString(R.string.general_Ok),
@@ -76,10 +76,10 @@ public class ConnectivityTasks {
 			    		.show(MainActivity.fragmentManager, "dslDialog");				
 			}
 			else if(loginStatus.equals("")) {
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
+		      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 			}
 			else {
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
+		      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 			}
 			if(autoLogin) {
 				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
@@ -125,7 +125,7 @@ public class ConnectivityTasks {
     	resultLogin=(resultLogin.startsWith("loggedUser:")?resultLogin.substring(11):"");
     	MainActivity.preferenceEditor.putString("loggedPerson", resultLogin);
       	MainActivity.preferenceEditor.commit();
-    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", resultLogin));
+      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", resultLogin));
       	ConnectivityTasks.onTaskFinished("setLoginStatus");
     }
     

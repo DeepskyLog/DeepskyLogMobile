@@ -4,44 +4,42 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 public class Observations {
 
- 	public static void getObservationFromDbRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
-    	Cursor cursor=DslDatabase.getObservation(observationid);
+	public static void broadcastDeepskyObservationsMaxId() { GetDslCommand.getCommandAndBroadcast("maxobservationid", "", "org.deepskylog.broadcastmaxobservationid"); }
+    public static void broadcastDeepskyObservation(String observationid) { executeBroadcastObservation(observationid); }
+
+	private static void broadcastObservationResult(String resultRaw) {
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastobservation").putExtra("org.deepskylog.resultRAW", resultRaw));
+	}
+	
+    private static void executeBroadcastObservation(String observationid) {
+    	Cursor cursor=DslDatabase.execSql("SELECT observations.* FROM observations WHERE observationid=\""+observationid+"\"");
 		if(cursor.moveToFirst()) {
-			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</onResultClass>" +
-					          "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
-					          "<fromDb>true</fromDb>" +
-					          "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
-					       			   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
+			broadcastObservationResult("<fromdb></fromdb><observationid>"+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"</observationid>" +
+									   "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
+									   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
 					       			   "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
 					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription")).replace("\"", "'")+"\", "+
 					       			   "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\""+
 					       			   "} ]>" +
-					          "</result>"
-					          );
+					       			   "</result>");
 		}
 		else {
-			Utils.onResultRaw("<onResultClass>"+getObservationOnResultClass+"</onResultClass>" +
-			       	   	      "<onResultMethod>"+getObservationOnResultMethod+"</onResultMethod>" +
-			       	   	      "<fromDb>false</fromDb>" +
-			       	   	      "<result></result>"
-			       	   	      );
+		   	GetDslCommand.getCommandRaw("observationfromid", "&fromid="+observationid, "org.deepskylog.Observations", "storeObservationToDbAndBroadcast");
 		}
 		cursor.close();
 	}
 	
- 	public static void getObservationFromDSLRaw(String observationid, String getObservationOnResultClass, String getObservationOnResultMethod) {
-    	GetDslCommand.getCommandRaw("observationsfromto", "&from="+observationid+"&to="+observationid, getObservationOnResultClass, getObservationOnResultMethod);
-	}
-	
-	public static void storeObservationToDb(String observation, String observationId) {
-    	if(observation.equals("[\"No data\"]")||observation.equals("[]")||observation.equals("")) {
+	public static void storeObservationToDbAndBroadcast(String observationRaw) {
+    	if(Utils.getTagContent(observationRaw,"result").equals("[\"No data\"]")) {
 	    	ContentValues initialValues = new ContentValues();
-        	initialValues.put("observationid", observationId);
+        	initialValues.put("observationid", Utils.getTagContent(observationRaw,"observationid"));
             initialValues.put("objectname", "No data");
             initialValues.put("observername", "No data");
             initialValues.put("observationdescription", "No data");
@@ -50,7 +48,7 @@ public class Observations {
     	}
     	else {
     		try {
-		    	JSONArray jsonArray = new JSONArray(observation);
+		    	JSONArray jsonArray = new JSONArray(Utils.getTagContent(observationRaw,"result"));
 		    	if(jsonArray.length()>0) {
 				    JSONObject jsonObject=jsonArray.getJSONObject(0);
 			    	ContentValues initialValues = new ContentValues();
@@ -65,13 +63,7 @@ public class Observations {
 	            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
 	        }
     	}
+    	broadcastObservationResult("<fromDSL></fromDSL>"+observationRaw);
     }
-	public static void getObservationsMaxIdRaw(String getObservationOnResultClass, String getObservationOnResultMethod) {
-    	GetDslCommand.getCommandRaw("maxobservationid", "", getObservationOnResultClass, getObservationOnResultMethod);
-	}
-	
-	public static void getObservationsMaxIdAndBroadcast() {
-    	GetDslCommand.getCommandAndBroadcast("maxobservationid", "", "org.deepskylog.maxobservationid");
-	}
 	
 }
