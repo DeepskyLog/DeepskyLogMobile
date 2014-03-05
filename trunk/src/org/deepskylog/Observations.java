@@ -20,7 +20,7 @@ public class Observations {
 	
     private static void executeBroadcastObservation(String observationid) {
     	Cursor cursor=DslDatabase.execSql("SELECT observations.* FROM observations WHERE observationid=\""+observationid+"\"");
-		if(cursor.moveToFirst()) {
+    	if(cursor.moveToFirst()) {
 			broadcastObservationResult("<observationid>"+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"</observationid>" +
 									   "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
 									   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+

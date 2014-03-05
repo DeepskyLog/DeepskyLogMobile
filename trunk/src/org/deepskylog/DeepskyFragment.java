@@ -35,15 +35,7 @@ public class DeepskyFragment extends Fragment {
 	private static Integer deepskyObservationSeenMaxId;
 	
 	private Integer displayMode;
-		
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastMaxObservationIdReceiver, new IntentFilter("org.deepskylog.broadcastmaxobservationid"));
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastObservationReceiver, new IntentFilter("org.deepskylog.broadcastobservation"));
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastNoObservationReceiver, new IntentFilter("org.deepskylog.broadcastnoobservation"));
-	}
-	
+			
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);
@@ -79,6 +71,9 @@ public class DeepskyFragment extends Fragment {
  			deepskyObservationSeenMaxId=(savedState.getInt("deepskyObservationSeenMaxId"));
  			displayMode=(savedState.getInt("displayMode"));
  		}
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastMaxObservationIdReceiver, new IntentFilter("org.deepskylog.broadcastmaxobservationid"));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastObservationReceiver, new IntentFilter("org.deepskylog.broadcastobservation"));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastNoObservationReceiver, new IntentFilter("org.deepskylog.broadcastnoobservation"));
 		Observations.broadcastDeepskyObservationsMaxId();
  		if(deepskyObservationIdToGet!=0) getDeepskyObservation(deepskyObservationIdToGet);
 		savedState=null;
@@ -92,11 +87,11 @@ public class DeepskyFragment extends Fragment {
 	}
 	
 	@Override
-	public void onDestroy() {
+	public void onDestroyView() {
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(broadcastMaxObservationIdReceiver);
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(broadcastObservationReceiver);
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(broadcastNoObservationReceiver);
-		super.onDestroy();
+		super.onDestroyView();
 	}
 
 	private BroadcastReceiver broadcastMaxObservationIdReceiver=new BroadcastReceiver() {
@@ -129,7 +124,8 @@ public class DeepskyFragment extends Fragment {
 		public void onReceive(Context context, Intent intent) {
 			String unavailableId=Utils.getTagContent(intent.getStringExtra("org.deepskylog.resultRAW"), "observationid");
 			if(unavailableId.equals(deepskyObservationIdToGet.toString())) { 
-    	    	text1_textview.setText("Observation: "+deepskyObservationIdDetails.toString()+(deepskyObservationMaxId==0?"":" of "+deepskyObservationMaxId.toString())+ " ("+unavailableId+" not available)");   	    	    
+    	    	text1_textview.setText("Details "+deepskyObservationIdDetails.toString()+(deepskyObservationMaxId==0?"":" / "+deepskyObservationMaxId.toString())+ " ("+unavailableId+" not available)");   	    	    
+    		    MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false);
 			}
 		}
 	};

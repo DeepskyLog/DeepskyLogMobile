@@ -79,7 +79,6 @@ public class MainActivity 	extends 	Activity
     	super.onStart();
 		checkStateObjects();
 		setStateParametersFromPreferences();
-    	ConnectivityTasks.checkAutoConnectivityStatus();
 	}
 
 	@Override

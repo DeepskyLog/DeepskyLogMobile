@@ -41,7 +41,10 @@ public class DslDatabase {
     }
      
     public static void close() {
+    	sqlLiteDatabase.close();
     	databaseHelper.close();
+    	sqlLiteDatabase=null;
+    	databaseHelper=null;
     }
     
     private static class DatabaseHelper extends SQLiteOpenHelper  {
