@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,11 +167,12 @@ public class DeepskyFragment extends Fragment {
 	    	    	}
 	    		   	else {
 	    		   		text2_textview.setText(jsonObject.getString("observationdate"));
-		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("objectname"));
-		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observername"));
-		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("objectname")));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("observername")));
+		    	    	text2_textview.setText(text2_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("observationid")));
 		    	    	text2_textview.setText(text2_textview.getText()+"\n");
-		    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observationdescription"));
+		    	    	text2_textview.setText(text2_textview.getText()+"\n");
+		    	    	text2_textview.setText(text2_textview.getText()+" "+Html.fromHtml(jsonObject.getString("observationdescription")));
 		    	    	text1_textview.setText("Observation: "+deepskyObservationId.toString()+(deepskyObservationMaxId==0?"":" of "+deepskyObservationMaxId.toString()));   	    	    
 	    		   	}
 	    		}
