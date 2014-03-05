@@ -18,14 +18,14 @@ public class GetDslCommand {
     }
     
   	public static void getCommandRaw(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-  		params="&onResultMethod="+getDslCommandOnResultMethod+params;
-  		params="&onResultClass="+getDslCommandOnResultClass+params;
-  		new getCommandTaskRaw().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params);
+  		new getCommandTaskRaw().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
    private static class getCommandTaskRaw extends AsyncTask<String, Void, String> {
-    	@Override protected String doInBackground(String... urls) { return Utils.downloadUrl(urls[0]); }
-        @Override protected void onPostExecute(String result) {  Utils.onResultRaw(result.trim()); }
+    	@Override protected String doInBackground(String... urls) { return "<onResultClass>"+urls[1]+"</onResultClass>"+
+    																	   "<onResultMethod>"+urls[2]+"</onResultMethod>"+
+    																	   Utils.downloadUrl(urls[0]); }
+        @Override protected void onPostExecute(String result) { Utils.onResultRaw(result.trim()); }
     }
     /*
   	public static void getCommandTest(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {

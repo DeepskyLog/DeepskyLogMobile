@@ -21,7 +21,7 @@ public class Observations {
     private static void executeBroadcastObservation(String observationid) {
     	Cursor cursor=DslDatabase.execSql("SELECT observations.* FROM observations WHERE observationid=\""+observationid+"\"");
 		if(cursor.moveToFirst()) {
-			broadcastObservationResult("<fromdb></fromdb><observationid>"+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"</observationid>" +
+			broadcastObservationResult("<observationid>"+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"</observationid>" +
 									   "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
 									   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
 					       			   "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
@@ -31,39 +31,47 @@ public class Observations {
 					       			   "</result>");
 		}
 		else {
-		   	GetDslCommand.getCommandRaw("observationfromid", "&fromid="+observationid, "org.deepskylog.Observations", "storeObservationToDbAndBroadcast");
+			MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+		    GetDslCommand.getCommandRaw("observationfromid", "&fromid="+observationid, "org.deepskylog.Observations", "storeObservationToDbAndBroadcast");
 		}
 		cursor.close();
 	}
 	
 	public static void storeObservationToDbAndBroadcast(String observationRaw) {
-    	if(Utils.getTagContent(observationRaw,"result").equals("[\"No data\"]")) {
-	    	ContentValues initialValues = new ContentValues();
-        	initialValues.put("observationid", Utils.getTagContent(observationRaw,"observationid"));
-            initialValues.put("objectname", "No data");
-            initialValues.put("observername", "No data");
-            initialValues.put("observationdescription", "No data");
-            initialValues.put("observationdate", "No data");
-            DslDatabase.insert("observations", initialValues);
+    	String result=Utils.getTagContent(observationRaw,"result");
+		if(result.startsWith("Unavailable url:")) {
+    		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastnoobservation").putExtra("org.deepskylog.resultRAW", "<observationid>"+result.substring(result.indexOf("fromid=")+7)+"</observationid>"));
     	}
-    	else {
-    		try {
-		    	JSONArray jsonArray = new JSONArray(Utils.getTagContent(observationRaw,"result"));
-		    	if(jsonArray.length()>0) {
-				    JSONObject jsonObject=jsonArray.getJSONObject(0);
-			    	ContentValues initialValues = new ContentValues();
-		        	initialValues.put("observationid", jsonObject.getString("observationid"));
-		            initialValues.put("objectname", jsonObject.getString("objectname"));
-		            initialValues.put("observername", jsonObject.getString("observername"));
-		            initialValues.put("observationdescription", jsonObject.getString("observationdescription").replace("\"", "'"));
-		            initialValues.put("observationdate", jsonObject.getString("observationdate"));
-		            DslDatabase.insert("observations", initialValues);
-		    	}
-	        } catch (Exception e) {
-	            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
-	        }
-    	}
-    	broadcastObservationResult("<fromDSL></fromDSL>"+observationRaw);
-    }
+		else { 
+			String observationId=Utils.getTagContent(observationRaw,"observationid");
+			if(result.equals("[\"No data\"]")) {
+		    	ContentValues initialValues = new ContentValues();
+	        	initialValues.put("observationid", observationId);
+	            initialValues.put("objectname", "No data");
+	            initialValues.put("observername", "No data");
+	            initialValues.put("observationdescription", "No data");
+	            initialValues.put("observationdate", "No data");
+	            DslDatabase.insert("observations", initialValues);
+	    	}
+	    	else {
+	    		try {
+			    	JSONArray jsonArray = new JSONArray(result);
+			    	if(jsonArray.length()>0) {
+					    JSONObject jsonObject=jsonArray.getJSONObject(0);
+				    	ContentValues initialValues = new ContentValues();
+			        	initialValues.put("observationid", jsonObject.getString("observationid"));
+			            initialValues.put("objectname", jsonObject.getString("objectname"));
+			            initialValues.put("observername", jsonObject.getString("observername"));
+			            initialValues.put("observationdescription", jsonObject.getString("observationdescription").replace("\"", "'"));
+			            initialValues.put("observationdate", jsonObject.getString("observationdate"));
+			            DslDatabase.insert("observations", initialValues);
+			    	}
+		        } catch (Exception e) {
+		            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
+		        }
+	    	}
+			executeBroadcastObservation(observationId);
+		}
+	}
 	
 }
