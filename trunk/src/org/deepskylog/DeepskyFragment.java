@@ -26,25 +26,35 @@ public class DeepskyFragment extends Fragment {
 
 	private static View deepskyFragmentView;
 	private static TextView text1_textview;
-	public static TextView text2_textview;
-	
-	private static Integer observationId;
-	private static Integer observationMaxId;
+	private static TextView text2_textview;
+	private static TextView dsobstosee_textview;
+	private static Integer deepskyObservationId;
+	private static Integer deepskyObservationMaxId;
+	private static Integer deepskyObservationSeenMaxId;
 	
 	private Integer displayMode;
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(observationsMaxIdBroadcastReceiver, new IntentFilter("org.deepskylog.maxobservationid"));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastMaxObservationIdReceiver, new IntentFilter("org.deepskylog.broadcastmaxobservationid"));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(broadcastObservationReceiver, new IntentFilter("org.deepskylog.broadcastobservation"));
 	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);
 		text1_textview=((TextView)deepskyFragmentView.findViewById(R.id.deepskyfragment_text1_textview_id));
+		text1_textview.setText("Fetching observations...");
+ 		dsobstosee_textview=((TextView)deepskyFragmentView.findViewById(R.id.deepskyfragment_dsobstosee_textview_id));
+		dsobstosee_textview.setText("");
+		dsobstosee_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
+ 		    public void onSwipeTop() { }
+ 		    public void onSwipeRight() { }
+ 		    public void onSwipeLeft() { getDeepskyObservation(deepskyObservationSeenMaxId+1); }
+ 		    public void onSwipeBottom() { }
+		});
 		text2_textview=((TextView)deepskyFragmentView.findViewById(R.id.deepskyfragment_text2_textview_id));
- 		text1_textview.setText("Fetching observations...");
  		text2_textview.setText("Observations come here");
  		text2_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
  		    public void onSwipeTop() { }
@@ -52,29 +62,23 @@ public class DeepskyFragment extends Fragment {
  		    public void onSwipeLeft() { nextObservation(); }
  		    public void onSwipeBottom() { }
 		});
- 		observationId=MainActivity.preferences.getInt("observationId", 0);
- 		observationMaxId=MainActivity.preferences.getInt("observationMaxId", 0);
+ 		deepskyObservationId=MainActivity.preferences.getInt("deepskyObservationId", 0);
+ 		deepskyObservationSeenMaxId=MainActivity.preferences.getInt("deepskyObservationSeenMaxId", 0);
+ 		deepskyObservationMaxId=MainActivity.preferences.getInt("deepskyObservationMaxId", 0);
  		displayMode=DISPLAY_MODE_NORMAL;
- 		if(savedInstanceState==null) {
-	    }
-		else {
-			savedState=savedInstanceState.getBundle("savedState");
+ 		if(savedInstanceState!=null) {
+ 			savedState=savedInstanceState.getBundle("savedState");
 		}
  		if(savedState!=null) {
  			text1_textview.setText(savedState.getString("text1_textview"));
  			text2_textview.setText(savedState.getString("text2_textview"));
- 			observationId=(savedState.getInt("observationId"));
+ 			deepskyObservationId=(savedState.getInt("deepskyObservationId"));
+ 			deepskyObservationSeenMaxId=(savedState.getInt("deepskyObservationSeenMaxId"));
  			displayMode=(savedState.getInt("displayMode"));
  		}
- 		if(observationId==0) {
- 			getObservationsMaxIdAndObservation();
- 		}
- 		else {
- 		    getObservationsMaxId();
- 			getObservationsFromId();
- 		}
- 		savedState=null;
- 		Observations.getObservationsMaxIdAndBroadcast();
+		Observations.broadcastDeepskyObservationsMaxId();
+ 		if(deepskyObservationId!=0) getDeepskyObservation(deepskyObservationId);
+		savedState=null;
  		return deepskyFragmentView;
 	}
 	
@@ -86,102 +90,79 @@ public class DeepskyFragment extends Fragment {
 	
 	@Override
 	public void onDestroy() {
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(observationsMaxIdBroadcastReceiver);
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(broadcastMaxObservationIdReceiver);
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(broadcastObservationReceiver);
 		super.onDestroy();
 	}
 
-	private BroadcastReceiver observationsMaxIdBroadcastReceiver=new BroadcastReceiver() {
-		  @Override public void onReceive(Context context, Intent intent) { 
-			  observationMaxId=Integer.valueOf(Utils.getTagContent(intent.getStringExtra("resultRAW"),"result"));
-			  Toast.makeText(MainActivity.mainActivity, "Broadcast observationsMaxId: "+observationMaxId.toString(), Toast.LENGTH_LONG).show(); 
-			  }
+	private BroadcastReceiver broadcastMaxObservationIdReceiver=new BroadcastReceiver() {
+	    @Override 
+	    public void onReceive(Context context, Intent intent) { 
+	    	deepskyObservationMaxId=Integer.valueOf(Utils.getTagContent(intent.getStringExtra("org.deepskylog.resultRAW"),"result"));
+			dsobstosee_textview.setText(((Integer)(deepskyObservationMaxId-deepskyObservationSeenMaxId)).toString()+" to see");
+	    	if(deepskyObservationId==0) {
+				deepskyObservationId=deepskyObservationMaxId;
+			}
+			getDeepskyObservation(deepskyObservationId);
+		}
 	};
 	    
-    private Bundle saveState() {
+	private BroadcastReceiver broadcastObservationReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String result=intent.getStringExtra("org.deepskylog.resultRAW");
+			//Toast.makeText(MainActivity.mainActivity, "DSF"+result, Toast.LENGTH_LONG).show();
+			if(Utils.getTagContent(result, "observationid").equals(deepskyObservationId.toString())) { 
+			    MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+			    MainActivity.preferenceEditor.putInt("deepskyObservationId", deepskyObservationId);
+			    if(deepskyObservationId>deepskyObservationSeenMaxId) MainActivity.preferenceEditor.putInt("deepskyObservationSeenMaxId", (deepskyObservationSeenMaxId=deepskyObservationId));
+		    	MainActivity.preferenceEditor.commit();
+		    	displayObservationDetails(Utils.getTagContent(result,"result"));
+			}
+		}
+	};
+
+	private Bundle saveState() {
         Bundle state = new Bundle();
         state.putString("text1_textview", text1_textview.getText().toString());
         state.putString("text2_textview", text2_textview.getText().toString());
-        state.putInt("observationId", observationId);
+        state.putInt("deepskyObservationId", deepskyObservationId);
+        state.putInt("deepskyObservationSeenMaxId", deepskyObservationSeenMaxId);
         state.putInt("displayMode", displayMode);
         return state;
     }
     
     private void previousObservation() {
-    	observationId--;
-    	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
-    	getObservationsFromId();
+    	getDeepskyObservation(--deepskyObservationId);
     }
     
     private void nextObservation() {
-    	if(observationId<observationMaxId) {
-    		observationId++;
-    		text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
-        	getObservationsFromId();
+    	if(deepskyObservationId<deepskyObservationMaxId) {
+    		getDeepskyObservation(++deepskyObservationId);
     	}
     	else {
     		Toast.makeText(MainActivity.mainActivity, "No more observations", Toast.LENGTH_LONG).show();
     	}
     }
     
-    public static void getObservationFromIdDsl(String result) {
-    	String observation=Utils.getTagContent(result,"result");
-    	if(!(observation.equals(""))) Observations.storeObservationToDb(observation, observationId.toString());
-    	displayObservations(observation);
+    private static void getDeepskyObservation(Integer theId) {
+    	deepskyObservationId=theId;
+    	text1_textview.setText("Fetching observation: "+theId.toString()+(deepskyObservationMaxId==0?"":" of "+deepskyObservationMaxId.toString()));
+    	Observations.broadcastDeepskyObservation(theId.toString());
     }
     
-    public static void getObservationFromIdDb(String result) {
-    	if(Utils.getTagContent(result,"fromDb").equals("true")) {
-    		displayObservations(Utils.getTagContent(result,"result"));
-    	}
-    	else {
-    	    MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-    		Observations.getObservationFromDSLRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDsl");
-    	}
-    }
     
-    private static void getObservationsFromId() {
-    	MainActivity.preferenceEditor.putInt("observationId", observationId);
-    	MainActivity.preferenceEditor.commit();
-    	text1_textview.setText("Fetching observation: "+observationId.toString()+" of "+observationMaxId.toString());
-    	Observations.getObservationFromDbRaw(observationId.toString(), "org.deepskylog.DeepskyFragment", "getObservationFromIdDb");
-    }
-    
-    public static void getObservationsMaxIdAndObservationOnResult1(String result) {
-    	observationMaxId=Integer.valueOf(Utils.getTagContent(result,"result"));
-		MainActivity.preferenceEditor.putInt("observationMaxId", observationMaxId);
-    	MainActivity.preferenceEditor.commit();
-    	observationId=observationMaxId;
-    	getObservationsFromId();
-    }
-    
-    private static void getObservationsMaxIdAndObservation() {
-    	Observations.getObservationsMaxIdRaw("org.deepskylog.DeepskyFragment", "getObservationsMaxIdAndObservationOnResult1");
-    }
-    
-    public static void getObservationsMaxIdOnResult1(String result) {
-		MainActivity.mainFragment.setText("ObservationsMaxId"+Utils.getTagContent(result,"result"));
-    	observationMaxId=Integer.valueOf(Utils.getTagContent(result, "result"));
-		MainActivity.preferenceEditor.putInt("observationMaxId", observationMaxId);
-    	MainActivity.preferenceEditor.commit();
-   }
-    
-	
-    private static void getObservationsMaxId() {
-    	Observations.getObservationsMaxIdRaw("org.deepskylog.DeepskyFragment", "getObservationsMaxIdOnResult1");
-    }
-    
-    private static void displayObservations(String result) {
+    private static void displayObservationDetails(String result) {
     	if(result.equals("[\"No data\"]")||result.equals("[]")||result.equals("")) {
-    		text2_textview.setText("Observation "+observationId+" was deleted by the observer.");
+    		text2_textview.setText("Observation "+deepskyObservationId+" was deleted by the observer.");
     	}
     	else {
 	    	try {
-	    		//text2_textview.setText(result);
 	    		JSONArray jsonArray = new JSONArray(result);
 	    	    for(int i=0; i<jsonArray.length();i++) {
 	    			JSONObject jsonObject=jsonArray.getJSONObject(i);
 	    		   	if(jsonObject.getString("objectname").equals("No data")) {
-	    	    		text2_textview.setText("Observation "+observationId+" was deleted by the observer.");
+	    	    		text2_textview.setText("Observation "+deepskyObservationId+" was deleted by the observer.");
 	    	    	}
 	    		   	else {
 	    		   		text2_textview.setText(jsonObject.getString("observationdate"));
@@ -190,7 +171,7 @@ public class DeepskyFragment extends Fragment {
 		    	    	text2_textview.setText(text2_textview.getText()+" - "+jsonObject.getString("observationid"));
 		    	    	text2_textview.setText(text2_textview.getText()+"\n");
 		    	    	text2_textview.setText(text2_textview.getText()+" "+jsonObject.getString("observationdescription"));
-		    	    	text1_textview.setText("Observation: "+observationId.toString()+" of "+observationMaxId.toString());   	    	    
+		    	    	text1_textview.setText("Observation: "+deepskyObservationId.toString()+(deepskyObservationMaxId==0?"":" of "+deepskyObservationMaxId.toString()));   	    	    
 	    		   	}
 	    		}
 	        } catch (Exception e) {

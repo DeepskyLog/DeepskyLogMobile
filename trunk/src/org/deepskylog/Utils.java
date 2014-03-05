@@ -33,16 +33,22 @@ public class Utils {
 	        conn.connect();
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "online"));
+	        	Intent intent=new Intent("org.deepskylog.online");
+	        	if(intent.getStringExtra("org.deepskylog.online")!=null) intent.removeExtra("org.deepskylog.online");
+	 			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent.putExtra("org.deepskylog.online", "online"));
 		        return readIt(inputStream, 50000);
 	        }
 	        else {
-	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
+	        	Intent intent=new Intent("org.deepskylog.online");
+	        	if(intent.getStringExtra("org.deepskylog.online")!=null) intent.removeExtra("org.deepskylog.online");
+	 			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent.putExtra("org.deepskylog.online", "offline"));
 	        	return "<result>"+"Unavailable url: "+theUrl+"</result>";
 	        }
 	    }
  	    catch (Exception e) { 
-        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
+ 			Intent intent=new Intent("org.deepskylog.online");
+ 			if(intent.getStringExtra("org.deepskylog.online")!=null) intent.removeExtra("org.deepskylog.online");
+ 			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(intent.putExtra("org.deepskylog.online", "offline"));
         	return "<result>"+"Unavailable url: "+theUrl+"</result>"; 
         }
  	    finally {

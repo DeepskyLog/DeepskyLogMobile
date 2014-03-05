@@ -46,6 +46,8 @@ public class GetDslCommand {
   	
     private static class getCommandAndBroadcastTask extends AsyncTask<String, Void, String> {
     	@Override protected String doInBackground(String... urls) { return "<broadcastIntent>"+urls[1]+"</broadcastIntent>"+Utils.downloadUrl(urls[0]); }
-        @Override protected void onPostExecute(String result) { LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent(Utils.getTagContent(result, "broadcastIntent")).putExtra("resultRAW", result.trim())); }
+        @Override protected void onPostExecute(String result) { 
+        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent(Utils.getTagContent(result, "broadcastIntent")).putExtra("org.deepskylog.resultRAW", result.trim())); 
+ 			}
     }
 }
