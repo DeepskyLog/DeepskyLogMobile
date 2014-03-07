@@ -25,8 +25,9 @@ public class Observations {
 									   "<result>[ { \"observationid\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationid"))+"\", " +
 									   "\"objectname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("objectname"))+"\", "+
 					       			   "\"observername\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observername"))+"\", "+
-					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription")).replace("\"", "'")+"\", "+
-					       			   "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\""+
+					       			   "\"observationdate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdate"))+"\","+
+					       			   "\"instrumentname\":\""+cursor.getString(cursor.getColumnIndexOrThrow("instrumentname"))+"\","+
+					       			   "\"observationdescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observationdescription")).replace("\"", "'")+"\" "+
 					       			   "} ]>" +
 					       			   "</result>");
 		}
@@ -49,8 +50,9 @@ public class Observations {
 	        	initialValues.put("observationid", observationId);
 	            initialValues.put("objectname", "No data");
 	            initialValues.put("observername", "No data");
-	            initialValues.put("observationdescription", "No data");
 	            initialValues.put("observationdate", "No data");
+	            initialValues.put("instrumentname", "No data");
+	            initialValues.put("observationdescription", "No data");
 	            DslDatabase.insert("observations", initialValues);
 	    	}
 	    	else {
@@ -62,8 +64,9 @@ public class Observations {
 			        	initialValues.put("observationid", jsonObject.getString("observationid"));
 			            initialValues.put("objectname", jsonObject.getString("objectname"));
 			            initialValues.put("observername", jsonObject.getString("observername"));
-			            initialValues.put("observationdescription", jsonObject.getString("observationdescription").replace("\"", "'"));
 			            initialValues.put("observationdate", jsonObject.getString("observationdate"));
+			            initialValues.put("instrumentname", jsonObject.getString("instrumentname"));
+			            initialValues.put("observationdescription", jsonObject.getString("observationdescription").replace("\"", "'"));
 			            DslDatabase.insert("observations", initialValues);
 			    	}
 		        } catch (Exception e) {
