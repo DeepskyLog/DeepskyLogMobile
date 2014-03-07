@@ -12,13 +12,14 @@ public class DslDatabase {
 
 
     private static final String DATABASE_NAME = "dsl";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String DATABASE_CREATE =
         "create table observations (observationid integer primary key, "
         						  +"observername text not null, "
         						  +"objectname text not null, "
         						  +"observationdate text not null, " 
+        						  +"instrumentname text not null, " 
         						  +"observationdescription text);";
  
     private static DatabaseHelper databaseHelper;
