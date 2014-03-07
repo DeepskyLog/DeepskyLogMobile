@@ -28,8 +28,8 @@ public class CometsFragment extends Fragment {
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    super.onSaveInstanceState(savedInstanceState);
 	    savedInstanceState.putBundle("savedState", saveState());
+	    super.onSaveInstanceState(savedInstanceState);
 	}
     private Bundle saveState() {
         Bundle state = new Bundle();
