@@ -61,7 +61,8 @@ public class MainActivity 	extends 	Activity
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		checkStateObjects();
 		setStateParametersFromPreferences();
-    	if(savedInstanceState==null) {
+    	actualFragmentName="mainFragment";
+		if(savedInstanceState==null) {
          	goToFragment("mainFragment",DONT_ADD_TO_BACKSTACK);			
 		}
 		else {
@@ -194,8 +195,8 @@ public class MainActivity 	extends 	Activity
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    savedInstanceState.putString(ACTUAL_FRAGMENT, (actualFragmentName==null?"":actualFragmentName));
 	    super.onSaveInstanceState(savedInstanceState);
-	    savedInstanceState.putString(ACTUAL_FRAGMENT, actualFragmentName);
 	}
 	
 	private static boolean setFragment(String newFragmentName) {

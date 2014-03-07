@@ -41,8 +41,11 @@ public class MainFragment extends Fragment {
     	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
     	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
     	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
+    	text1_textview.setText("");
     	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
+    	text2_textview.setText("");
     	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
+    	text3_textview.setText("");
     	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
     	
     	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
@@ -54,12 +57,12 @@ public class MainFragment extends Fragment {
  		if(savedInstanceState==null) {
 	    }
 		else {
-			savedState=savedInstanceState.getBundle("savedState");
+//			savedState=savedInstanceState.getBundle("savedState");
 		}
  		if(savedState!=null) {
-	    	text1_textview.setText(savedState.getString("text1_textview"));
-	    	text2_textview.setText(savedState.getString("text2_textview"));
-	    	text3_textview.setText(savedState.getString("text3_textview"));
+//	    	text1_textview.setText(savedState.getString("text1_textview"));
+//	    	text2_textview.setText(savedState.getString("text2_textview"));
+//	    	text3_textview.setText(savedState.getString("text3_textview"));
  		}
  		savedState=null;		
 		return mainFragmentView;
@@ -72,21 +75,20 @@ public class MainFragment extends Fragment {
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
+//	    savedInstanceState.putBundle("savedState", saveState());
 	    super.onSaveInstanceState(savedInstanceState);
-	    savedInstanceState.putBundle("savedState", saveState());
 	}
 	
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        savedState=saveState();
     }
 
     private Bundle saveState() {
         Bundle state = new Bundle();
-        state.putString("text1_textview", text1_textview.getText().toString());
-        state.putString("text2_textview", text2_textview.getText().toString());
-        state.putString("text3_textview", text3_textview.getText().toString());
+        //state.putString("text1_textview", text1_textview.getText().toString());
+        //state.putString("text2_textview", text2_textview.getText().toString());
+        //state.putString("text3_textview", text3_textview.getText().toString());
         return state;
     }
     
