@@ -12,15 +12,15 @@ public class DslDatabase {
 
 
     private static final String DATABASE_NAME = "dsl";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_CREATE =
-        "create table observations (observationid integer primary key, "
-        						  +"observername text not null, "
-        						  +"objectname text not null, "
-        						  +"observationdate text not null, " 
-        						  +"instrumentname text not null, " 
-        						  +"observationdescription text);";
+        "create table deepskyObservations (deepskyObservationId integer primary key, "
+        						  +"observerName text not null, "
+        						  +"objectName text not null, "
+        						  +"observationDate text not null, " 
+        						  +"instrumentName text not null, " 
+        						  +"observationDescription text);";
  
     private static DatabaseHelper databaseHelper;
     private static SQLiteDatabase sqlLiteDatabase;
@@ -62,7 +62,7 @@ public class DslDatabase {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         	//Toast.makeText(MainActivity.mainActivity, "Database upgrade", Toast.LENGTH_LONG).show();
-        	db.execSQL("DROP TABLE IF EXISTS observations");
+        	db.execSQL("DROP TABLE IF EXISTS deepskyObservations");
             onCreate(db);
         }
     }

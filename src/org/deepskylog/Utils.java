@@ -66,9 +66,18 @@ public class Utils {
     	return new String(buffer).trim();
     }	
     
-    public static String getTagContent(String result, String tag) {
+    public static String getTagContent(String result, String tag) throws Exception {
     	Integer datatag1=result.indexOf("<"+tag+">")+(tag.length()+2);
-    	return result.substring(datatag1,result.indexOf("</"+tag+">",datatag1));
+  	   	if(datatag1==-1) {
+  	   		//Toast.makeText(MainActivity.mainActivity, "No opening tag "+tag+" in "+result,Toast.LENGTH_LONG).show();
+    		throw new Exception( "No opening tag "+tag+" in "+result);
+    	}
+		Integer datatag2=result.indexOf("</"+tag+">",datatag1);
+		if(datatag2==-1) {
+    		Toast.makeText(MainActivity.mainActivity, "No closing tag "+tag+" in "+result,Toast.LENGTH_LONG).show();
+    		throw new Exception( "No closing tag "+tag+" in "+result);
+      	}
+    	return result.substring(datatag1,datatag2);
     }
 
     public static void onResultUpacked(String result) {

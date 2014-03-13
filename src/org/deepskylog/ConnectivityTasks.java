@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 public class ConnectivityTasks {
 		
@@ -50,7 +51,7 @@ public class ConnectivityTasks {
 		longRunningTask="checkLogin";
      	loginId=MainActivity.preferences.getString("loginId", "");
     	loginPassword=MainActivity.preferences.getString("loginPassword", "");
-    	new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
+    	new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkUser&username="+loginId+"&password="+loginPassword);
 	}
 	
 	public static void ConnectivityTasksDslDialogListener1(String theKey) {
@@ -82,7 +83,7 @@ public class ConnectivityTasks {
 		      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", ""));
 			}
 			if(autoLogin) {
-				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
+				GetDslCommand.getCommandUpacked("newDeepskyObservationCount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 
@@ -96,13 +97,13 @@ public class ConnectivityTasks {
 		}
 		if(theTask.equals("setServerAvailabilityStatus")) {
 			if(serverStatus.equals("alive")) {
-				if(autoLogin) new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkuser&username="+loginId+"&password="+loginPassword);
+				if(autoLogin) new checkLoginTask().execute("http://"+serverUrl+"appgetcommand.php?command=checkUser&username="+loginId+"&password="+loginPassword);
 			}
 		}
 		if(theTask.equals("setLoginStatus")) {
 			if(autoLogin) {
 				MainActivity.mainFragment.setText("Getting observation data");
-				GetDslCommand.getCommandUpacked("newobservationcount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
+				GetDslCommand.getCommandUpacked("newDeepskyObservationCount", "&since=20140101","org.deepskylog.ConnectivityTasks","ConnectivityTasksGetDslCommandListener1");
 			}
 		}	
 	}
@@ -115,18 +116,24 @@ public class ConnectivityTasks {
 	}
 	//Server connection
     private static void postCheckServerAvailability(String resultServerAvailability) {
-    	serverStatus=Utils.getTagContent(resultServerAvailability,"result");
-		MainActivity.mainFragment.setText("Server: "+serverStatus);
-		ConnectivityTasks.onTaskFinished("setServerAvailabilityStatus");
+    	try { 
+    		serverStatus=Utils.getTagContent(resultServerAvailability,"result");
+    		MainActivity.mainFragment.setText("Server: "+serverStatus);
+    		ConnectivityTasks.onTaskFinished("setServerAvailabilityStatus");
+    	}
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,e.toString(),Toast.LENGTH_LONG).show(); }
     }
     //Login
     private static void postCheckLogin(String resultLogin) {
-    	resultLogin=Utils.getTagContent(resultLogin, "result");
-    	resultLogin=(resultLogin.startsWith("loggedUser:")?resultLogin.substring(11):"");
-    	MainActivity.preferenceEditor.putString("loggedPerson", resultLogin);
-      	MainActivity.preferenceEditor.commit();
-      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", resultLogin));
-      	ConnectivityTasks.onTaskFinished("setLoginStatus");
+    	try {
+    		resultLogin=Utils.getTagContent(resultLogin, "result");
+	    	resultLogin=(resultLogin.startsWith("loggedUser:")?resultLogin.substring(11):"");
+	    	MainActivity.preferenceEditor.putString("loggedPerson", resultLogin);
+	      	MainActivity.preferenceEditor.commit();
+	      	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.loggedperson").putExtra("org.deepskylog.loggedperson", resultLogin));
+	      	ConnectivityTasks.onTaskFinished("setLoginStatus");
+    	}
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,e.toString(),Toast.LENGTH_LONG).show(); }
     }
     
     
