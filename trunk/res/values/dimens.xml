@@ -10,7 +10,10 @@
     
     <dimen name="deepskyfragment_observations_button_textsize">12sp</dimen>
     <dimen name="deepskyfragment_objects_button_textsize">12sp</dimen>
+    <dimen name="deepskyfragment_obecttext_textsize">24sp</dimen>
+    
     <dimen name="deepskyfragment_search_button_textsize">12sp</dimen>
     <dimen name="deepskyfragment_mode_button_textsize">12sp</dimen>
+    
     
 </resources>
