@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class EphemeridesFragment extends Fragment {
+public class DeepskyObservationsListFragment extends Fragment {
 	
     private Bundle stateBundle=null;
 	
-	private View ephemeridesFragmentView;
+	private View deepskyObservationsListView;
 	
 	private TextView text1_textview;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ephemeridesFragmentView=inflater.inflate(R.layout.ephemeridesfragment, container, false);
-		text1_textview=(TextView)ephemeridesFragmentView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		deepskyObservationsListView=inflater.inflate(R.layout.deepskyobservationslistfragment, container, false);
+		text1_textview=(TextView)deepskyObservationsListView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
 		if(savedInstanceState==null) {
 	    }
 		else {
@@ -28,7 +28,7 @@ public class EphemeridesFragment extends Fragment {
 	    	text1_textview.setText(stateBundle.getString("text1_textview"));
  		}
  		stateBundle=null;		
-    	return ephemeridesFragmentView;
+    	return deepskyObservationsListView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {

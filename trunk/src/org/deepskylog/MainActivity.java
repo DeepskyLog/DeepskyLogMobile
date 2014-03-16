@@ -37,6 +37,9 @@ public class MainActivity 	extends 	Activity
 	public static MainFragment mainFragment;
 	private static DeepskyFragment deepskyFragment;
 	private static DeepskyObservationsDetailsFragment deepskyObservationsDetailsFragment;
+	private static DeepskyObservationsListFragment deepskyObservationsListFragment;
+	private static DeepskyObservationsQueryFragment deepskyObservationsQueryFragment;
+	private static DeepskyObjectsQueryFragment deepskyObjectsQueryFragment;
 	private static CometsFragment cometsFragment;
 	private static ObserversFragment observersFragment;
 	private static EphemeridesFragment ephemeridesFragment;
@@ -180,6 +183,9 @@ public class MainActivity 	extends 	Activity
 		if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
     	if(deepskyObservationsDetailsFragment==null) deepskyObservationsDetailsFragment=new DeepskyObservationsDetailsFragment();
+    	if(deepskyObservationsListFragment==null) deepskyObservationsListFragment=new DeepskyObservationsListFragment();
+    	if(deepskyObservationsQueryFragment==null) deepskyObservationsQueryFragment=new DeepskyObservationsQueryFragment();
+    	if(deepskyObjectsQueryFragment==null) deepskyObjectsQueryFragment=new DeepskyObjectsQueryFragment();
     	
     	
     	if(cometsFragment==null) cometsFragment=new CometsFragment();
@@ -207,6 +213,9 @@ public class MainActivity 	extends 	Activity
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
 		else if(newFragmentName.equals("deepskyFragment")) actualFragment=deepskyFragment;
 		else if(newFragmentName.equals("deepskyObservationsDetailsFragment")) { actualFragment=deepskyObservationsDetailsFragment; }
+		else if(newFragmentName.equals("deepskyObservationsListFragment")) { actualFragment=deepskyObservationsListFragment; }
+		else if(newFragmentName.equals("deepskyObservationsQueryFragment")) { actualFragment=deepskyObservationsQueryFragment; }
+		else if(newFragmentName.equals("deepskyObjectsQueryFragment")) { actualFragment=deepskyObjectsQueryFragment; }
 		else if(newFragmentName.equals("cometsFragment")) actualFragment=cometsFragment;
 		else if(newFragmentName.equals("observersFragment")) actualFragment=observersFragment;
 		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;

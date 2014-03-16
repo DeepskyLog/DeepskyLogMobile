@@ -21,13 +21,12 @@
     <string name="mainfragment_com_button_text">"Comets"</string>
     <string name="mainfragment_obs_button_text">"Observers"</string>
     <string name="mainfragment_eph_button_text">"Ephemerides"</string>
-   
-    <string name="logindialog_login_button_text">"Login"</string>
-    <string name="logindialog_cancel_button_text">"Anonymous"</string>
-    
     <string name="mainfragment_loggedperson_text">"Logged in as "</string>
     <string name="mainfragment_login_button_text">"Login"</string>
  
+    <string name="logindialog_login_button_text">"Login"</string>
+    <string name="logindialog_cancel_button_text">"Anonymous"</string>
+    
     <string name="preferences_autologin_text">"Automatic login</string>
     <string name="preferences_autologin_summary">"DeepskyLog Mobile automatically tries to connect to the server"</string>
     
@@ -59,6 +58,7 @@
     <string name="deepskyfragment_observationsquery_button_text">"Observations\nQuery"</string>
     <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
     <string name="deepskyfragment_command_button_text">"Command"</string>
+    <string name="deepskyfragment_to_see">" new observations you didn't see yet."</string>
     
     <string name="deepskyobservationsdetailsfragment_text1_textview_text">"Deepsky"</string>
     <string name="deepskyobservationsdetailsfragment_observations_button_text">"Observations"</string>
@@ -67,9 +67,19 @@
     <string name="deepskyobservationsdetailsfragment_mode_button_text1">"List"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text2">"Compact"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see">" to see"</string>
+    <string name="deepskyobservationsdetailsfragment_not_available">" not available"</string>
+    <string name="deepskyobservationsdetailsfragment_checking1">"Checking for more observations to get "</string>
+    <string name="deepskyobservationsdetailsfragment_observation">"Observation "</string>
+    <string name="deepskyobservationsdetailsfragment_observation_was_deleted">" has been deleted by it's observer."</string>
     
-    <string name="ephemeridesfragment_text1_textview_text">"Ephemerides"</string>
-    <string name="observersfragment_text1_textview_text">"Observers"</string>
+    <string name="deepskyobservationslistfragment_text1_textview_text">"Deepsky observations list - to be implemented"</string>
+    <string name="deepskyobservationsqueryfragment_text1_textview_text">"Deepsky observations query - to be implemented"</string>
+    <string name="deepskyobjectsqueryfragment_text1_textview_text">"Deepsky objects query - to be implemented"</string>
+    
+    <string name="cometsfragment_text1_textview_text">"Comets - to be implemented"</string>
+    <string name="ephemeridesfragment_text1_textview_text">"Ephemerides - to be implemented"</string>
+    <string name="observersfragment_text1_textview_text">"Observers - to be implemented"</string>
     
     <string name="general_Ok">"OK"</string>
     <string name="general_Yes">"Yes"</string>
