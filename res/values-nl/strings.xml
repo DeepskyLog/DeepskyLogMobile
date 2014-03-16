@@ -53,13 +53,19 @@
     <string name="observers_tellaboutconfigurationmenu">"Je kan je gegevens steeds wijzigen via het menu 'Instellingen'."</string>
      <string name="observers_invalidcredentials">"Ongeldige DSL credentials. Gelieve je gegevens te wijzigen via het menu 'Instellingen'."</string>
     
-    <string name="deepskyfragment_text1_textview_text">"Deepsky"</string>
-    <string name="deepskyfragment_observations_button_text">"Waarnemingen"</string>
-    <string name="deepskyfragment_objects_button_text">"Objecten"</string>
-    <string name="deepskyfragment_search_button_text">"Zoeken"</string>
-    <string name="deepskyfragment_mode_button_text1">"Lijst"</string>
-    <string name="deepskyfragment_mode_button_text2">"Compact"</string>
-    <string name="deepskyfragment_mode_button_text3">"Detail"</string>
+    <string name="deepskyfragment_observationsdetails_button_text">"Observations\nDetails"</string>
+    <string name="deepskyfragment_observationslist_button_text">"Observation\nList"</string>
+    <string name="deepskyfragment_observationsquery_button_text">"Observations\nQuery"</string>
+    <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
+    <string name="deepskyfragment_command_button_text">"Command"</string>
+    
+     <string name="deepskyobservationsdetailsfragment_text1_textview_text">"Deepsky"</string>
+    <string name="deepskyobservationsdetailsfragment_observations_button_text">"Waarnemingen"</string>
+    <string name="deepskyobservationsdetailsfragment_objects_button_text">"Objecten"</string>
+    <string name="deepskyobservationsdetailsfragment_search_button_text">"Zoeken"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text1">"Lijst"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text2">"Compact"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
     
     <string name="ephemerides_text1_textview_text">"Ephemerieden"</string>
     <string name="observersfragment_text1_textview_text">"Waarnemers"</string>

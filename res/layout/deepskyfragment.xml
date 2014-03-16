@@ -1,17 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" >
-    <LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="wrap_content" >
-    	<TextView android:id="@+id/deepskyfragment_text1_textview_id" android:layout_width="0dp"  android:layout_weight="1"  android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
-    	<TextView android:id="@+id/deepskyfragment_dsobstosee_textview_id" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="right" />
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="wrap_content" >
-        <Button   android:id="@+id/deepskyfragment_observations_button_id"  android:textSize="@dimen/deepskyfragment_observations_button_textsize" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/deepskyfragment_observations_button_text"  android:layout_weight="1" /> 
-	    <Button   android:id="@+id/deepskyfragment_mode_button_id"  android:textSize="@dimen/deepskyfragment_mode_button_textsize" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/deepskyfragment_mode_button_text1"  android:layout_weight="1" /> 
+	<LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="0dp" android:layout_weight="1" >
+	    <Button   android:id="@+id/deepskyfragment_observationsdetails_button_id"  android:textSize="@dimen/deepskyfragment_observationsdetails_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationsdetails_button_text"  android:layout_weight="1" /> 
+	    <Button   android:id="@+id/deepskyfragment_observationslist_button_id"  android:textSize="@dimen/deepskyfragment_observationslist_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationslist_button_text"  android:layout_weight="1" /> 
 	</LinearLayout>
-    <TextView android:id="@+id/deepskyfragment_objecttext_textview_id" android:textSize="@dimen/deepskyfragment_obecttext_textsize" android:text="" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left"/>
-    <TextView android:id="@+id/deepskyfragment_text2_textview_id" android:text="" android:layout_width="match_parent" android:layout_height="0dp" android:layout_marginTop="12dp" android:gravity="left" android:layout_weight="1"/>
-    <LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="wrap_content" >
-	    <Button   android:id="@+id/deepskyfragment_objects_button_id"  android:textSize="@dimen/deepskyfragment_objects_button_textsize" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/deepskyfragment_objects_button_text"  android:layout_weight="1" /> 
-	    <Button   android:id="@+id/deepskyfragment_search_button_id"  android:textSize="@dimen/deepskyfragment_search_button_textsize" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/deepskyfragment_search_button_text"  android:layout_weight="1" /> 
+	<LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="0dp" android:layout_weight="1" >
+	    <Button   android:id="@+id/deepskyfragment_observationsquery_button_id"  android:textSize="@dimen/deepskyfragment_observationsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationsquery_button_text"  android:layout_weight="1" /> 
+	    <Button   android:id="@+id/deepskyfragment_objectsquery_button_id"  android:textSize="@dimen/deepskyfragment_objectsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_objectsquery_button_text"  android:layout_weight="1" /> 
 	</LinearLayout>
-	    	    
+	<LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:orientation="vertical"  android:layout_weight="1">
+	    <TextView android:id="@+id/deepskyfragment_text1_textview_id" android:textSize="@dimen/deepskyfragment_text1_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <TextView android:id="@+id/deepskyfragment_text2_textview_id" android:textSize="@dimen/deepskyfragment_text2_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <TextView android:id="@+id/deepskyfragment_text3_textview_id" android:textSize="@dimen/deepskyfragment_text3_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <Button   android:id="@+id/deepskyfragment_command_button_id" android:textSize="@dimen/deepskyfragment_command_button_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/deepskyfragment_command_button_text" /> 
+	</LinearLayout>
+    	    	    
 </LinearLayout>

@@ -35,11 +35,12 @@ public class MainActivity 	extends 	Activity
 	public static SharedPreferences.Editor preferenceEditor;
 	
 	public static MainFragment mainFragment;
-	public static DeepskyFragment deepskyFragment;
-	public static CometsFragment cometsFragment;
-	public static ObserversFragment observersFragment;
-	public static EphemeridesFragment ephemeridesFragment;
-	public static SettingsFragment settingsFragment;
+	private static DeepskyFragment deepskyFragment;
+	private static DeepskyObservationsDetailsFragment deepskyObservationsDetailsFragment;
+	private static CometsFragment cometsFragment;
+	private static ObserversFragment observersFragment;
+	private static EphemeridesFragment ephemeridesFragment;
+	private static SettingsFragment settingsFragment;
 	
 	public static Fragment actualFragment;
 	public static String actualFragmentName;
@@ -178,6 +179,9 @@ public class MainActivity 	extends 	Activity
     	
 		if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
+    	if(deepskyObservationsDetailsFragment==null) deepskyObservationsDetailsFragment=new DeepskyObservationsDetailsFragment();
+    	
+    	
     	if(cometsFragment==null) cometsFragment=new CometsFragment();
     	if(observersFragment==null) observersFragment=new ObserversFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
@@ -202,6 +206,7 @@ public class MainActivity 	extends 	Activity
 	private static boolean setFragment(String newFragmentName) {
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
 		else if(newFragmentName.equals("deepskyFragment")) actualFragment=deepskyFragment;
+		else if(newFragmentName.equals("deepskyObservationsDetailsFragment")) { actualFragment=deepskyObservationsDetailsFragment; }
 		else if(newFragmentName.equals("cometsFragment")) actualFragment=cometsFragment;
 		else if(newFragmentName.equals("observersFragment")) actualFragment=observersFragment;
 		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;
