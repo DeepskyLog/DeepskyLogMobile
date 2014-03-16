@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class MainFragment extends Fragment {
 	
-    private Bundle savedState = null;
+    private Bundle stateBundle=null;
 	
 	private View mainFragmentView;
 	
@@ -57,14 +57,14 @@ public class MainFragment extends Fragment {
  		if(savedInstanceState==null) {
 	    }
 		else {
-//			savedState=savedInstanceState.getBundle("savedState");
+			stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(savedState!=null) {
+ 		if(stateBundle!=null) {
 //	    	text1_textview.setText(savedState.getString("text1_textview"));
 //	    	text2_textview.setText(savedState.getString("text2_textview"));
 //	    	text3_textview.setText(savedState.getString("text3_textview"));
  		}
- 		savedState=null;		
+ 		stateBundle=null;		
 		return mainFragmentView;
 	}
 	@Override
@@ -75,7 +75,7 @@ public class MainFragment extends Fragment {
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-//	    savedInstanceState.putBundle("savedState", saveState());
+	    savedInstanceState.putBundle("stateBundle", getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
@@ -84,8 +84,8 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
     }
 
-    private Bundle saveState() {
-        Bundle state = new Bundle();
+    private Bundle getStateBundle() {
+        Bundle state=new Bundle();
         //state.putString("text1_textview", text1_textview.getText().toString());
         //state.putString("text2_textview", text2_textview.getText().toString());
         //state.putString("text3_textview", text3_textview.getText().toString());

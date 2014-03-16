@@ -54,13 +54,19 @@
     <string name="observers_tellaboutconfigurationmenu">"You can always enter your settings via the 'Configurations' menu."</string>
     <string name="observers_invalidcredentials">"Invalid DSL credentials. Please enter your settings via the 'Configurations' menu."</string>
     
-    <string name="deepskyfragment_text1_textview_text">"Deepsky"</string>
-    <string name="deepskyfragment_observations_button_text">"Observations"</string>
-    <string name="deepskyfragment_objects_button_text">"Objects"</string>
-    <string name="deepskyfragment_search_button_text">"Search"</string>
-    <string name="deepskyfragment_mode_button_text1">"List"</string>
-    <string name="deepskyfragment_mode_button_text2">"Compact"</string>
-    <string name="deepskyfragment_mode_button_text3">"Detail"</string>
+    <string name="deepskyfragment_observationsdetails_button_text">"Observations\nDetails"</string>
+    <string name="deepskyfragment_observationslist_button_text">"Observation\nList"</string>
+    <string name="deepskyfragment_observationsquery_button_text">"Observations\nQuery"</string>
+    <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
+    <string name="deepskyfragment_command_button_text">"Command"</string>
+    
+    <string name="deepskyobservationsdetailsfragment_text1_textview_text">"Deepsky"</string>
+    <string name="deepskyobservationsdetailsfragment_observations_button_text">"Observations"</string>
+    <string name="deepskyobservationsdetailsfragment_objects_button_text">"Objects"</string>
+    <string name="deepskyobservationsdetailsfragment_search_button_text">"Search"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text1">"List"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text2">"Compact"</string>
+    <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
     
     <string name="ephemeridesfragment_text1_textview_text">"Ephemerides"</string>
     <string name="observersfragment_text1_textview_text">"Observers"</string>
