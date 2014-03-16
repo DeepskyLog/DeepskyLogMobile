@@ -30,7 +30,7 @@ public class Observers {
 	}
 	
 	public static void LoginDialogOnClickListener1(String theKey) {
-		if(theKey.equals("positive")) ConnectivityTasks.checkLogin(); 
+		if(theKey.equals("positive")) Toast.makeText(MainActivity.mainActivity, "To implement", Toast.LENGTH_LONG).show();
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
 	

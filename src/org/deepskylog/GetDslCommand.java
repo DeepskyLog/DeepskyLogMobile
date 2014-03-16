@@ -7,19 +7,10 @@ import android.widget.Toast;
 
 public class GetDslCommand {
 	
-  	public static void getCommandUpacked(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-  		params="&onResultMethod="+getDslCommandOnResultMethod+params;
-  		params="&onResultClass="+getDslCommandOnResultClass+params;
-  		new getCommandTaskUnpacked().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params);
-  	};
-        
-    private static class getCommandTaskUnpacked extends AsyncTask<String, Void, String> {
-    	@Override protected String doInBackground(String... urls) { return Utils.downloadUrl(urls[0]); }
-        @Override protected void onPostExecute(String result) {  Utils.onResultUpacked(result.trim()); }
-    }
-    
-  	public static void getCommandRaw(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-  		new getCommandTaskRaw().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
+	private static final String SERVER_URL="http://www.deepskylog.org/";
+	        
+   	public static void getCommandRaw(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
+  		new getCommandTaskRaw().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
     private static class getCommandTaskRaw extends AsyncTask<String, Void, String> {
@@ -30,7 +21,7 @@ public class GetDslCommand {
     }
 
     public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
-  		new getCommandAndBroadcastTask().execute("http://"+ConnectivityTasks.serverUrl+"appgetcommand.php?command="+command,broadcastIntent);
+  		new getCommandAndBroadcastTask().execute(SERVER_URL+"appgetcommand.php?command="+command,broadcastIntent);
   	};
   	
     private static class getCommandAndBroadcastTask extends AsyncTask<String, Void, String> {

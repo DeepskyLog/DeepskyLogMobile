@@ -34,7 +34,7 @@ public class MainActivity 	extends 	Activity
 	public static SharedPreferences preferences;
 	public static SharedPreferences.Editor preferenceEditor;
 	
-	public static MainFragment mainFragment;
+	private static MainFragment mainFragment;
 	private static DeepskyFragment deepskyFragment;
 	private static DeepskyObservationsDetailsFragment deepskyObservationsDetailsFragment;
 	private static DeepskyObservationsListFragment deepskyObservationsListFragment;
@@ -47,11 +47,6 @@ public class MainActivity 	extends 	Activity
 	
 	public static Fragment actualFragment;
 	public static String actualFragmentName;
-
-
-	//public ConnectivityTasks connectivityTasks;
-	//public static DslDatabase dslDatabase;
-	//public Observers observers;
 
 	private static ActionBar actionBar;
 	private static String onLine="offLine";
@@ -105,7 +100,8 @@ public class MainActivity 	extends 	Activity
 	    	goToFragment("settingsFragment",ADD_TO_BACKSTACK);	
 			break;
     	case R.id.mainmenu_login_id:
-	    	ConnectivityTasks.checkLogin();	
+	    	Toast.makeText(this, "To implement", Toast.LENGTH_LONG).show();
+    		//ConnectivityTasks.checkLogin();	
 			break;
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -193,7 +189,6 @@ public class MainActivity 	extends 	Activity
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 		
-    	ConnectivityTasks.initConnectivityTasks();
     	DslDatabase.open();
 
 	}
