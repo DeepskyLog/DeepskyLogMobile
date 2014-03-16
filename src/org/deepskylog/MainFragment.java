@@ -33,6 +33,15 @@ public class MainFragment extends Fragment {
 	    MainActivity.actualFragment=this;
 	    MainActivity.actualFragmentName="mainFragment";
 	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
@@ -47,7 +56,7 @@ public class MainFragment extends Fragment {
     	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
     	text3_textview.setText("");
     	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
-    	
+   
     	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
     	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
     	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
@@ -60,9 +69,9 @@ public class MainFragment extends Fragment {
 			stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
  		if(stateBundle!=null) {
-//	    	text1_textview.setText(savedState.getString("text1_textview"));
-//	    	text2_textview.setText(savedState.getString("text2_textview"));
-//	    	text3_textview.setText(savedState.getString("text3_textview"));
+	    	text1_textview.setText(stateBundle.getString("text1_textview"));
+	    	text2_textview.setText(stateBundle.getString("text2_textview"));
+	    	text3_textview.setText(stateBundle.getString("text3_textview"));
  		}
  		stateBundle=null;		
 		return mainFragmentView;
@@ -85,11 +94,14 @@ public class MainFragment extends Fragment {
     }
 
     private Bundle getStateBundle() {
-        Bundle state=new Bundle();
-        //state.putString("text1_textview", text1_textview.getText().toString());
-        //state.putString("text2_textview", text2_textview.getText().toString());
-        //state.putString("text3_textview", text3_textview.getText().toString());
-        return state;
+        if(stateBundle!=null) return stateBundle;
+        else {
+			Bundle state=new Bundle();
+	        state.putString("text1_textview", text1_textview.getText().toString());
+	        state.putString("text2_textview", text2_textview.getText().toString());
+	        state.putString("text3_textview", text3_textview.getText().toString());
+	        return state;
+        }
     }
     
     public void setText(String theText) {
