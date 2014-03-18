@@ -34,7 +34,7 @@ public class DeepskyObservations {
 		}
 		else {
 			MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-		    GetDslCommand.getCommandRaw("deepskyObservationFromId", "&fromid="+deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationToDbAndBroadcast");
+		    GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationFromId", "&fromid="+deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationToDbAndBroadcast");
 		}
 		cursor.close();
 	}
@@ -43,6 +43,7 @@ public class DeepskyObservations {
 		try {
     		String result=Utils.getTagContent(observationRaw,"result");
 			if(result.startsWith("Unavailable url:")) {
+				//TODO change second index of substring in next line
 	    		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastnodeepskyobservation").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+result.substring(result.indexOf("fromid=")+7)+"</deepskyObservationId>"));
 	    	}
 			else { 
@@ -73,13 +74,11 @@ public class DeepskyObservations {
 				            DslDatabase.insert("deepskyObservations", initialValues);
 				    	}
 			        } 
-		    		catch (Exception e) {
-			            Toast.makeText(MainActivity.mainActivity, "Observations Exception 1 "+e.toString(), Toast.LENGTH_LONG).show();
-			        }
+		    		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
 		    	}
 			executeBroadcastDeepskyObservation(deepskyObservationId);
 			}
     	}
-    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,e.toString(),Toast.LENGTH_LONG).show(); }
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 2 "+e.toString(),Toast.LENGTH_LONG).show(); }
 	}
 }

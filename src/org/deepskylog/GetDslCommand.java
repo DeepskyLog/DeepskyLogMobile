@@ -9,15 +9,15 @@ public class GetDslCommand {
 	
 	private static final String SERVER_URL="http://www.deepskylog.org/";
 	        
-   	public static void getCommandRaw(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-  		new getCommandTaskRaw().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
+   	public static void getCommandAndInvokeClassMethod(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
+  		new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
-    private static class getCommandTaskRaw extends AsyncTask<String, Void, String> {
+    private static class getCommandAndInvokeClassMethodTask extends AsyncTask<String, Void, String> {
     	@Override protected String doInBackground(String... urls) { return "<onResultClass>"+urls[1]+"</onResultClass>"+
     																	   "<onResultMethod>"+urls[2]+"</onResultMethod>"+
     																	   Utils.downloadUrl(urls[0]); }
-        @Override protected void onPostExecute(String result) { Utils.onResultRaw(result.trim()); }
+        @Override protected void onPostExecute(String result) { Utils.invokeClassMethodWithResult(result.trim()); }
     }
 
     public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
