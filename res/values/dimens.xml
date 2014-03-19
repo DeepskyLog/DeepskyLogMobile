@@ -19,10 +19,16 @@
         
     <dimen name="deepskyobservationsdetailsfragment_observations_button_textsize">12sp</dimen>
     <dimen name="deepskyobservationsdetailsfragment_objects_button_textsize">12sp</dimen>
-    <dimen name="deepskyobservationsdetailsfragment_obecttext_textsize">24sp</dimen>
-    
+    <dimen name="deepskyobservationsdetailsfragment_obecttext_textsize">24sp</dimen>   
     <dimen name="deepskyobservationsdetailsfragment_search_button_textsize">12sp</dimen>
     <dimen name="deepskyobservationsdetailsfragment_mode_button_textsize">12sp</dimen>
+    
+    <dimen name="deepskyobservationslistfragment_observations_button_textsize">12sp</dimen>
+    <dimen name="deepskyobservationslistfragment_objects_button_textsize">12sp</dimen>
+    <dimen name="deepskyobservationslistfragment_obecttext_textsize">24sp</dimen>
+    <dimen name="deepskyobservationslistfragment_search_button_textsize">12sp</dimen>
+    <dimen name="deepskyobservationslistfragment_mode_button_textsize">12sp</dimen>
+    <dimen name="deepskyobservationslistitem_textsize">12sp</dimen>
     
     
 </resources>

@@ -4,8 +4,8 @@
 	    <Button   android:id="@+id/deepskyfragment_observationslist_button_id"  android:textSize="@dimen/deepskyfragment_observationslist_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationslist_button_text"  android:layout_weight="1" /> 
 	</LinearLayout>
 	<LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="0dp" android:layout_weight="1" >
-	    <Button   android:id="@+id/deepskyfragment_observationsquery_button_id"  android:textSize="@dimen/deepskyfragment_observationsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationsquery_button_text"  android:layout_weight="1" /> 
-	    <Button   android:id="@+id/deepskyfragment_objectsquery_button_id"  android:textSize="@dimen/deepskyfragment_objectsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_objectsquery_button_text"  android:layout_weight="1" /> 
+	    <Button   android:id="@+id/deepskyfragment_observationsquery_button_id"  android:textSize="@dimen/deepskyfragment_observationsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_observationsquery_button_text" android:layout_weight="1" /> 
+	    <Button   android:id="@+id/deepskyfragment_objectsquery_button_id"  android:textSize="@dimen/deepskyfragment_objectsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/deepskyfragment_objectsquery_button_text" android:layout_weight="1" /> 
 	</LinearLayout>
 	<LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:orientation="vertical"  android:layout_weight="1">
 	    <TextView android:id="@+id/deepskyfragment_text1_textview_id" android:textSize="@dimen/deepskyfragment_text1_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
