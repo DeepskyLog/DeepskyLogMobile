@@ -73,7 +73,19 @@
     <string name="deepskyobservationsdetailsfragment_observation">"Waarneming "</string>
     <string name="deepskyobservationsdetailsfragment_observation_was_deleted">" is verwijderd door de waarnemer."</string>
     
-    <string name="deepskyobservationslistfragment_text1_textview_text">"Deepsky waarnemingen lijst - te implementeren"</string>
+    <string name="deepskyobservationslistfragment_text1_textview_text">"Deepsky"</string>
+    <string name="deepskyobservationslistfragment_observations_button_text">"Waarnemingen"</string>
+    <string name="deepskyobservationslistfragment_objects_button_text">"Objecten"</string>
+    <string name="deepskyobservationslistfragment_search_button_text">"Zoeken"</string>
+    <string name="deepskyobservationslistfragment_mode_button_text1">"Lijst"</string>
+    <string name="deepskyobservationslistfragment_mode_button_text2">"Compact"</string>
+    <string name="deepskyobservationslistfragment_mode_button_text3">"Detail"</string>
+    <string name="deepskyobservationslistfragment_to_see">" nieuwe"</string>
+    <string name="deepskyobservationslistfragment_not_available">" niet beschikbaar"</string>
+    <string name="deepskyobservationslistfragment_checking1">"Controle op meer waarnemingen voor "</string>
+    <string name="deepskyobservationslistfragment_observation">"Waarneming "</string>
+    <string name="deepskyobservationslistfragment_observation_was_deleted">" is verwijderd door de waarnemer."</string>
+    
     <string name="deepskyobservationsqueryfragment_text1_textview_text">"Deepsky waarnemeingen opzoeken - te implementeren"</string>
     <string name="deepskyobjectsqueryfragment_text1_textview_text">"Deepsky objecten opzoeken - te implementeren"</string>
     

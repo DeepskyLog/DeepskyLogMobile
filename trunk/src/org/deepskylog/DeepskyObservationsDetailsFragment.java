@@ -14,6 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	private static TextView text2_textview;
 	private static TextView objecttext_textview;
 	private static TextView dsobstosee_textview;
+	private Button mode_button;
+	
 	private static Integer deepskyObservationIdToGet;
 	private static Integer deepskyObservationIdDetails;
 	
@@ -48,6 +51,8 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		dsobstosee_textview.setText("");
 		dsobstosee_textview.setClickable(true);
 		dsobstosee_textview.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { getDeepskyObservation(DeepskyFragment.deepskyObservationSeenMaxId+1); } });
+		mode_button=(Button)deepskyObservationsDetailsFragmentView.findViewById(R.id.deepskyobservationsdetailsfragment_mode_button_id);
+		mode_button.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyObservationsListFragment", MainActivity.DONT_ADD_TO_BACKSTACK); } });
 		text2_textview=((TextView)deepskyObservationsDetailsFragmentView.findViewById(R.id.deepskyobservationsdetailsfragment_text2_textview_id));
  		text2_textview.setText("Observations come here");
  		text2_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
@@ -111,7 +116,10 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	private void onReceiveMaxDeepskyObservationId(Context context, Intent intent) {
 		String result=intent.getStringExtra("org.deepskylog.resultRAW");
 		Integer tempMax=0;
-		try { tempMax=Integer.valueOf(Utils.getTagContent(result, "result")); }
+		try { 
+			
+			//TODO: unavailable url exception
+			tempMax=Integer.valueOf(Utils.getTagContent(result, "result")); }
 		catch (Exception e) { Toast.makeText(MainActivity.mainActivity, e.toString(), Toast.LENGTH_LONG).show(); }
 		if(tempMax>DeepskyFragment.deepskyObservationsMaxId) { 
 	    	DeepskyFragment.deepskyObservationsMaxId=tempMax;
