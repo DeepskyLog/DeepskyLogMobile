@@ -121,7 +121,7 @@ public class DeepskyFragment extends Fragment {
  	}
 	
 	private void observationDetailsOnClick(View v) {
-		MainActivity.goToFragment("deepskyObservationsDetailsFragment", MainActivity.ADD_TO_BACKSTACK);
+		MainActivity.goToFragment("deepskyObservationsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
 	
 	private void observationListOnClick(View v) {

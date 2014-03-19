@@ -36,6 +36,7 @@ public class MainActivity 	extends 	Activity
 	
 	private static MainFragment mainFragment;
 	private static DeepskyFragment deepskyFragment;
+	private static DeepskyObservationsFragment deepskyObservationsFragment;
 	private static DeepskyObservationsDetailsFragment deepskyObservationsDetailsFragment;
 	private static DeepskyObservationsListFragment deepskyObservationsListFragment;
 	private static DeepskyObservationsQueryFragment deepskyObservationsQueryFragment;
@@ -178,6 +179,7 @@ public class MainActivity 	extends 	Activity
     	
 		if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
+    	if(deepskyObservationsFragment==null) deepskyObservationsFragment=new DeepskyObservationsFragment();
     	if(deepskyObservationsDetailsFragment==null) deepskyObservationsDetailsFragment=new DeepskyObservationsDetailsFragment();
     	if(deepskyObservationsListFragment==null) deepskyObservationsListFragment=new DeepskyObservationsListFragment();
     	if(deepskyObservationsQueryFragment==null) deepskyObservationsQueryFragment=new DeepskyObservationsQueryFragment();
@@ -207,6 +209,8 @@ public class MainActivity 	extends 	Activity
 	private static boolean setFragment(String newFragmentName) {
 		if(newFragmentName.equals("mainFragment")) actualFragment=mainFragment;
 		else if(newFragmentName.equals("deepskyFragment")) actualFragment=deepskyFragment;
+		else if(newFragmentName.equals("deepskyObservationsFragment")) actualFragment=deepskyObservationsFragment;
+		else if(newFragmentName.equals("deepskyObservationsFragment")) actualFragment=deepskyFragment;
 		else if(newFragmentName.equals("deepskyObservationsDetailsFragment")) { actualFragment=deepskyObservationsDetailsFragment; }
 		else if(newFragmentName.equals("deepskyObservationsListFragment")) { actualFragment=deepskyObservationsListFragment; }
 		else if(newFragmentName.equals("deepskyObservationsQueryFragment")) { actualFragment=deepskyObservationsQueryFragment; }

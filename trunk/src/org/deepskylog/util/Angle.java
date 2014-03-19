@@ -149,7 +149,7 @@ public class Angle {
 
     // -------------------------------------------------------------------
     /**
-     * Overwrittes toString() method from java.lang.Object.<br>
+     * Overwrites toString() method from java.lang.Object.<br>
      * Returns the value of this Angle followed by its unit.<br>
      * Example:<br>
      * 42.0 DEGREE
