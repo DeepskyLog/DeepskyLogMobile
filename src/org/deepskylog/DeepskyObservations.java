@@ -9,14 +9,45 @@ import android.database.Cursor;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
-
 public class DeepskyObservations {
+	
+	public static int deepskyObservationsMaxId;
+	public static int deepskyObservationSeenMaxId;
 
-	public static void broadcastDeepskyObservationsMaxId() { GetDslCommand.getCommandAndBroadcast("maxDeepskyObservationId", "", "org.deepskylog.broadcastmaxdeepskyobservationid"); }
+	public static void init() {
+		deepskyObservationsMaxId=MainActivity.preferences.getInt("deepskyObservationsMaxId", 0);
+		deepskyObservationSeenMaxId=MainActivity.preferences.getInt("deepskyObservationSeenMaxId", 0);
+		if(deepskyObservationSeenMaxId==0) deepskyObservationSeenMaxId=deepskyObservationsMaxId;
+	}
+	
+	public static void broadcastDeepskyObservationsMaxIdUpdate() { executeBroadcastDeepskyObservationsMaxId(); }
     public static void broadcastDeepskyObservation(String deepskydeepskyObservationId) { executeBroadcastDeepskyObservation(deepskydeepskyObservationId); }
+    public static void broadcastDeepskyObservationsListFromToId(String fromId, String toId) { executeBroadcastDeepskyObservationsListFromToId(fromId, toId); }
 
 	private static void broadcastDeepskyObservationResult(String resultRaw) {
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservation").putExtra("org.deepskylog.resultRAW", resultRaw));
+	}
+	
+	private static void executeBroadcastDeepskyObservationsMaxId() {
+		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+		GetDslCommand.getCommandAndInvokeClassMethod("maxDeepskyObservationId", "", "org.deepskylog.DeepskyObservations", "deepskyMaxIdBroadcast");		
+	}
+	
+	private static void executeBroadcastDeepskyObservationsListFromToId(String fromId, String toId) {
+		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+		GetDslCommand.getCommandAndInvokeClassMethod("maxDeepskyObservationId", "", "org.deepskylog.DeepskyObservations", "deepskyMaxIdBroadcast");		
+	}
+	
+	public static void deepskyMaxIdBroadcast(String resultRaw) {
+		String tempMaxStr="0";
+		try { tempMaxStr=Utils.getTagContent(resultRaw, "result"); }
+		catch (Exception e) { Toast.makeText(MainActivity.mainActivity, e.toString(), Toast.LENGTH_LONG).show(); }
+		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
+		if(Utils.isNumeric(tempMaxStr)&&(Integer.valueOf(tempMaxStr)>deepskyObservationsMaxId)) {
+	    	deepskyObservationsMaxId=Integer.valueOf(tempMaxStr);
+			MainActivity.preferenceEditor.putInt("deepskyObservationsMaxId", deepskyObservationsMaxId).commit();
+			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationsmaxidchanged"));
+		}
 	}
 	
     private static void executeBroadcastDeepskyObservation(String deepskydeepskyObservationId) {
@@ -44,10 +75,10 @@ public class DeepskyObservations {
     		String result=Utils.getTagContent(observationRaw,"result");
 			if(result.startsWith("Unavailable url:")) {
 				//TODO change second index of substring in next line
-	    		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastnodeepskyobservation").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+result.substring(result.indexOf("fromid=")+7)+"</deepskyObservationId>"));
+	    		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationnone").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+result.substring(result.indexOf("fromid=")+7)+"</deepskyObservationId>"));
 	    	}
 			else { 
-				//TO DO: change to deepskyObservationId
+				//TODO: change to deepskyObservationId
 				String deepskyObservationId=Utils.getTagContent(observationRaw,"observationid");
 				if(result.equals("[\"No data\"]")) {
 			    	ContentValues initialValues = new ContentValues();
@@ -76,9 +107,11 @@ public class DeepskyObservations {
 			        } 
 		    		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
 		    	}
+			
 			executeBroadcastDeepskyObservation(deepskyObservationId);
 			}
     	}
     	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 2 "+e.toString(),Toast.LENGTH_LONG).show(); }
+		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
 	}
 }

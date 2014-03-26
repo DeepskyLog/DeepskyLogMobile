@@ -9,6 +9,7 @@
 package org.deepskylog.util;
 
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -23,6 +24,7 @@ import org.w3c.dom.Element;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressLint("DefaultLocale")
 public class EquPositionReferenceFrame {
 
     // ---------
@@ -144,6 +146,7 @@ public class EquPositionReferenceFrame {
 	 * and its equinox date and origin are equal with this PositionReferenceFrames values.<br>
 	 * @see java.lang.Object
 	 */    
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object obj) {
         
 		if(   obj == null

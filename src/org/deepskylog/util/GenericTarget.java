@@ -7,6 +7,7 @@
 
 package org.deepskylog.util;
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -15,6 +16,7 @@ import org.w3c.dom.NodeList;
 
 import org.deepskylog.util.util.SchemaException;
 
+@SuppressLint("DefaultLocale")
 public class GenericTarget extends Target {
 
     // ---------
@@ -114,6 +116,7 @@ public class GenericTarget extends Target {
 	 * (Name comparism is <b>not</b> casesensitive)
 	 * @see java.lang.Object
 	 */    
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object obj) {
         
 		if(   obj == null

@@ -71,7 +71,7 @@ public class Utils {
     
     public static void invokeClassMethodWithResult(String result) {
     	try { Class.forName(getTagContent(result,"onResultClass")).getMethod(getTagContent(result,"onResultMethod"), String.class).invoke(null,result); }
-    	catch(Exception e) { Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
+    	catch(Exception e) { Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show(); };
     }
 
 

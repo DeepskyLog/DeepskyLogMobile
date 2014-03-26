@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="ButtonStyle" severity="ignore" />
-    <issue id="NestedWeights" severity="ignore">
-        <ignore path="res/layout/mainfragment.xml" />
-    </issue>
+    <issue id="GifUsage" severity="informational" />
+    <issue id="IconColors" severity="informational" />
+    <issue id="IconDensities" severity="informational" />
+    <issue id="IconDipSize" severity="informational" />
+    <issue id="IconDuplicates" severity="informational" />
+    <issue id="IconDuplicatesConfig" severity="ignore" />
+    <issue id="IconExtension" severity="informational" />
+    <issue id="IconLauncherShape" severity="informational" />
+    <issue id="IconLocation" severity="informational" />
+    <issue id="IconMissingDensityFolder" severity="informational" />
+    <issue id="IconMixedNinePatch" severity="informational" />
+    <issue id="IconNoDpi" severity="informational" />
+    <issue id="IconXmlAndPng" severity="informational" />
+    <issue id="MergeRootFrame" severity="ignore" />
+    <issue id="MissingApplicationIcon" severity="informational" />
+    <issue id="NestedWeights" severity="ignore" />
+    <issue id="UnusedResources" severity="informational" />
 </lint>

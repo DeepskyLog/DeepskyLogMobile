@@ -9,35 +9,40 @@ import android.widget.TextView;
 
 public class EphemeridesFragment extends Fragment {
 	
-    private Bundle stateBundle=null;
-	
 	private View ephemeridesFragmentView;
+    private Bundle stateBundle=null;
 	
 	private TextView text1_textview;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
+	
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ephemeridesFragmentView=inflater.inflate(R.layout.ephemeridesfragment, container, false);
-		text1_textview=(TextView)ephemeridesFragmentView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
-		if(savedInstanceState==null) {
-	    }
-		else {
-			stateBundle=savedInstanceState.getBundle("stateBundle");
+		this.ephemeridesFragmentView=inflater.inflate(R.layout.ephemeridesfragment, container, false);
+		this.text1_textview=(TextView)this.ephemeridesFragmentView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		if(savedInstanceState!=null) {
+			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(stateBundle!=null) {
-	    	text1_textview.setText(stateBundle.getString("text1_textview"));
+ 		if(this.stateBundle!=null) {
+ 			this.text1_textview.setText(this.stateBundle.getString("text1_textview"));
  		}
- 		stateBundle=null;		
-    	return ephemeridesFragmentView;
+ 		this.stateBundle=null;		
+    	return this.ephemeridesFragmentView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("stateBundle", getStateBundle());
+	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
     private Bundle getStateBundle() {
-        Bundle state =new Bundle();
-        state.putString("text1_textview", text1_textview.getText().toString());
+        Bundle state=new Bundle();
+        state.putString("text1_textview", this.text1_textview.getText().toString());
         return state;
     }
 }

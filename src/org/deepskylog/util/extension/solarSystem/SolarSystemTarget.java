@@ -8,6 +8,7 @@
 
 package org.deepskylog.util.extension.solarSystem;
 
+import android.annotation.SuppressLint;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -36,6 +37,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.3
  */
+@SuppressLint("DefaultLocale")
 public abstract class SolarSystemTarget extends Target {
 
     // ---------
@@ -270,6 +272,7 @@ public abstract class SolarSystemTarget extends Target {
 	 */    
 	// Behaves different then DeepSkyTarget and Target...we do not check in datasource/observer
 	// as the SolarSystem catalog is in hardcoded internal catalog.
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object obj) {
         
 		if(   obj == null

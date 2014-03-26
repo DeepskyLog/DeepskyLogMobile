@@ -59,6 +59,9 @@
     <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
     <string name="deepskyfragment_command_button_text">"Command"</string>
     <string name="deepskyfragment_to_see">" new observations you didn't see yet."</string>
+    <string name="deepskyfragment_deepskyobservations_in_dsl"> " deepsky observations in Deepskylog."</string>
+    <string name="deepskyfragment_deepskyobservations_fetching">"Fetching "</string>    
+    <string name="deepskyfragment_deepskyobservations_details">"Details "</string>    
     
     <string name="deepskyobservationsdetailsfragment_text1_textview_text">"Deepsky"</string>
     <string name="deepskyobservationsdetailsfragment_observations_button_text">"Observations"</string>
@@ -72,7 +75,8 @@
     <string name="deepskyobservationsdetailsfragment_checking1">"Checking for more observations to get "</string>
     <string name="deepskyobservationsdetailsfragment_observation">"Observation "</string>
     <string name="deepskyobservationsdetailsfragment_observation_was_deleted">" has been deleted by it's observer."</string>
-      
+    <string name="deepskyobservationsdetailsfragment_observation_unavailable">" unavailable, check network connection."</string>
+    
     <string name="deepskyobservationslistfragment_text1_textview_text">"Deepsky"</string>
     <string name="deepskyobservationslistfragment_observations_button_text">"Observations"</string>
     <string name="deepskyobservationslistfragment_objects_button_text">"Objects"</string>

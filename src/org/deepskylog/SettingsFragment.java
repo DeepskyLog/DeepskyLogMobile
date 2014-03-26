@@ -9,7 +9,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+        this.addPreferencesFromResource(R.xml.preferences);
     }
 	@Override
 	public void onAttach(Activity activity) {
@@ -24,7 +24,7 @@ public class SettingsFragment extends PreferenceFragment {
 	    MainActivity.actualFragmentName="settingsFragment";
 	}
 	public void refreshPreferences() {
-		getPreferenceScreen().removeAll();
-		addPreferencesFromResource(R.xml.preferences);		
+		this.getPreferenceScreen().removeAll();
+		this.addPreferencesFromResource(R.xml.preferences);		
 	}
 }

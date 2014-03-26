@@ -8,32 +8,37 @@ import android.view.ViewGroup;
 
 public class ObserversFragment extends Fragment {
 	
-    private Bundle savedState = null;
-
 	private View observersFragmentView;
+    private Bundle stateBundle=null;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		observersFragmentView=inflater.inflate(R.layout.observersfragment, container, false);
- 		if(savedInstanceState==null) {
-	    }
-		else {
-			savedState=savedInstanceState.getBundle("savedState");
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(savedState!=null) {
-	    	//text1_textview.setText(savedState.getString("text1_textview"));
+ 		if(this.stateBundle!=null) {
+	    	//text1_textview.setText(stateBundle.getString("text1_textview"));
  		}
- 		savedState=null;		
+ 		this.stateBundle=null;		
      	return observersFragmentView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("savedState", saveState());
+	    savedInstanceState.putBundle("stateBundle", this.getState());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
-    private Bundle saveState() {
+    private Bundle getState() {
         Bundle state = new Bundle();
-        //state.putString("text1_textview", text1_textview.getText().toString());
+        //state.putString("text1_textview", this.text1_textview.getText().toString());
         return state;
     }
 }

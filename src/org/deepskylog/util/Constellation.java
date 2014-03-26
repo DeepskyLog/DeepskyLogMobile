@@ -7,6 +7,7 @@
 
 package org.deepskylog.util;
 
+import android.annotation.SuppressLint;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
+@SuppressLint("DefaultLocale")
 public class Constellation {
 
     // ---------
@@ -171,6 +173,7 @@ public class Constellation {
      * constellation name or abbreviation. Might return <code>null<code> if no
      * matching constellation could be found.
      */ 
+	@SuppressLint("DefaultLocale")
 	public static Constellation getInstance(String name) {
 		
 		if(   (name == null)
@@ -598,6 +601,7 @@ public class Constellation {
      * de.lehmannet.om.Constellation and the passed constellation and this
      * instance have the same abbreviation.
      */ 	
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object o) {
 		
 		if( o instanceof Constellation ) {

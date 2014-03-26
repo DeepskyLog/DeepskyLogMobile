@@ -9,6 +9,7 @@
 package org.deepskylog.util;
 
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,6 +31,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressLint("DefaultLocale")
 public class Scope extends SchemaElement implements IScope {
 
     // ---------
@@ -115,7 +117,8 @@ public class Scope extends SchemaElement implements IScope {
      * @throws SchemaException if the given Node does not match the
      * XML Schema secifications
      */  
-    public Scope(Node scope) 
+    @SuppressLint({ "UseValueOf", "DefaultLocale" })
+	public Scope(Node scope) 
                  throws SchemaException,
                         IllegalArgumentException {
     

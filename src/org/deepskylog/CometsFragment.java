@@ -8,31 +8,36 @@ import android.view.ViewGroup;
 
 public class CometsFragment extends Fragment {
 	
-    private Bundle savedState = null;
-
 	private View cometsFragmentView;
+    private Bundle stateBundle=null;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
+
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		cometsFragmentView=inflater.inflate(R.layout.cometsfragment, container, false);
- 		if(savedInstanceState==null) {
-	    }
-		else {
-			savedState=savedInstanceState.getBundle("savedState");
+		this.cometsFragmentView=inflater.inflate(R.layout.cometsfragment, container, false);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(savedState!=null) {
-	    	//text1_textview.setText(savedState.getString("text1_textview"));
+ 		if(this.stateBundle!=null) {
+	    	//text1_textview.setText(stateBundle.getString("text1_textview"));
  		}
- 		savedState=null;		
+ 		this.stateBundle=null;		
      	return cometsFragmentView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("savedState", saveState());
+	    savedInstanceState.putBundle("stateBundle", this.getState());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
-    private Bundle saveState() {
-        Bundle state = new Bundle();
+    private Bundle getState() {
+        Bundle state=new Bundle();
         //state.putString("text1_textview", text1_textview.getText().toString());
         return state;
     }
