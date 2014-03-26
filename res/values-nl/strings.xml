@@ -70,7 +70,9 @@
     <string name="deepskyobservationsdetailsfragment_mode_button_text1">"Lijst"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text2">"Compact"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
-    <string name="deepskyobservationsdetailsfragment_to_see">" nieuwe"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see">" nieuwe waarnemingen"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see1">" nieuwe waarneming"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see0">"Geen nieuwe waarnemingen om te bekijken"</string>
     <string name="deepskyobservationsdetailsfragment_not_available">" niet beschikbaar"</string>
     <string name="deepskyobservationsdetailsfragment_checking1">"Controle op meer waarnemingen voor "</string>
     <string name="deepskyobservationsdetailsfragment_observation">"Waarneming "</string>
