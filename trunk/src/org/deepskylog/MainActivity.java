@@ -177,7 +177,10 @@ public class MainActivity 	extends 	Activity
     	preferenceEditor=preferences.edit();		
 		resources=getResources();
     	
-		if(mainFragment==null) mainFragment=new MainFragment();
+    	DslDatabase.open();
+    	DeepskyObservations.init();
+    	
+    	if(mainFragment==null) mainFragment=new MainFragment();
     	if(deepskyFragment==null) deepskyFragment=new DeepskyFragment();
     	if(deepskyObservationsFragment==null) deepskyObservationsFragment=new DeepskyObservationsFragment();
     	if(deepskyObservationsDetailsFragment==null) deepskyObservationsDetailsFragment=new DeepskyObservationsDetailsFragment();
@@ -190,8 +193,6 @@ public class MainActivity 	extends 	Activity
     	if(observersFragment==null) observersFragment=new ObserversFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
-		
-    	DslDatabase.open();
 
 	}
 	

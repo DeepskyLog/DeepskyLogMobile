@@ -1,5 +1,6 @@
 package org.deepskylog.util;
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -15,6 +16,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
+@SuppressLint("DefaultLocale")
 public class TargetStar extends Target {
 
     // ---------
@@ -192,6 +194,7 @@ public class TargetStar extends Target {
 	 * (Name comparism is <b>not</b> casesensitive)
 	 * @see java.lang.Object
 	 */    
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object obj) {
         
 		if(   obj == null

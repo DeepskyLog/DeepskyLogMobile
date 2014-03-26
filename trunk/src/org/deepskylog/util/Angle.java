@@ -9,6 +9,7 @@
 package org.deepskylog.util;
 
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -23,6 +24,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressLint("DefaultLocale")
 public class Angle {
 
     // ---------

@@ -6,6 +6,7 @@
  */
 
 package org.deepskylog.util.util;
+import android.annotation.SuppressLint;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.zip.ZipFile;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressLint("DefaultLocale")
 public class ConfigLoader {
 
 	// ---------
@@ -241,6 +243,7 @@ public class ConfigLoader {
 	}	
 
 	// -------------------------------------------------------------------
+	@SuppressLint("DefaultLocale")
 	@SuppressWarnings({ "resource", "rawtypes" })
 	private static void scanJarFile(File jar) throws ConfigException {
 		ZipFile archive = null;

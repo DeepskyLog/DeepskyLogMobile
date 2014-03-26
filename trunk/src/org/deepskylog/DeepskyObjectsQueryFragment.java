@@ -8,35 +8,42 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class DeepskyObjectsQueryFragment extends Fragment {
-	
-    private Bundle stateBundle=null;
-	
+ 	
 	private View deepskyObjectsQueryView;
+    private Bundle stateBundle=null;
 	
 	private TextView text1_textview;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
+	
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		deepskyObjectsQueryView=inflater.inflate(R.layout.deepskyobjectsqueryfragment, container, false);
-		text1_textview=(TextView)deepskyObjectsQueryView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		this.deepskyObjectsQueryView=inflater.inflate(R.layout.deepskyobjectsqueryfragment, container, false);
+		this.text1_textview=(TextView)this.deepskyObjectsQueryView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
 		if(savedInstanceState==null) {
 	    }
 		else {
-			stateBundle=savedInstanceState.getBundle("stateBundle");
+			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(stateBundle!=null) {
-	    	text1_textview.setText(stateBundle.getString("text1_textview"));
+ 		if(this.stateBundle!=null) {
+ 			this.text1_textview.setText(this.stateBundle.getString("text1_textview"));
  		}
- 		stateBundle=null;		
-    	return deepskyObjectsQueryView;
+ 		this.stateBundle=null;		
+    	return this.deepskyObjectsQueryView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("stateBundle", getStateBundle());
+	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
     private Bundle getStateBundle() {
-        Bundle state =new Bundle();
+        Bundle state=new Bundle();
         state.putString("text1_textview", text1_textview.getText().toString());
         return state;
     }

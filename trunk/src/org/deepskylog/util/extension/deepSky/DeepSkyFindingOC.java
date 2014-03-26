@@ -8,6 +8,7 @@
 
 package org.deepskylog.util.extension.deepSky;
 
+import android.annotation.SuppressLint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,6 +48,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 1.5
  */
+@SuppressLint("UseValueOf")
 public class DeepSkyFindingOC extends DeepSkyFinding {
 
 	// ---------

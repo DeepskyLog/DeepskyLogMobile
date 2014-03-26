@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class LoginDialog extends DialogFragment {
 	
-    private Bundle savedState = null;
+    private Bundle stateBundle=null;
 
 	private String loginDialogOnClickListenerClassname;
 	private String loginDialogOnClickListenerMethodname;
@@ -29,6 +29,14 @@ public class LoginDialog extends DialogFragment {
 	
 	private Method loginDialogOnClickListener;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+ 		if(savedInstanceState!=null) {
+ 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		}		
+	}
+	
     public static LoginDialog newInstance(String theOnClickListenerClassname,
 										  String theOnClickListenerMethodname,
 										  boolean theAutoDismiss) {
@@ -47,33 +55,31 @@ public class LoginDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
  		AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.mainActivity);
         LayoutInflater inflater=getActivity().getLayoutInflater();
-        loginDialogView=inflater.inflate(R.layout.logindialog, null);
-        userid_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_userid_id);
-        password_edittext=(EditText)loginDialogView.findViewById(R.id.logindialog_password_id);
-        if(!MainActivity.preferences.getString("loginName", "").equals("")) userid_edittext.setText(MainActivity.preferences.getString("loginId", ""));
-        if(!MainActivity.preferences.getString("loginPassword", "").equals("")) password_edittext.setText(MainActivity.preferences.getString("loginPassword", ""));        
-		if(savedInstanceState==null) {
-	    }
-		else {
-			savedState=savedInstanceState.getBundle("savedState");
+        this.loginDialogView=inflater.inflate(R.layout.logindialog, null);
+        this.userid_edittext=(EditText)this.loginDialogView.findViewById(R.id.logindialog_userid_id);
+        this.password_edittext=(EditText)this.loginDialogView.findViewById(R.id.logindialog_password_id);
+        if(!(MainActivity.preferences.getString("loginName", "").equals(""))) this.userid_edittext.setText(MainActivity.preferences.getString("loginId", ""));
+        if(!(MainActivity.preferences.getString("loginPassword", "").equals(""))) this.password_edittext.setText(MainActivity.preferences.getString("loginPassword", ""));        
+		if(savedInstanceState!=null) {
+			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(savedState!=null) {
-	    	userid_edittext.setText(savedState.getString("userid_edittext"));
-	    	password_edittext.setText(savedState.getString("password_edittext"));
-			loginDialogOnClickListenerClassname=savedState.getString("loginDialogOnClickListenerClassname");
-			loginDialogOnClickListenerMethodname=savedState.getString("loginDialogOnClickListenerMethodname");
-			autoDismiss=savedState.getBoolean("autoDismiss");
-			if((!loginDialogOnClickListenerClassname.equals(""))&&(!loginDialogOnClickListenerMethodname.equals(""))) { 
-	    		try { loginDialogOnClickListener=Class.forName(loginDialogOnClickListenerClassname).getMethod(loginDialogOnClickListenerMethodname, String.class); }
+ 		if(this.stateBundle!=null) {
+ 			this.userid_edittext.setText(this.stateBundle.getString("userid_edittext"));
+ 			this.password_edittext.setText(this.stateBundle.getString("password_edittext"));
+ 			this.loginDialogOnClickListenerClassname=this.stateBundle.getString("loginDialogOnClickListenerClassname");
+ 			this.loginDialogOnClickListenerMethodname=this.stateBundle.getString("loginDialogOnClickListenerMethodname");
+ 			this.autoDismiss=this.stateBundle.getBoolean("autoDismiss");
+			if((!(this.loginDialogOnClickListenerClassname.equals("")))&&(!(this.loginDialogOnClickListenerMethodname.equals("")))) { 
+	    		try { this.loginDialogOnClickListener=Class.forName(loginDialogOnClickListenerClassname).getMethod(loginDialogOnClickListenerMethodname, String.class); }
 	    		catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 2 in loginDialog "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
 	    	}
 		}
- 		savedState=null;		
-	    builder.setView(loginDialogView);
+ 		this.stateBundle=null;		
+	    builder.setView(this.loginDialogView);
         builder.setPositiveButton(R.string.logindialog_login_button_text, null);
         builder.setNegativeButton(R.string.logindialog_cancel_button_text, null);      
-        loginDialog=builder.create();
-        loginDialog.setOnShowListener(new DialogInterface.OnShowListener() { 
+        this.loginDialog=builder.create();
+        this.loginDialog.setOnShowListener(new DialogInterface.OnShowListener() { 
         	@Override public void onShow(DialogInterface dialog) { 
         		((Button) loginDialog.getButton(AlertDialog.BUTTON_POSITIVE)).setOnClickListener(new View.OnClickListener() { 
         			@Override public void onClick(View view) { onButtonClick("positive"); } } );          		
@@ -81,27 +87,27 @@ public class LoginDialog extends DialogFragment {
     				@Override public void onClick(View view) { onButtonClick("negative"); } } ); 
         	}
         } ); 		
-        return loginDialog;
+        return this.loginDialog;
     }
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    super.onSaveInstanceState(savedInstanceState);
-	    savedInstanceState.putBundle("savedState", saveState());
+	    savedInstanceState.putBundle("stateBundle", this.getState());
 	}
-    private Bundle saveState() {
+    private Bundle getState() {
     	Bundle state = new Bundle();
-        state.putString("loginDialogOnClickListenerClassname", loginDialogOnClickListenerClassname);
-        state.putString("loginDialogOnClickListenerMethodname", loginDialogOnClickListenerMethodname);
-        state.putString("userid_edittext", userid_edittext.getText().toString());
-        state.putString("password_edittext", password_edittext.getText().toString());
-        state.putBoolean("autoDismiss", autoDismiss);
+        state.putString("loginDialogOnClickListenerClassname", this.loginDialogOnClickListenerClassname);
+        state.putString("loginDialogOnClickListenerMethodname", this.loginDialogOnClickListenerMethodname);
+        state.putString("userid_edittext", this.userid_edittext.getText().toString());
+        state.putString("password_edittext", this.password_edittext.getText().toString());
+        state.putBoolean("autoDismiss", this.autoDismiss);
       return state;
     }
     private void onButtonClick(String theButton) {
-    	if((!loginDialogOnClickListenerClassname.equals(""))&&(!loginDialogOnClickListenerMethodname.equals(""))) { 
-    		try { loginDialogOnClickListener.invoke(null,theButton); } 
+    	if((!(this.loginDialogOnClickListenerClassname.equals("")))&&(!(this.loginDialogOnClickListenerMethodname.equals("")))) { 
+    		try { this.loginDialogOnClickListener.invoke(null,theButton); } 
     		catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 3 in loginDialog "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     	}
-    	if(autoDismiss) loginDialog.dismiss();
+    	if(this.autoDismiss) this.loginDialog.dismiss();
     }
  }

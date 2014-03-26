@@ -9,6 +9,7 @@
 package org.deepskylog.util;
 
 
+import android.annotation.SuppressLint;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -34,6 +35,7 @@ import org.w3c.dom.NodeList;
  * @author doergn@users.sourceforge.net
  * @since 1.0
  */
+@SuppressLint("DefaultLocale")
 public abstract class Target extends SchemaElement implements ITarget {
 
     // ---------
@@ -391,6 +393,7 @@ public abstract class Target extends SchemaElement implements ITarget {
 	 * (Name comparism is <b>not</b> casesensitive)
 	 * @see java.lang.Object
 	 */    
+	@SuppressLint("DefaultLocale")
 	public boolean equals(Object obj) {
         
 		if(   obj == null
@@ -432,10 +435,10 @@ public abstract class Target extends SchemaElement implements ITarget {
 		}
 		
 		if(   (this.getName().toLowerCase().equals(targetName.toLowerCase()))
-		   && (this.getXSIType()).equals(target.getXSIType())
-		   ) {
-			return true;
-		}
+				   && (this.getXSIType()).equals(target.getXSIType())
+				   ) {
+					return true;
+				}
                   		        
 		return false;
                          

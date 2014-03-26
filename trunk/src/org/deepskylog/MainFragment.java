@@ -44,34 +44,34 @@ public class MainFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
-    	deepsky_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
-    	comets_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
-    	observers_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
-    	ephemerides_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
-    	text1_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
-    	text1_textview.setText("");
-    	text2_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
-    	text2_textview.setText("");
-    	text3_textview=((TextView) mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
-    	text3_textview.setText("");
-    	command_button=((Button) mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
+		this.mainFragmentView=inflater.inflate(R.layout.mainfragment, container, false);
+		this.deepsky_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_ds_button_id));
+		this.comets_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_com_button_id));
+		this.observers_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_obs_button_id));
+		this.ephemerides_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_eph_button_id));
+		this.text1_textview=((TextView) this.mainFragmentView.findViewById(R.id.mainfragment_text1_textview_id));
+		this.text1_textview.setText("");
+		this.text2_textview=((TextView) this.mainFragmentView.findViewById(R.id.mainfragment_text2_textview_id));
+		this.text2_textview.setText("");
+		this.text3_textview=((TextView) this.mainFragmentView.findViewById(R.id.mainfragment_text3_textview_id));
+		this.text3_textview.setText("");
+		this.command_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
    
-    	deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
-    	command_button.setText("Develop: Command Button - Test firstRun");
-    	command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandButtonOnClick(); } });
+		this.deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
+		this.comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
+		this.observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
+		this.ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
+		this.command_button.setText("Develop: Command Button - Test firstRun");
+		this.command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandButtonOnClick(); } });
  		if(savedInstanceState==null) {
 	    }
 		else {
-			stateBundle=savedInstanceState.getBundle("stateBundle");
+			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
- 		if(stateBundle!=null) {
-	    	text1_textview.setText(stateBundle.getString("text1_textview"));
-	    	text2_textview.setText(stateBundle.getString("text2_textview"));
-	    	text3_textview.setText(stateBundle.getString("text3_textview"));
+ 		if(this.stateBundle!=null) {
+ 			this.text1_textview.setText(this.stateBundle.getString("text1_textview"));
+ 			this.text2_textview.setText(this.stateBundle.getString("text2_textview"));
+	    	this.text3_textview.setText(this.stateBundle.getString("text3_textview"));
  		}
  		stateBundle=null;		
 		return mainFragmentView;
@@ -84,7 +84,7 @@ public class MainFragment extends Fragment {
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("stateBundle", getStateBundle());
+	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
 	
@@ -94,20 +94,20 @@ public class MainFragment extends Fragment {
     }
 
     private Bundle getStateBundle() {
-        if(stateBundle!=null) return stateBundle;
+        if(this.stateBundle!=null) return stateBundle;
         else {
 			Bundle state=new Bundle();
-	        state.putString("text1_textview", text1_textview.getText().toString());
-	        state.putString("text2_textview", text2_textview.getText().toString());
-	        state.putString("text3_textview", text3_textview.getText().toString());
+	        state.putString("text1_textview", this.text1_textview.getText().toString());
+	        state.putString("text2_textview", this.text2_textview.getText().toString());
+	        state.putString("text3_textview", this.text3_textview.getText().toString());
 	        return state;
         }
     }
     
     public void setText(String theText) {
-		text3_textview.setText(text2_textview.getText());
-		text2_textview.setText(text1_textview.getText());
-		text1_textview.setText(theText);
+    	this.text3_textview.setText(this.text2_textview.getText());
+    	this.text2_textview.setText(this.text1_textview.getText());
+    	this.text1_textview.setText(theText);
     }
     
     private static void commandButtonOnClick() {

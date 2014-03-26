@@ -1,5 +1,6 @@
 package org.deepskylog.util.extension.variableStars;
 
+import android.annotation.SuppressLint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -24,6 +25,7 @@ import org.deepskylog.util.util.SchemaException;
  * @author doergn@users.sourceforge.net
  * @since 2.0
  */
+@SuppressLint("UseValueOf")
 public class FindingVariableStar extends Finding {
 
 	// ---------
