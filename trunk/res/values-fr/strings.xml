@@ -70,7 +70,9 @@
     <string name="deepskyobservationsdetailsfragment_mode_button_text1">"List"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text2">"Compact"</string>
     <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
-    <string name="deepskyobservationsdetailsfragment_to_see">" to see"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see">" new observations to see"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see1">" new observation to see"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see0">"No new observations to see"</string>
     <string name="deepskyobservationsdetailsfragment_not_available">" not available"</string>
     <string name="deepskyobservationsdetailsfragment_checking1">"Checking for more observations to get "</string>
     <string name="deepskyobservationsdetailsfragment_observation">"Observation "</string>

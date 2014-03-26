@@ -3,6 +3,7 @@ package org.deepskylog;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class DeepskyObservationsListFragment extends Fragment {
 	
@@ -28,7 +30,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	private String deepskyObservationListDate;
 	private String deepskyObservationListFromId;
 	private String deepskyObservationListToId;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 		}
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyObservationsListView=inflater.inflate(R.layout.deepskyobservationslistfragment, container, false);
@@ -60,6 +63,12 @@ public class DeepskyObservationsListFragment extends Fragment {
   		return deepskyObservationsListView;
 	}
 	
+	@Override 
+	public void onResume() {
+		super.onResume();
+		//this.testSetData();
+	}
+	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
@@ -74,7 +83,13 @@ public class DeepskyObservationsListFragment extends Fragment {
         return state;
     }
 	
+	public void requerySetData() {
+		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, objectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>0) AND (deepskyObservationId<100000))");
+        this.deepskyObservationListAdapter.changeCursor(mCursor);
+	}
+	
 	public void testSetData() {
+		Toast.makeText(MainActivity.mainActivity, "WP", Toast.LENGTH_LONG).show();	
         String[] fromColumns={"objectName","observerName"};
         int[] toViews={R.id.deepskyobservationslistitemobjectname_textview_id,R.id.deepskyobservationslistitemobservername_textview_id};
         Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, objectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>0) AND (deepskyObservationId<100000))");
