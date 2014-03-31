@@ -74,5 +74,31 @@ public class Utils {
     	catch(Exception e) { Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"Utils.invokeClassMethodWithResult: Exception 2, "+result+" "+e.getMessage().toString(), Toast.LENGTH_LONG).show(); };
     }
 
+    public static String followingDate(String theDate) {
+    	Integer day=Integer.valueOf(theDate.substring(6,8));
+    	if(day<28) return theDate.substring(0,6)+(((++day)<10?"0"+(day.toString()):(day.toString())));
+    	Integer month=Integer.valueOf(theDate.substring(4,6));
+    	if(((month==1)||(month==3)||(month==5)||(month==7)||(month==8)||(month==10)||(month==12))&&(day<31)) return theDate.substring(0,6)+(++day).toString();
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	if(((month==1)||(month==3)||(month==5)||(month==7)||(month==8)||(month==10))&&(day==31)) return year.toString()+((++month)<10?"0"+month.toString():month.toString())+"01";
+    	if((month==12)&&(day==31)) return ((Integer)(year+1)).toString()+"0101";
+    	if(((month==4)||(month==6)||(month==9)||(month==11))&&(day<30)) return theDate.substring(0,6)+(++day).toString();
+    	if(((month==4)||(month==6)||(month==9)||(month==11))&&(day==30)) return theDate.substring(0,4)+((++month)<10?"0"+month.toString():month.toString())+"01";
+    	if((month==2)&&(day==28)&&(((year%4)!=0)||(((year%100)==0)&&((year%400)!=0)))) return year.toString()+"0301";
+    	if((month==2)&&(day==29)) return year.toString()+"0301";
+    	return year.toString()+"0229";
+    }
+
+    public static String precedingDate(String theDate) {
+    	Integer day=Integer.valueOf(theDate.substring(6,8));
+    	if(day>1) return theDate.substring(0,6)+(((--day)<10?"0"+(day.toString()):(day.toString())));
+    	Integer month=Integer.valueOf(theDate.substring(4,6));
+    	if((month==2)||(month==4)||(month==6)||(month==8)||(month==9)||(month==11)) return theDate.substring(0,4)+((--month)<10?"0"+month.toString():month.toString())+"31";
+    	if((month==5)||(month==7)||(month==10)||(month==12)) return theDate.substring(0,4)+((--month).toString())+"30";
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	if(month==1) return ((Integer)(--year)).toString()+"1231";
+    	if(((year%4)!=0)||(((year%100)==0)&&((year%400)!=0))) return year.toString()+"0228";
+    	return year.toString()+"0229";
+    }
 
 }
