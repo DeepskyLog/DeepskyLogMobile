@@ -5,7 +5,10 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,13 +27,15 @@ public class DeepskyObservationsListFragment extends Fragment {
     private Bundle stateBundle=null;
 	
 	private ListView deepskyObservationsList;
-	
 	private SimpleCursorAdapter deepskyObservationListAdapter;
 	
-	private String deepskyObservationListDate;
-	private String deepskyObservationListFromId;
-	private String deepskyObservationListToId;
+	private String deepskyObservationsListDate;
 	
+	private String direction;
+
+	private BroadcastReceiver broadcastDeepskyObservationsListReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationsList(context, intent); } };
+	private BroadcastReceiver broadcastDeepskyObservationsListDaysReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationsListDays(context, intent); } };
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,28 +51,28 @@ public class DeepskyObservationsListFragment extends Fragment {
 		if(savedInstanceState!=null) {
 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
+		this.deepskyObservationsListDate=(new SimpleDateFormat("yyyyMMdd")).format(new Date());
 		if(stateBundle!=null) {
- 			this.deepskyObservationListDate=this.stateBundle.getString("deepskyObservationListDate",(new SimpleDateFormat("yyyyMMdd")).format(new Date()));
- 			this.deepskyObservationListDate=this.stateBundle.getString("deepskyObservationListFromId","0");
- 			this.deepskyObservationListDate=this.stateBundle.getString("deepskyObservationListToId","0");
- 		}
+ 			this.deepskyObservationsListDate=this.stateBundle.getString("deepskyObservationsListDate",(new SimpleDateFormat("yyyyMMdd")).format(new Date()));
+ 			this.direction=this.stateBundle.getString("direction","down");
+  		}
 		else {
-			this.deepskyObservationListDate=MainActivity.preferences.getString("deepskyObservationListDate", "00000000");
-			this.deepskyObservationListDate=MainActivity.preferences.getString("deepskyObservationListFromId", "0");
-			this.deepskyObservationListDate=MainActivity.preferences.getString("deepskyObservationListToId", "0");
+			this.deepskyObservationsListDate=MainActivity.preferences.getString("deepskyObservationsListDate", (new SimpleDateFormat("yyyyMMdd")).format(new Date()));
+ 			this.direction="down";
 		}
 		stateBundle=null;		
- 		this.deepskyObservationsList=((ListView)(this.deepskyObservationsListView.findViewById(R.id.deepskyobservationslistfragment_observationlist_listview)));
+ 		DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(Utils.precedingMonth(this.deepskyObservationsListDate),Utils.followingMonth(this.deepskyObservationsListDate));
+		this.deepskyObservationsList=((ListView)(this.deepskyObservationsListView.findViewById(R.id.deepskyobservationslistfragment_observationlist_listview)));
  		this.deepskyObservationsList.setOnItemClickListener(new OnItemClickListener(){ public void onItemClick(AdapterView<?> parent, View v, int position, long id) { ondDeepskyObservationItemClick(parent, v, position, id); }; }); 
 		this.deepskyObservationsList.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
  		    public void onSwipeTop() { }
- 		    public void onSwipeRight() { setDataFromDate(Utils.followingDate(deepskyObservationListDate),"up"); }
- 		    public void onSwipeLeft() { setDataFromDate(Utils.precedingDate(deepskyObservationListDate),"down"); }
+ 		    public void onSwipeRight() { direction="down"; setDataFromDate(Utils.precedingDate(deepskyObservationsListDate),"down"); }
+ 		    public void onSwipeLeft() { direction="up"; setDataFromDate(Utils.followingDate(deepskyObservationsListDate),"up"); }
  		    public void onSwipeBottom() {  }
 		});
-  		this.deepskyObservationListDate="20140321";
- 		this.setDataFromDate("20140321","down");
-  		return deepskyObservationsListView;
+  		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsListReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationslist"));
+  		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsListDaysReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationslistdays"));
+		return deepskyObservationsListView;
 	}
 	
 	@Override 
@@ -77,6 +82,14 @@ public class DeepskyObservationsListFragment extends Fragment {
 	}
 	
 	@Override
+	public void onDestroyView() {
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(this.broadcastDeepskyObservationsListReceiver);
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(this.broadcastDeepskyObservationsListDaysReceiver);
+		super.onDestroyView();
+	}
+
+	
+	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
@@ -84,48 +97,60 @@ public class DeepskyObservationsListFragment extends Fragment {
     
 	private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("deepskyObservationListDate", this.deepskyObservationListDate);
-        state.putString("deepskyObservationListFromId", this.deepskyObservationListFromId);
-        state.putString("deepskyObservationListToId", this.deepskyObservationListToId);
+        state.putString("deepskyObservationsListDate", this.deepskyObservationsListDate);
         return state;
     }
 	
 	public void requerySetData() {
-		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, objectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>0) AND (deepskyObservationId<100000))");
-        this.deepskyObservationListAdapter.changeCursor(mCursor);
+		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE (deepskyObservationDate='"+this.deepskyObservationsListDate+"')");
+        if(mCursor.getCount()>0) this.deepskyObservationListAdapter.changeCursor(mCursor);
+        else Toast.makeText(MainActivity.mainActivity, "no data for date "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
+	}
+	
+	private void onReceiveDeepskyObservationsList(Context context, Intent intent) {
+		requerySetData();
+	}
+	
+	private void onReceiveDeepskyObservationsListDays(Context context, Intent intent) {
+
+		// look if actual date is in list, else look for next in f(up/down)
+		// then look for list itself
+
 	}
 	
 	public void testSetData() {
-		Toast.makeText(MainActivity.mainActivity, "WP", Toast.LENGTH_LONG).show();	
-        String[] fromColumns={"objectName","observerName"};
+		String[] fromColumns={"deepskyObjectName","observerName"};
         int[] toViews={R.id.deepskyobservationslistitemobjectname_textview_id,R.id.deepskyobservationslistitemobservername_textview_id};
-        Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, objectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>0) AND (deepskyObservationId<100000))");
+        Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE (deepskyObservationDate='"+this.deepskyObservationsListDate+"')");
         this.deepskyObservationListAdapter=new SimpleCursorAdapter(MainActivity.mainActivity, R.layout.deepskyobservationslistitem, mCursor, fromColumns, toViews, 0);
         this.deepskyObservationsList.setAdapter(this.deepskyObservationListAdapter);
 	}
-	
+
+	@SuppressLint("SimpleDateFormat")
 	public void setDataFromDate(String proposedDate, String directionUpDown) {
+		if(proposedDate.compareTo("20140310")<0) proposedDate="20140310";
+		if(proposedDate.compareTo((new SimpleDateFormat("yyyyMMdd")).format(new Date()))>0) proposedDate=(new SimpleDateFormat("yyyyMMdd")).format(new Date());
+		this.deepskyObservationsListDate=proposedDate;
 		Toast.makeText(getActivity(), "Fetching for proposed date: "+proposedDate, Toast.LENGTH_SHORT).show();
-		if(Integer.valueOf(proposedDate)<20000101) proposedDate="20000101";
-		//TODO : if(Integer.valueOf(proposedDate)>now) proposedDate="now";
-		String[] fromColumns={"objectName","observerName"};
-        int[] toViews={R.id.deepskyobservationslistitemobjectname_textview_id,R.id.deepskyobservationslistitemobservername_textview_id};
-        String theSql="SELECT deepskyObservationId AS _id, objectName, observerName, observationDate FROM deepskyObservations WHERE (observationDate='"+proposedDate+"');";
-        Cursor mCursor=DslDatabase.execSql(theSql);
-		if(mCursor.getCount()>0) {
+		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE (deepskyObservationDate='"+proposedDate+"')");
+        this.deepskyObservationListAdapter.changeCursor(mCursor);
+/*		if(mCursor.getCount()>0) {
 			this.deepskyObservationListAdapter=new SimpleCursorAdapter(MainActivity.mainActivity, R.layout.deepskyobservationslistitem, mCursor, fromColumns, toViews, 0);
-			this.deepskyObservationListDate=proposedDate;
+			this.deepskyObservationsListDate=proposedDate;
 		}
 		else {
+			Toast.makeText(MainActivity.mainActivity, "WP non data", Toast.LENGTH_SHORT).show();
+	    	MainActivity.preferenceEditor.putInt("deepskyObservationIdToGet",(int) 75000).commit();
+			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationselectedfordetails").putExtra("org.deepskylog.deepskyObservationId", (int) 75000));
 			mCursor.close();
 			if(directionUpDown.equals("up")) setDataFromDate(Utils.followingDate(proposedDate),directionUpDown);
 			else setDataFromDate(Utils.precedingDate(proposedDate),directionUpDown);
-		}	
+		}	*/
         this.deepskyObservationsList.setAdapter(this.deepskyObservationListAdapter);
 	}
 	
-	public void getDeepskyObservationsListFromToId() {
-        String[] fromColumns={"objectName","observerName"};
+/*	public void getDeepskyObservationsListFromToId() {
+        String[] fromColumns={"deepskyObjectName","observerName"};
         int[] toViews={R.id.deepskyobservationslistitemobjectname_textview_id,R.id.deepskyobservationslistitemobservername_textview_id};
         if((this.deepskyObservationListFromId.equals("0"))||(this.deepskyObservationListToId.equals("0"))) {
         	if(DeepskyObservations.deepskyObservationsMaxId==0) {
@@ -134,11 +159,11 @@ public class DeepskyObservationsListFragment extends Fragment {
         		return;
         	}
         }
-        Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, objectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>"+this.deepskyObservationListFromId+") AND (deepskyObservationId<"+this.deepskyObservationListToId+"))");
+        Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservations WHERE ((deepskyObservationId>"+this.deepskyObservationListFromId+") AND (deepskyObservationId<"+this.deepskyObservationListToId+"))");
         this.deepskyObservationListAdapter=new SimpleCursorAdapter(MainActivity.mainActivity, R.layout.deepskyobservationslistitem, mCursor, fromColumns, toViews, 0);
         this.deepskyObservationsList.setAdapter(this.deepskyObservationListAdapter);
 	}
-	
+*/	
     public void ondDeepskyObservationItemClick(AdapterView<?> parent, View v, int position, long id) {
     	MainActivity.preferenceEditor.putInt("deepskyObservationIdToGet",(int) id).commit();
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationselectedfordetails").putExtra("org.deepskylog.deepskyObservationId", (int) id));

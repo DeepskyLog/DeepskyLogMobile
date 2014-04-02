@@ -33,7 +33,7 @@ public class Utils {
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
 	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "online"));
-		        return readIt(inputStream, 50000);
+		        return readIt(inputStream, 500000);
 	        }
 	        else {
 	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
@@ -100,5 +100,22 @@ public class Utils {
     	if(((year%4)!=0)||(((year%100)==0)&&((year%400)!=0))) return year.toString()+"0228";
     	return year.toString()+"0229";
     }
+
+    public static String followingMonth(String theDate) {
+    	String dayString=theDate.substring(6,8);
+    	Integer month=Integer.valueOf(theDate.substring(4,6));
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	if(month==12) return (++year).toString()+"01"+dayString;
+    	return year.toString()+(++month).toString()+dayString;
+    }
+
+    public static String precedingMonth(String theDate) {
+    	String dayString=theDate.substring(6,8);
+    	Integer month=Integer.valueOf(theDate.substring(4,6));
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	if(month==1) return (--year).toString()+"12"+dayString;
+    	return year.toString()+(--month).toString()+dayString;
+    }
+
 
 }

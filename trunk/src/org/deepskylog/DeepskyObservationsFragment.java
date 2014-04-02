@@ -56,7 +56,14 @@ public class DeepskyObservationsFragment extends Fragment {
 		super.onResume();
 		this.deepskyObservationsDetailsFragment=new DeepskyObservationsDetailsFragment();
 		this.deepskyObservationsListFragment=new DeepskyObservationsListFragment();		
-		this.actualFragment=((this.stateBundle!=null)?(stateBundle.getString("actualFragmentName").equals("deepskyObservationsDetailsFragment")?this.deepskyObservationsDetailsFragment:this.deepskyObservationsListFragment):this.deepskyObservationsListFragment);
+		this.actualFragment=
+				((this.stateBundle!=null)
+						?(stateBundle.getString("actualFragmentName").equals("deepskyObservationsListFragment")
+								?this.deepskyObservationsListFragment
+								:this.deepskyObservationsDetailsFragment)
+						:(MainActivity.preferences.getString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").equals("deepskyObservationsListFragment")
+								?this.deepskyObservationsListFragment
+								:this.deepskyObservationsDetailsFragment));
 		MainActivity.fragmentManager.beginTransaction()
 			.add(R.id.deepskyobservationsfragment_framelayout, this.deepskyObservationsDetailsFragment,"deepskyObservationsDetailsFragment")
 			.hide(this.deepskyObservationsDetailsFragment)
@@ -108,9 +115,14 @@ public class DeepskyObservationsFragment extends Fragment {
 									.hide(this.actualFragment)
 									.show(fragment)
 									.commit();
-		if(this.actualFragment==this.deepskyObservationsDetailsFragment) this.deepskyObservationsListFragment.requerySetData();
-		if(fragment==this.deepskyObservationsListFragment) { this.text1_textview.setText("Deepsky Observations - List"); }
-		if(fragment==this.deepskyObservationsDetailsFragment) { this.text1_textview.setText("Deepsky Observations - Details"); }
+		if(fragment==this.deepskyObservationsListFragment) { 
+			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
+			this.text1_textview.setText("Deepsky Observations - List"); 
+		}
+		if(fragment==this.deepskyObservationsDetailsFragment) { 
+			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
+			this.text1_textview.setText("Deepsky Observations - Details"); 
+		}
 		this.actualFragment=fragment;
 	}
 }

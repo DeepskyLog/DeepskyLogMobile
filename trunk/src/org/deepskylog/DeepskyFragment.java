@@ -58,7 +58,7 @@ public class DeepskyFragment extends Fragment {
 		this.text3_textview.setText("");
 		this.command_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_command_button_id);
 		this.command_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { commandOnClick(v); } });
- 		if(savedInstanceState!=null) {
+		if(savedInstanceState!=null) {
  			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
  		if(this.stateBundle!=null) {
@@ -120,7 +120,7 @@ public class DeepskyFragment extends Fragment {
 	}
 	
 	private void observationListOnClick(View v) {
-		MainActivity.goToFragment("deepskyObservationsListFragment", MainActivity.ADD_TO_BACKSTACK);
+		MainActivity.goToFragment("deepskyObservationsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
 	
 	private void observationQueryOnClick(View v) {

@@ -12,6 +12,5 @@
 	    <TextView android:id="@+id/deepskyfragment_text2_textview_id" android:textSize="@dimen/deepskyfragment_text2_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
 	    <TextView android:id="@+id/deepskyfragment_text3_textview_id" android:textSize="@dimen/deepskyfragment_text3_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
 	    <Button   android:id="@+id/deepskyfragment_command_button_id" android:textSize="@dimen/deepskyfragment_command_button_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/deepskyfragment_command_button_text" /> 
-	</LinearLayout>
-    	    	    
+	</LinearLayout>	    	    
 </LinearLayout>
