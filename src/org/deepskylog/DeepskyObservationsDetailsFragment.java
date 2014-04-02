@@ -186,18 +186,18 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		    		JSONArray jsonArray = new JSONArray(result);
 		    	    for(int i=0; i<jsonArray.length();i++) {
 		    			JSONObject jsonObject=jsonArray.getJSONObject(i);
-		    		   	if(jsonObject.getString("objectName").equals("No data")) {
+		    		   	if(jsonObject.getString("deepskyObjectName").equals("No data")) {
 		    		   		this.objecttext_textview.setText("");
 		    		   		this.details_textview.setText(MainActivity.resources.getString(R.string.deepskyobservationsdetailsfragment_observation)+deepskyObservationIdDetails.toString()+MainActivity.resources.getString(R.string.deepskyobservationsdetailsfragment_observation_was_deleted));
 		    	    	}
 		    		   	else {
-		    		   		this.objecttext_textview.setText(jsonObject.getString("objectName"));
-		    		   		this.details_textview.setText(jsonObject.getString("observationDate"));
+		    		   		this.objecttext_textview.setText(jsonObject.getString("deepskyObjectName"));
+		    		   		this.details_textview.setText(jsonObject.getString("deepskyObservationDate"));
 		    		   		this.details_textview.setText(this.details_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("observerName")));
 		    		   		this.details_textview.setText(this.details_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("deepskyObservationId")));
 		    		   		this.details_textview.setText(this.details_textview.getText()+"\n");
 		    		   		this.details_textview.setText(this.details_textview.getText()+"\n");
-		    		   		this.details_textview.setText(this.details_textview.getText().toString()+Html.fromHtml(jsonObject.getString("observationDescription")));
+		    		   		this.details_textview.setText(this.details_textview.getText().toString()+Html.fromHtml(jsonObject.getString("deepskyObservationDescription")));
 		    		   	}
 		    			this.text1_textview.setText(MainActivity.resources.getString(R.string.deepskyfragment_deepskyobservations_details)+this.deepskyObservationIdDetails.toString()+(DeepskyObservations.deepskyObservationsMaxId==0?"":" / "+Integer.valueOf(DeepskyObservations.deepskyObservationsMaxId)));   	    	    
 		    		}

@@ -10,7 +10,7 @@ public class GetDslCommand {
 	private static final String SERVER_URL="http://www.deepskylog.org/";
 	        
    	public static void getCommandAndInvokeClassMethod(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-  		new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
+   		new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
     private static class getCommandAndInvokeClassMethodTask extends AsyncTask<String, Void, String> {
