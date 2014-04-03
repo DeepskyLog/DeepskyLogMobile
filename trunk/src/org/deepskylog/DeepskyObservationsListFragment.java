@@ -98,6 +98,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	private Bundle getStateBundle() {
         Bundle state=new Bundle();
         state.putString("deepskyObservationsListDate", this.deepskyObservationsListDate);
+        state.putString("direction", this.direction);
         return state;
     }
 	
