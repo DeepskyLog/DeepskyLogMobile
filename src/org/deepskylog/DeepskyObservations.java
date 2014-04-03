@@ -75,7 +75,7 @@ public class DeepskyObservations {
 	    	}
 			else { 
 				//TODO: change to deepskyObservationId
-				String deepskyObservationId=Utils.getTagContent(observationRaw,"observationid");
+				String deepskyObservationId=Utils.getTagContent(observationRaw,"deepskyObservationId");
 				if(result.equals("[\"No data\"]")) {
 			    	ContentValues initialValues = new ContentValues();
 		        	initialValues.put("deepskyObservationId", deepskyObservationId);
@@ -122,11 +122,13 @@ public class DeepskyObservations {
 	
 	private static void executeBroadcastDeepskyObservationsListFromDateToDate(String fromDate, String toDate) {
 		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+		//Toast.makeText(MainActivity.mainActivity, "Fetching DSL List for proposed date: "+fromDate, Toast.LENGTH_SHORT).show();
 		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListFromDateToDate", "&fromDate="+fromDate+"&toDate="+toDate, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListToDbAndBroadcast");		
 	}
 	
 	public static void storeDeepskyObservationsListToDbAndBroadcast(String observationRaw) {
- 		try {
+		//Toast.makeText(MainActivity.mainActivity, "Fetched DSL List for proposed date: "+observationRaw, Toast.LENGTH_LONG).show();
+		try {
     		String result=Utils.getTagContent(observationRaw,"result");
 			if(result.startsWith("Unavailable url:")) {
 				//TODO change second index of substring in next line
