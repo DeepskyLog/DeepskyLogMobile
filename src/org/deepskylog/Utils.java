@@ -78,11 +78,11 @@ public class Utils {
     	Integer day=Integer.valueOf(theDate.substring(6,8));
     	if(day<28) return theDate.substring(0,6)+(((++day)<10?"0"+(day.toString()):(day.toString())));
     	Integer month=Integer.valueOf(theDate.substring(4,6));
-    	if(((month==1)||(month==3)||(month==5)||(month==7)||(month==8)||(month==10)||(month==12))&&(day<31)) return theDate.substring(0,6)+(++day).toString();
+    	if(((month==1)||(month==3)||(month==5)||(month==7)||(month==8)||(month==10)||(month==12))&&(day<31)) return theDate.substring(0,6)+(((++day)<10?"0"+(day.toString()):(day.toString())));
     	Integer year=Integer.valueOf(theDate.substring(0,4));
     	if(((month==1)||(month==3)||(month==5)||(month==7)||(month==8)||(month==10))&&(day==31)) return year.toString()+((++month)<10?"0"+month.toString():month.toString())+"01";
     	if((month==12)&&(day==31)) return ((Integer)(year+1)).toString()+"0101";
-    	if(((month==4)||(month==6)||(month==9)||(month==11))&&(day<30)) return theDate.substring(0,6)+(++day).toString();
+    	if(((month==4)||(month==6)||(month==9)||(month==11))&&(day<30)) return theDate.substring(0,6)+(((++day)<10?"0"+(day.toString()):(day.toString())));
     	if(((month==4)||(month==6)||(month==9)||(month==11))&&(day==30)) return theDate.substring(0,4)+((++month)<10?"0"+month.toString():month.toString())+"01";
     	if((month==2)&&(day==28)&&(((year%4)!=0)||(((year%100)==0)&&((year%400)!=0)))) return year.toString()+"0301";
     	if((month==2)&&(day==29)) return year.toString()+"0301";
@@ -94,7 +94,7 @@ public class Utils {
     	if(day>1) return theDate.substring(0,6)+(((--day)<10?"0"+(day.toString()):(day.toString())));
     	Integer month=Integer.valueOf(theDate.substring(4,6));
     	if((month==2)||(month==4)||(month==6)||(month==8)||(month==9)||(month==11)) return theDate.substring(0,4)+((--month)<10?"0"+month.toString():month.toString())+"31";
-    	if((month==5)||(month==7)||(month==10)||(month==12)) return theDate.substring(0,4)+((--month).toString())+"30";
+    	if((month==5)||(month==7)||(month==10)||(month==12)) return theDate.substring(0,4)+((--month)<10?"0"+month.toString():month.toString())+"30";
     	Integer year=Integer.valueOf(theDate.substring(0,4));
     	if(month==1) return ((Integer)(--year)).toString()+"1231";
     	if(((year%4)!=0)||(((year%100)==0)&&((year%400)!=0))) return year.toString()+"0228";
@@ -106,7 +106,7 @@ public class Utils {
     	Integer month=Integer.valueOf(theDate.substring(4,6));
     	Integer year=Integer.valueOf(theDate.substring(0,4));
     	if(month==12) return (++year).toString()+"01"+dayString;
-    	return year.toString()+(++month).toString()+dayString;
+    	return year.toString()+((++month)<10?"0"+month.toString():month.toString())+dayString;
     }
 
     public static String precedingMonth(String theDate) {
@@ -114,7 +114,7 @@ public class Utils {
     	Integer month=Integer.valueOf(theDate.substring(4,6));
     	Integer year=Integer.valueOf(theDate.substring(0,4));
     	if(month==1) return (--year).toString()+"12"+dayString;
-    	return year.toString()+(--month).toString()+dayString;
+    	return year.toString()+((--month)<10?"0"+month.toString():month.toString())+dayString;
     }
 
 

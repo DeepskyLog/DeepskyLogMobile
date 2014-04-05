@@ -84,6 +84,7 @@ public class DeepskyObservations {
 		            initialValues.put("deepskyObservationDate", "No data");
 		            initialValues.put("instrumentName", "No data");
 		            initialValues.put("deepskyObservationDescription", "No data");
+		            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
 		            DslDatabase.insert("deepskyObservations", initialValues);
 		    	}
 		    	else {
@@ -98,6 +99,7 @@ public class DeepskyObservations {
 				            initialValues.put("deepskyObservationDate", jsonObject.getString("deepskyObservationDate"));
 				            initialValues.put("instrumentName", jsonObject.getString("instrumentName"));
 				            initialValues.put("deepskyObservationDescription", jsonObject.getString("deepskyObservationDescription").replace("\"", "'"));
+				            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+jsonObject.getString("deepskyObservationId")+";");
 				            DslDatabase.insert("deepskyObservations", initialValues);
 				    	}
 			        } 
@@ -165,11 +167,12 @@ public class DeepskyObservations {
 	
 	private static void executeBroadcastDeepskyObservationsListDaysFromDateToDate(String fromDate, String toDate) {
 		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListDaysFromDateToDate", "&fromDate="+fromDate+"&toDate="+toDate, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListToDbAndBroadcast");		
+		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListDaysFromDateToDate", "&fromDate="+fromDate+"&toDate="+toDate, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListDaysToDbAndBroadcast");		
 	}
 	
 	public static void storeDeepskyObservationsListDaysToDbAndBroadcast(String observationRaw) {
- 		try {
+		Toast.makeText(MainActivity.mainActivity, observationRaw, Toast.LENGTH_LONG).show();
+		try {
  			String result=Utils.getTagContent(observationRaw,"result");
  			if(result.startsWith("Unavailable url:")) {
 				//TODO change second index of substring in next line
