@@ -53,7 +53,7 @@ public class DslDatabase {
     	open();
     	return sqlLiteDatabase.insert(table, null, values);
     }
-    
+        
     public static long insertOrUpdate(String table, ContentValues values) {
     	open();
     	return sqlLiteDatabase.insert(table, null, values);
