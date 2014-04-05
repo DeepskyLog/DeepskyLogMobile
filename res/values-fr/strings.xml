@@ -53,8 +53,8 @@
     <string name="observers_tellaboutconfigurationmenu">"You can always enter your settings via the 'Configurations' menu."</string>
     <string name="observers_invalidcredentials">"Invalid DSL credentials. Please enter your settings via the 'Configurations' menu."</string>
     					  
-    <string name="deepskyfragment_observationsdetails_button_text">"Observations\nDetails"</string>
-    <string name="deepskyfragment_observationslist_button_text">"Observation\nList"</string>
+    <string name="deepskyfragment_observationsdetails_button_text">"Observations\nBy date"</string>
+    <string name="deepskyfragment_observationslist_button_text">"Observation\nUnsorted"</string>
     <string name="deepskyfragment_observationsquery_button_text">"Observations\nQuery"</string>
     <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
     <string name="deepskyfragment_command_button_text">"Command"</string>

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 public class DeepskyFragment extends Fragment {
 	
+	public static String sortMode;
+
 	private View deepskyFragmentView;
 	private Bundle stateBundle=null;
 
@@ -43,9 +45,9 @@ public class DeepskyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);		
 		this.observationsdetails_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsdetails_button_id);
-		this.observationsdetails_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { observationDetailsOnClick(v); } });
+		this.observationsdetails_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="By Date"; observationDetailsOnClick(v); } });
 		this.observationslist_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationslist_button_id);
-		this.observationslist_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { observationListOnClick(v); } });
+		this.observationslist_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="None"; observationListOnClick(v); } });
 		this.observationsquery_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsquery_button_id);
 		this.observationsquery_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { observationQueryOnClick(v); } });
 		this.objectsquery_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_objectsquery_button_id);

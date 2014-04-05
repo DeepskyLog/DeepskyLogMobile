@@ -2,8 +2,6 @@ package org.deepskylog;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -33,7 +31,15 @@ public class Utils {
 	        if(conn.getResponseCode()==200) {
 	        	inputStream=conn.getInputStream();
 	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "online"));
-		        return readIt(inputStream, 500000);
+	        	byte[] buffer=new byte[500000];
+	        	byte[] tempbuffer=new byte[500000];
+	            int count=0;
+	            int len1=0;
+	            while((len1=inputStream.read(tempbuffer))>0) {
+	            	for(int i=0;i<len1;i++) buffer[count+i]=tempbuffer[i];
+	            	count+=len1;
+	            }
+	        	return new String(buffer);
 	        }
 	        else {
 	        	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.online").putExtra("org.deepskylog.online", "offline"));
@@ -51,12 +57,6 @@ public class Utils {
 	        } 
  	    }
     }    
-    
-    private static String readIt(InputStream inputStream, int len) throws IOException, UnsupportedEncodingException {
-    	char[] buffer=new char[len];
-    	(new InputStreamReader(inputStream)).read(buffer);
-    	return new String(buffer).trim();
-    }	
     
     public static String getTagContent(String result, String tag) throws Exception {
   	   	if(result==null) throw new Exception("Utils.getTagContent: No string to analyse");
