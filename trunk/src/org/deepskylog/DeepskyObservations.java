@@ -77,14 +77,23 @@ public class DeepskyObservations {
 				//TODO: change to deepskyObservationId
 				String deepskyObservationId=Utils.getTagContent(observationRaw,"deepskyObservationId");
 				if(result.equals("[\"No data\"]")) {
-			    	ContentValues initialValues = new ContentValues();
-		        	initialValues.put("deepskyObservationId", deepskyObservationId);
+			    	DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
+		            DslDatabase.execSql("INSERT INTO deepskyObservations (deepskyObservationId,deepskyObjectName,observerName,deepskyObservationDate,instrumentName,deepskyObservationDescription) "
+		            		+ "VALUES("+deepskyObservationId+","
+	            			   +"'No data',"
+	            			   +"'No data',"
+	            			   +"'No data'"
+	            			   +"'No data'"
+	            			   +"'No data'"
+	            			   + ")");
+		            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
+		            ContentValues initialValues = new ContentValues();
+			    	initialValues.put("deepskyObservationId", deepskyObservationId);
 		            initialValues.put("deepskyObjectName", "No data");
 		            initialValues.put("observerName", "No data");
 		            initialValues.put("deepskyObservationDate", "No data");
 		            initialValues.put("instrumentName", "No data");
 		            initialValues.put("deepskyObservationDescription", "No data");
-		            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
 		            DslDatabase.insert("deepskyObservations", initialValues);
 		    	}
 		    	else {
@@ -92,14 +101,14 @@ public class DeepskyObservations {
 				    	JSONArray jsonArray = new JSONArray(result);
 				    	if(jsonArray.length()>0) {
 						    JSONObject jsonObject=jsonArray.getJSONObject(0);
-					    	ContentValues initialValues = new ContentValues();
-				        	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
+				            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+jsonObject.getString("deepskyObservationId")+";");
+				            ContentValues initialValues = new ContentValues();
+					    	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
 				            initialValues.put("deepskyObjectName", jsonObject.getString("deepskyObjectName"));
 				            initialValues.put("observerName", jsonObject.getString("observerName"));
 				            initialValues.put("deepskyObservationDate", jsonObject.getString("deepskyObservationDate"));
 				            initialValues.put("instrumentName", jsonObject.getString("instrumentName"));
-				            initialValues.put("deepskyObservationDescription", jsonObject.getString("deepskyObservationDescription").replace("\"", "'"));
-				            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+jsonObject.getString("deepskyObservationId")+";");
+				            initialValues.put("deepskyObservationDescription", jsonObject.getString("deepskyObservationDescription"));
 				            DslDatabase.insert("deepskyObservations", initialValues);
 				    	}
 			        } 
@@ -119,7 +128,7 @@ public class DeepskyObservations {
 	
 	private static void executeBroadcastDeepskyObservationsListFromIdToId(String fromId, String toId) {
 		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListFromIdToId", "", "org.deepskylog.DeepskyObservations", "deepskyObservationsListBroadcast");		
+		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListFromIdToId", "&fromId="+fromId+"&toId="+toId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListToDbAndBroadcast");		
 	}
 	
 	private static void executeBroadcastDeepskyObservationsListFromDateToDate(String fromDate, String toDate) {
@@ -143,16 +152,16 @@ public class DeepskyObservations {
 		    	}
 		    	else {
 		    		try {
-				    	JSONArray jsonArray = new JSONArray(result);
+		    			JSONArray jsonArray = new JSONArray(result);
 				    	int listLength=jsonArray.length();
 				    	for(int i=0;i<listLength;i++) {
 						    JSONObject jsonObject=jsonArray.getJSONObject(i);
+					    	DslDatabase.delete("deepskyObservationsList","deepskyObservationId='"+jsonObject.getString("deepskyObservationId")+"'",null);
 					    	ContentValues initialValues = new ContentValues();
-				        	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
+					    	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
 				            initialValues.put("deepskyObjectName", jsonObject.getString("deepskyObjectName"));
 				            initialValues.put("observerName", jsonObject.getString("observerName"));
 				            initialValues.put("deepskyObservationDate", jsonObject.getString("deepskyObservationDate"));
-				            DslDatabase.execSql("DELETE FROM deepskyObservationsList WHERE deepskyObservationId="+jsonObject.getString("deepskyObservationId")+";");
 				            DslDatabase.insert("deepskyObservationsList", initialValues);
 				    	}
 		    		} 
@@ -161,7 +170,7 @@ public class DeepskyObservations {
 				LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationslist"));
 			}
     	}
-    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show(); }
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show(); }
 		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
 	}
 	
@@ -189,10 +198,10 @@ public class DeepskyObservations {
 				    	int listLength=jsonArray.length();
 				    	for(int i=0;i<listLength;i++) {
 						    JSONObject jsonObject=jsonArray.getJSONObject(i);
-					    	ContentValues initialValues = new ContentValues();
+					    	DslDatabase.execSql("DELETE FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate='"+jsonObject.getString("deepskyObservationsListDate")+"');");
+				            ContentValues initialValues = new ContentValues();
 					    	initialValues.put("deepskyObservationsListDate", jsonObject.getString("deepskyObservationsListDate"));
 				            initialValues.put("deepskyObservationsListDateCount", jsonObject.getString("deepskyObservationsListDateCount"));
-				            DslDatabase.execSql("DELETE FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate='"+jsonObject.getString("deepskyObservationsListDate")+"');");
 				            DslDatabase.insert("deepskyObservationsListDays", initialValues);
 				    	}
 		    		} 

@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class DeepskyObservationsFragment extends Fragment {
+	
+	public static String sortMode;
 
 	private View deepskyObservationsFragmentView;
 	private Bundle stateBundle=null;
@@ -38,6 +40,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyObservationsFragmentView=inflater.inflate(R.layout.deepskyobservationsfragment, container, false);
+		DeepskyObservationsFragment.sortMode=DeepskyFragment.sortMode;
 		this.text1_textview=((TextView)this.deepskyObservationsFragmentView.findViewById(R.id.deepskyobservationsfragment_text1_textview_id));
 		this.text1_textview.setText("Deepsky observations");
 		if(savedInstanceState!=null) {
@@ -45,6 +48,7 @@ public class DeepskyObservationsFragment extends Fragment {
 		}
  		if(this.stateBundle!=null) {
  			this.text1_textview.setText(stateBundle.getString("text1_textview"));
+ 			DeepskyObservationsFragment.sortMode=stateBundle.getString("sortMode");
  		}
  		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationSelectedForDetailsReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationselectedfordetails"));
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsSwitchToListReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationswitchtolist"));
@@ -98,6 +102,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	private Bundle getStateBundle() {
         Bundle state=new Bundle();
         state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("sortMode", this.sortMode);
         state.putString("actualFragmentName", (this.actualFragment==this.deepskyObservationsDetailsFragment?"deepskyObservationsDetailsFragment":"deepskyObservationsListFragment"));
         return state;
     }

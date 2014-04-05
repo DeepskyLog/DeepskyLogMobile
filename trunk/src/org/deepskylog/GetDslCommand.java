@@ -10,6 +10,7 @@ public class GetDslCommand {
 	private static final String SERVER_URL="http://www.deepskylog.org/";
 	        
    	public static void getCommandAndInvokeClassMethod(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
+   		//Toast.makeText(MainActivity.mainActivity,command+params, Toast.LENGTH_LONG).show();
    		new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
