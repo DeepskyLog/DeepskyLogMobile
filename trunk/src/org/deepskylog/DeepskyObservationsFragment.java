@@ -102,7 +102,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	private Bundle getStateBundle() {
         Bundle state=new Bundle();
         state.putString("text1_textview", this.text1_textview.getText().toString());
-        state.putString("sortMode", this.sortMode);
+        state.putString("sortMode", DeepskyObservationsFragment.sortMode);
         state.putString("actualFragmentName", (this.actualFragment==this.deepskyObservationsDetailsFragment?"deepskyObservationsDetailsFragment":"deepskyObservationsListFragment"));
         return state;
     }
