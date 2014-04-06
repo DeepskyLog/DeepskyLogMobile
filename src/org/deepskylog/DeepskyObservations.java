@@ -1,5 +1,7 @@
 package org.deepskylog;
 
+import java.lang.reflect.Array;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -86,8 +88,8 @@ public class DeepskyObservations {
 	            			   +"'No data'"
 	            			   +"'No data'"
 	            			   + ")");
-		            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
-		            ContentValues initialValues = new ContentValues();
+		            DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
+			    	ContentValues initialValues = new ContentValues();
 			    	initialValues.put("deepskyObservationId", deepskyObservationId);
 		            initialValues.put("deepskyObjectName", "No data");
 		            initialValues.put("observerName", "No data");
@@ -198,11 +200,14 @@ public class DeepskyObservations {
 				    	int listLength=jsonArray.length();
 				    	for(int i=0;i<listLength;i++) {
 						    JSONObject jsonObject=jsonArray.getJSONObject(i);
-					    	DslDatabase.execSql("DELETE FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate='"+jsonObject.getString("deepskyObservationsListDate")+"');");
-				            ContentValues initialValues = new ContentValues();
-					    	initialValues.put("deepskyObservationsListDate", jsonObject.getString("deepskyObservationsListDate"));
-				            initialValues.put("deepskyObservationsListDateCount", jsonObject.getString("deepskyObservationsListDateCount"));
-				            DslDatabase.insert("deepskyObservationsListDays", initialValues);
+						    Cursor temp=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE deepskyObservationsListDate="+jsonObject.getString("deepskyObservationsListDate"));
+					    	if(temp.getCount()==0) { 
+					    		ContentValues initialValues = new ContentValues();
+					    		initialValues.put("deepskyObservationsListDate", jsonObject.getString("deepskyObservationsListDate"));
+					    		initialValues.put("deepskyObservationsListDateCount", jsonObject.getString("deepskyObservationsListDateCount"));
+					    		DslDatabase.insert("deepskyObservationsListDays", initialValues);
+					    	}
+					    	temp.close();
 				    	}
 		    		} 
 		    		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 5 "+e.toString(), Toast.LENGTH_LONG).show(); }
