@@ -3,6 +3,7 @@ package org.deepskylog;
 import android.widget.Toast;
 
 public class Observers {
+	
 		
 	private static void tellAboutConfigurationMenu() {
 	    DslDialog.newInstance("","", 
@@ -30,13 +31,29 @@ public class Observers {
 	}
 	
 	public static void LoginDialogOnClickListener1(String theKey) {
-		if(theKey.equals("positive")) Toast.makeText(MainActivity.mainActivity, "To implement", Toast.LENGTH_LONG).show();
+		if(theKey.equals("positive")) doLogin();
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
 	
+	private static void doLogin() {
+		GetDslCommand.getCommandAndInvokeClassMethod("checkUser", "&userName="+MainActivity.preferences.getString("loginId", "")+
+				  "&password="+MainActivity.preferences.getString("loginPassword", ""), "org.deepskylog.Observers","onLoginResult");	
+	}
+	
+	public static void onLoginResult(String resultRaw) {
+		Toast.makeText(MainActivity.mainActivity, resultRaw, Toast.LENGTH_LONG).show();
+		try {
+			String result=Utils.getTagContent(resultRaw, "result");
+			if(result.startsWith("loggedUser:")) MainActivity.loggedPerson=result.substring(12);
+			else MainActivity.loggedPerson="";
+			MainActivity.preferenceEditor.putString("loggedPerson", MainActivity.loggedPerson).commit();
+			MainActivity.mainActivity.setActionBar();
+		}
+		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "Observers Exception 1: "+e.toString(), Toast.LENGTH_LONG).show(); }
+	}
+	
 	public static void login() {
-	    LoginDialog.newInstance("org.deepskylog.Observers","LoginDialogOnClickListener1",true)
-        						.show(MainActivity.fragmentManager, "loginDialog");		
+	    LoginDialog.newInstance("org.deepskylog.Observers","LoginDialogOnClickListener1",true).show(MainActivity.fragmentManager, "loginDialog");		
 	}
 	
 	public static void ObserversDslDialogListener3(String theKey) {
@@ -85,9 +102,7 @@ public class Observers {
 	}
 		
 	public static void firstRun() {
-    	MainActivity.preferenceEditor.putString("loginId","");
-    	MainActivity.preferenceEditor.putString("loginPassword","");
-    	MainActivity.preferenceEditor.commit();
+    	MainActivity.preferenceEditor.putString("loginId","").putString("loginPassword","").commit();
     	askForUseOfFirstRunTour();
 	}
 

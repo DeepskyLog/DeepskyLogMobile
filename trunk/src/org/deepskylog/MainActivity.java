@@ -51,7 +51,7 @@ public class MainActivity 	extends 	Activity
 
 	private static ActionBar actionBar;
 	private static String onLine="offLine";
-	private static String loggedPerson="";
+	public static String loggedPerson="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +139,7 @@ public class MainActivity 	extends 	Activity
 	 */
 	}
 	
-	private void setActionBar() {
+	public void setActionBar() {
 		if(MainActivity.onLine.equals("online")) {
 			if(loggedPerson.equals("")) actionBar.setSubtitle(getResources().getString(R.string.actionbar_connectivity_V)+resources.getString(R.string.actionbar_subtitle_text_online));
 			else actionBar.setSubtitle(loggedPerson+resources.getString(R.string.actionbar_subtitle_text_online));

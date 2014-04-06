@@ -105,7 +105,17 @@ public class LoginDialog extends DialogFragment {
     }
     private void onButtonClick(String theButton) {
     	if((!(this.loginDialogOnClickListenerClassname.equals("")))&&(!(this.loginDialogOnClickListenerMethodname.equals("")))) { 
-    		try { this.loginDialogOnClickListener.invoke(null,theButton); } 
+    		try { 
+    			if(theButton.equals("positive")) {
+    				MainActivity.preferenceEditor
+    					.putString("loginId", this.userid_edittext.getText().toString())
+    					.putString("loginPassword", this.password_edittext.getText().toString())
+    					.putString("loggedPerson", "")
+    					.commit();
+    			}
+    			MainActivity.mainActivity.setActionBar();
+    			this.loginDialogOnClickListener.invoke(null,theButton); 
+    		} 
     		catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"Exception 3 in loginDialog "+e.getMessage().toString(), Toast.LENGTH_SHORT).show(); };
     	}
     	if(this.autoDismiss) this.loginDialog.dismiss();

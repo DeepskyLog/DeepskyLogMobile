@@ -2,13 +2,6 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <ImageView
-        android:src="@drawable/dsl"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:scaleType="center"
-        android:background="#FFFFBB33"
-        android:contentDescription="@string/manifest_application_name" />
     <EditText
         android:id="@+id/logindialog_userid_id"
         android:inputType="textEmailAddress"
