@@ -122,11 +122,13 @@ public class DeepskyObservationsFragment extends Fragment {
 									.commit();
 		if(fragment==this.deepskyObservationsListFragment) { 
 			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
-			this.text1_textview.setText("Deepsky Observations - List"); 
+			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observations - List - by date");
+			else this.text1_textview.setText("Deepsky Observations - List - unsorted");
 		}
 		if(fragment==this.deepskyObservationsDetailsFragment) { 
 			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
-			this.text1_textview.setText("Deepsky Observations - Details"); 
+			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observations - Details - by date"); 
+			else this.text1_textview.setText("Deepsky Observations - Details - unsorted");
 		}
 		this.actualFragment=fragment;
 	}

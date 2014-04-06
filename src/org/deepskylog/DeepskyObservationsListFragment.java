@@ -176,6 +176,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	}
 
 	private void gotoDateOrPrevious() {
+		this.direction="down";
 		Cursor dCursor=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate<='"+this.deepskyObservationsListProposedDate+"') ORDER BY deepskyObservationsListDate DESC");
 		if(dCursor.getCount()>0) {
 			dCursor.moveToFirst();
@@ -186,7 +187,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 			DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(this.deepskyObservationsListDate,this.deepskyObservationsListDate);
 		}
 		else {
-			Toast.makeText(MainActivity.mainActivity, "List previous month lookup for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
+			//Toast.makeText(MainActivity.mainActivity, "List previous month lookup for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
 			DeepskyObservations.broadcastDeepskyObservationsListDaysFromDateToDate(Utils.precedingMonth(this.deepskyObservationsListProposedDate), this.deepskyObservationsListProposedDate);
 		}
 	}
@@ -198,6 +199,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	}
 
 	private void gotoDateOrNext() {
+		this.direction="up";
 		Cursor dCursor=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate>='"+this.deepskyObservationsListProposedDate+"') ORDER BY deepskyObservationsListDate ASC");
 		if(dCursor.getCount()>0) {
 			dCursor.moveToFirst();
@@ -208,7 +210,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 			DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(this.deepskyObservationsListDate,this.deepskyObservationsListDate);
 		}
 		else {
-			Toast.makeText(MainActivity.mainActivity, "List next month lookup for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
+			//Toast.makeText(MainActivity.mainActivity, "List next month lookup for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
 		    DeepskyObservations.broadcastDeepskyObservationsListDaysFromDateToDate(this.deepskyObservationsListProposedDate,Utils.followingMonth(this.deepskyObservationsListProposedDate));
 		}
 	}
@@ -221,13 +223,19 @@ public class DeepskyObservationsListFragment extends Fragment {
 	}
 	
 	private void onReceiveDeepskyObservationsListDays(Context context, Intent intent) {
-		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate<='"+this.deepskyObservationsListDate+"') ORDER BY deepskyObservationsListDate DESC");
-		if(mCursor.getCount()>0) {
-			Toast.makeText(MainActivity.mainActivity, "List success looked up for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
+		//Toast.makeText(MainActivity.mainActivity, "List looked up for "+this.deepskyObservationsListProposedDate, Toast.LENGTH_LONG).show();
+		Cursor dCursor;
+		if(this.direction.equals("down")) dCursor=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate<='"+this.deepskyObservationsListProposedDate+"') ORDER BY deepskyObservationsListDate DESC");
+		else dCursor=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE (deepskyObservationsListDate>='"+this.deepskyObservationsListProposedDate+"') ORDER BY deepskyObservationsListDate ASC");
+		if(dCursor.getCount()>0) {
+			//Toast.makeText(MainActivity.mainActivity, "List success looked up for "+this.deepskyObservationsListProposedDate, Toast.LENGTH_LONG).show();
+			dCursor.moveToFirst();
+			this.deepskyObservationsListDate=dCursor.getString(0);
+			DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(this.deepskyObservationsListDate,this.deepskyObservationsListDate);
 		}
 		else
-			Toast.makeText(MainActivity.mainActivity, "List not success looked up for "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
-
+			if(this.direction.equals("down")) Toast.makeText(MainActivity.mainActivity, "No more observations before "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
+			else Toast.makeText(MainActivity.mainActivity, "No more observations after "+this.deepskyObservationsListDate, Toast.LENGTH_LONG).show();
 	}
 	
 
