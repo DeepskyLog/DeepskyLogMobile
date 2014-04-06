@@ -1,7 +1,5 @@
 package org.deepskylog;
 
-import java.lang.reflect.Array;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -182,7 +180,7 @@ public class DeepskyObservations {
 	}
 	
 	public static void storeDeepskyObservationsListDaysToDbAndBroadcast(String observationRaw) {
-		Toast.makeText(MainActivity.mainActivity, observationRaw, Toast.LENGTH_LONG).show();
+		//Toast.makeText(MainActivity.mainActivity, observationRaw, Toast.LENGTH_LONG).show();
 		try {
  			String result=Utils.getTagContent(observationRaw,"result");
  			if(result.startsWith("Unavailable url:")) {
@@ -202,7 +200,8 @@ public class DeepskyObservations {
 						    JSONObject jsonObject=jsonArray.getJSONObject(i);
 						    Cursor temp=DslDatabase.execSql("SELECT deepskyObservationsListDate FROM deepskyObservationsListDays WHERE deepskyObservationsListDate="+jsonObject.getString("deepskyObservationsListDate"));
 					    	if(temp.getCount()==0) { 
-					    		ContentValues initialValues = new ContentValues();
+					    		DslDatabase.delete("deepskyObservationsListDays","deepskyObservationsListDate='"+jsonObject.getString("deepskyObservationsListDate")+"'",null);
+						    	ContentValues initialValues = new ContentValues();
 					    		initialValues.put("deepskyObservationsListDate", jsonObject.getString("deepskyObservationsListDate"));
 					    		initialValues.put("deepskyObservationsListDateCount", jsonObject.getString("deepskyObservationsListDateCount"));
 					    		DslDatabase.insert("deepskyObservationsListDays", initialValues);

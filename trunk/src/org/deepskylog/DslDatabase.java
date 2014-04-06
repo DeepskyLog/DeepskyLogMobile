@@ -12,31 +12,34 @@ public class DslDatabase {
 
 
     private static final String DATABASE_NAME="dsl";
-    private static final int DATABASE_VERSION=12;
+    private static final int DATABASE_VERSION=13;
 
     private static final String DATABASE_CREATE_DEEPSKYOBSERVATIONS=
     	    "create table " +
-	    		"deepskyObservations " +
-	    	   "(deepskyObservationId 				integer primary key, "
-		  	   +"observerName 						text not null, "
-		  	   +"deepskyObjectName 					text not null, "
-		  	   +"deepskyObservationDate 			text not null, " 
-		  	   +"instrumentName 					text not null, " 
-		  	   +"deepskyObservationDescription		text);";
+    	    	"deepskyObservations " +
+    	    	 "(deepskyObservationId 				integer primary key "
+		  	   	+",observerName 						text not null "
+		  	    +",deepskyObjectName 					text not null "
+		  	    +",deepskyObservationDate 				text not null " 
+		  	    +",instrumentName 						text not null " 
+		  	    +",deepskyObservationDescription		text"
+		  	    +");";
     
     private static final String DATABASE_CREATE_DEEPSKYOBSERVATIONSLIST=
     	    "create table " +
-	    		"deepskyObservationsList " +
-	    	   "(deepskyObservationId 				integer primary key, "
-		  	   +"observerName 						text not null, "
-		  	   +"deepskyObjectName 					text not null, "
-		  	   +"deepskyObservationDate 			text not null);";
+	    	  "deepskyObservationsList " +
+	    	    "(deepskyObservationId 					integer primary key "
+		  	   +",observerName 							text not null "
+		  	   +",deepskyObjectName 					text not null "
+		  	   +",deepskyObservationDate 				text not null "
+		  	   +");";
     
 	 private static final String DATABASE_CREATE_DEEPSKYOBSERVATIONSLISTDAYS=
     	    "create table " +
 	    		"deepskyObservationsListDays " +
-	    	   "(deepskyObservationsListDateCount	integer primary key, "
-		  	   +"deepskyObservationsListDate 		text not null);";
+	    	    	 "(deepskyObservationsListDate 		text primary key "
+	    	    	+",deepskyObservationsListDateCount	integer "
+	    	    	+");";
 
 
 

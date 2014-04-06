@@ -1,13 +1,18 @@
 package org.deepskylog;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
@@ -30,6 +35,8 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	private Integer deepskyObservationIdToGet;
 	private Integer deepskyObservationIdDetails;
 	
+	private String deepskyObservationDate;
+	
 	private BroadcastReceiver broadcastDeepskyObservationNoneReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationNone(context, intent); } };
 	private BroadcastReceiver broadcastDeepskyObservationReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservation(context, intent); } };
 	private BroadcastReceiver broadcastDeepskyObservationSelectedForDetailsReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationSelectedForDetails(context, intent); } };
@@ -42,6 +49,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		}		
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyObservationsDetailsFragmentView=inflater.inflate(R.layout.deepskyobservationsdetailsfragment, container, false);
@@ -56,8 +64,8 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		this.details_textview.setText("");
 		this.details_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
  		    public void onSwipeTop() { Toast.makeText(getActivity(), "Furtherdetails will come  here", Toast.LENGTH_LONG).show(); }
- 		    public void onSwipeRight() { getDeepskyObservation(--deepskyObservationIdToGet); }
- 		    public void onSwipeLeft() { getDeepskyObservation(++deepskyObservationIdToGet); }
+ 		    public void onSwipeRight() { goRight(); }
+ 		    public void onSwipeLeft() { goLeft(); }
  		    public void onSwipeBottom() { switchToDeepskyObservationsList(); }
 		});
  		if(savedInstanceState!=null) {
@@ -70,9 +78,11 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
  			this.details_textview.setText(stateBundle.getString("details_textview"));
  			this.deepskyObservationIdToGet=(stateBundle.getInt("deepskyObservationIdToGet"));
  			this.deepskyObservationIdDetails=(stateBundle.getInt("deepskyObservationIdDetails"));
+ 			this.deepskyObservationDate=stateBundle.getString("deepskyObservationDate");
  		}
  		else {
  			this.deepskyObservationIdToGet=MainActivity.preferences.getInt("deepskyObservationIdToGet", 0);
+ 			this.deepskyObservationDate=(new SimpleDateFormat("yyyyMMdd")).format(new Date());
  	 		if(this.deepskyObservationIdToGet==0) this.deepskyObservationIdToGet=DeepskyObservations.deepskyObservationsMaxId;
  	 		this.deepskyObservationIdDetails=MainActivity.preferences.getInt("deepskyObservationIdDetails", 0);
  			if(this.deepskyObservationIdDetails==0) this.deepskyObservationIdDetails=DeepskyObservations.deepskyObservationsMaxId;			
@@ -158,7 +168,30 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
     	}
     }
     
-    private void displayDeepskyObservationDetails(String result) {
+	private void goRight() {
+ 		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+ 			Cursor iCursor=DslDatabase.execSql("SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate<='"+this.deepskyObservationDate+"') AND (deepskyObservationId<"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate DESC ,deepskyObservationId DESC ;");
+ 			iCursor.moveToFirst();
+ 			this.deepskyObservationIdToGet=iCursor.getInt(0);
+ 			getDeepskyObservation(this.deepskyObservationIdToGet);
+ 		}
+ 		else
+ 			getDeepskyObservation(--deepskyObservationIdToGet); 
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	private void goLeft() {
+		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+ 			Cursor iCursor=DslDatabase.execSql("SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate>='"+this.deepskyObservationDate+"') AND (deepskyObservationId>"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate ASC ,deepskyObservationId ASC ;");
+ 			iCursor.moveToFirst();
+ 			this.deepskyObservationIdToGet=iCursor.getInt(0);
+ 			getDeepskyObservation(this.deepskyObservationIdToGet);
+ 		}
+ 		else
+ 			getDeepskyObservation(++deepskyObservationIdToGet);
+	}
+
+	private void displayDeepskyObservationDetails(String result) {
     	if(result.equals("Unavailable")) {
 	   		this.objecttext_textview.setText("");
        		this.details_textview.setText(MainActivity.resources.getString(R.string.deepskyobservationsdetailsfragment_observation)+this.deepskyObservationIdDetails+MainActivity.resources.getString(R.string.deepskyobservationsdetailsfragment_observation_unavailable));
@@ -192,7 +225,8 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		    	    	}
 		    		   	else {
 		    		   		this.objecttext_textview.setText(jsonObject.getString("deepskyObjectName"));
-		    		   		this.details_textview.setText(jsonObject.getString("deepskyObservationDate"));
+		    		   		this.deepskyObservationDate=jsonObject.getString("deepskyObservationDate");
+		    		   		this.details_textview.setText(this.deepskyObservationDate);
 		    		   		this.details_textview.setText(this.details_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("observerName")));
 		    		   		this.details_textview.setText(this.details_textview.getText()+" - "+Html.fromHtml(jsonObject.getString("deepskyObservationId")));
 		    		   		this.details_textview.setText(this.details_textview.getText()+"\n");
@@ -202,7 +236,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 		    			this.text1_textview.setText(MainActivity.resources.getString(R.string.deepskyfragment_deepskyobservations_details)+this.deepskyObservationIdDetails.toString()+(DeepskyObservations.deepskyObservationsMaxId==0?"":" / "+Integer.valueOf(DeepskyObservations.deepskyObservationsMaxId)));   	    	    
 		    		}
 		        } 
-		    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
+		    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservationsDetailsFragment Exception 1 "+e.toString(), Toast.LENGTH_LONG).show(); }
 	       	}
     	}
     }    
