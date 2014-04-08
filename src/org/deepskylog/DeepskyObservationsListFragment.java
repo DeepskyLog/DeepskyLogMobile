@@ -82,6 +82,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 			this.deepskyObservationsListId=MainActivity.preferences.getInt("deepskyObservationsListId", DeepskyObservations.deepskyObservationsMaxId);
 			this.direction="down";
 		}
+		if(this.deepskyObservationsListId==0) this.deepskyObservationsListId=DeepskyObservations.deepskyObservationsMaxId;
 		stateBundle=null;
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsListReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationslist"));
   		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsListDaysReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationslistdays"));
@@ -182,7 +183,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 			dCursor.moveToFirst();
 			this.deepskyObservationsListDate=dCursor.getString(0);
 			Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE (deepskyObservationDate='"+String.valueOf(this.deepskyObservationsListDate)+"') ORDER BY deepskyObservationId DESC");
-			this.text1_textview.setText("Observation of "+this.deepskyObservationsListDate);
+			this.text1_textview.setText("Observations of "+this.deepskyObservationsListDate);
 			setData(mCursor);
 			DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(this.deepskyObservationsListDate,this.deepskyObservationsListDate);
 		}
@@ -205,7 +206,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 			dCursor.moveToFirst();
 			this.deepskyObservationsListDate=dCursor.getString(0);
 			Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE (deepskyObservationDate='"+String.valueOf(this.deepskyObservationsListDate)+"') ORDER BY deepskyObservationId DESC");
-			this.text1_textview.setText("Observation of "+this.deepskyObservationsListDate);
+			this.text1_textview.setText("Observations of "+this.deepskyObservationsListDate);
 			setData(mCursor);
 			DeepskyObservations.broadcastDeepskyObservationsListFromDateToDate(this.deepskyObservationsListDate,this.deepskyObservationsListDate);
 		}

@@ -36,15 +36,14 @@ public class Observers {
 	}
 	
 	private static void doLogin() {
-		GetDslCommand.getCommandAndInvokeClassMethod("checkUser", "&userName="+MainActivity.preferences.getString("loginId", "")+
-				  "&password="+MainActivity.preferences.getString("loginPassword", ""), "org.deepskylog.Observers","onLoginResult");	
+		GetDslCommand.getCommandAndInvokeClassMethod("checkUser", "&userName="+MainActivity.preferences.getString("loginId", "")+"&password="+MainActivity.preferences.getString("loginPassword", ""), "org.deepskylog.Observers","onLoginResult");	
 	}
 	
 	public static void onLoginResult(String resultRaw) {
-		Toast.makeText(MainActivity.mainActivity, resultRaw, Toast.LENGTH_LONG).show();
+		//Toast.makeText(MainActivity.mainActivity, resultRaw, Toast.LENGTH_LONG).show();
 		try {
 			String result=Utils.getTagContent(resultRaw, "result");
-			if(result.startsWith("loggedUser:")) MainActivity.loggedPerson=result.substring(12);
+			if(result.startsWith("loggedUser:")) MainActivity.loggedPerson=result.substring(11);
 			else MainActivity.loggedPerson="";
 			MainActivity.preferenceEditor.putString("loggedPerson", MainActivity.loggedPerson).commit();
 			MainActivity.mainActivity.setActionBar();
