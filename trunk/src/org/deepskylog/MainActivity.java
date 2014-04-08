@@ -125,18 +125,10 @@ public class MainActivity 	extends 	Activity
 	}	
 		
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {    	
-    //	Toast.makeText(this, "DEVELOP: code for changes in login name, password or auto login etc",Toast.LENGTH_LONG).show();
-	/*
-	if(key.equals("usertypeTSCHNA")) {
-	    if(preferences.getBoolean("usertypeTSCHNA", true))
-	    	userType="TSCHNA";
-	    else
-	    	userType="cc";
-	    if(actualFragment==mainFragment)
-	    	mainFragment.checkTargetNr();
-	}
-	 */
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if(key.equals("loginId")||key.equals("loginPassword")) {
+	    	GetDslCommand.getCommandAndInvokeClassMethod("checkUser", "&userName="+MainActivity.preferences.getString("loginId", "")+"&password="+MainActivity.preferences.getString("loginPassword", ""), "org.deepskylog.Observers","onLoginResult");	
+		}
 	}
 	
 	public void setActionBar() {

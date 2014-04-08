@@ -58,8 +58,8 @@ public class LoginDialog extends DialogFragment {
         this.loginDialogView=inflater.inflate(R.layout.logindialog, null);
         this.userid_edittext=(EditText)this.loginDialogView.findViewById(R.id.logindialog_userid_id);
         this.password_edittext=(EditText)this.loginDialogView.findViewById(R.id.logindialog_password_id);
-        if(!(MainActivity.preferences.getString("loginName", "").equals(""))) this.userid_edittext.setText(MainActivity.preferences.getString("loginId", ""));
-        if(!(MainActivity.preferences.getString("loginPassword", "").equals(""))) this.password_edittext.setText(MainActivity.preferences.getString("loginPassword", ""));        
+        this.userid_edittext.setText(MainActivity.preferences.getString("loginId", ""));
+        this.password_edittext.setText(MainActivity.preferences.getString("loginPassword", ""));        
 		if(savedInstanceState!=null) {
 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}

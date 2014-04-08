@@ -77,16 +77,7 @@ public class DeepskyObservations {
 				//TODO: change to deepskyObservationId
 				String deepskyObservationId=Utils.getTagContent(observationRaw,"deepskyObservationId");
 				if(result.equals("[\"No data\"]")) {
-			    	DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+deepskyObservationId+";");
-		            DslDatabase.execSql("INSERT INTO deepskyObservations (deepskyObservationId,deepskyObjectName,observerName,deepskyObservationDate,instrumentName,deepskyObservationDescription) "
-		            		+ "VALUES("+deepskyObservationId+","
-	            			   +"'No data',"
-	            			   +"'No data',"
-	            			   +"'No data'"
-	            			   +"'No data'"
-	            			   +"'No data'"
-	            			   + ")");
-		            DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
+			    	DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
 			    	ContentValues initialValues = new ContentValues();
 			    	initialValues.put("deepskyObservationId", deepskyObservationId);
 		            initialValues.put("deepskyObjectName", "No data");
