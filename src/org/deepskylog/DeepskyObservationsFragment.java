@@ -26,7 +26,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	
 	private Fragment actualFragment;
 	
-	private BroadcastReceiver broadcastDeepskyObservationSelectedForDetailsReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationSelectedForDetails(context, intent); } };
+	private BroadcastReceiver broadcastDeepskyObservationSelectedReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationSelectedForDetails(context, intent); } };
 	private BroadcastReceiver broadcastDeepskyObservationsSwitchToListReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationsSwitchToList(context, intent); } };
 	
 	@Override
@@ -50,7 +50,7 @@ public class DeepskyObservationsFragment extends Fragment {
  			this.text1_textview.setText(stateBundle.getString("text1_textview"));
  			DeepskyObservationsFragment.sortMode=stateBundle.getString("sortMode");
  		}
- 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationSelectedForDetailsReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationselectedfordetails"));
+ 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationSelectedReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationselected"));
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastDeepskyObservationsSwitchToListReceiver, new IntentFilter("org.deepskylog.broadcastdeepskyobservationswitchtolist"));
 		return this.deepskyObservationsFragmentView;
 	}
@@ -88,7 +88,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	
 	@Override
 	public void onDestroyView() {
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(this.broadcastDeepskyObservationSelectedForDetailsReceiver);
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(this.broadcastDeepskyObservationSelectedReceiver);
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).unregisterReceiver(this.broadcastDeepskyObservationsSwitchToListReceiver);
 		super.onDestroyView();
 	}

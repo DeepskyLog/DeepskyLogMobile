@@ -22,13 +22,13 @@ public class DeepskyObservations {
 	
 	public static void broadcastDeepskyObservationsMaxIdUpdate() { DeepskyObservations.executeBroadcastDeepskyObservationsMaxId(); }
     public static void broadcastDeepskyObservation(String deepskyObservationId) { DeepskyObservations.executeBroadcastDeepskyObservation(deepskyObservationId); }
+    public static void broadcastDeepskyObservationDetails(String deepskyObservationId) { DeepskyObservations.executeBroadcastDeepskyObservationDetails(deepskyObservationId); }
     public static void broadcastDeepskyObservationsListFromIdToId(String fromId, String toId) { DeepskyObservations.executeBroadcastDeepskyObservationsListFromIdToId(fromId, toId); }
     public static void broadcastDeepskyObservationsListFromDateToDate(String fromDate, String toDate) { DeepskyObservations.executeBroadcastDeepskyObservationsListFromDateToDate(fromDate, toDate); }
     public static void broadcastDeepskyObservationsListDaysFromDateToDate(String fromDate, String toDate) { DeepskyObservations.executeBroadcastDeepskyObservationsListDaysFromDateToDate(fromDate, toDate); }
 
 	// deepskyObservationsMaxId
     private static void executeBroadcastDeepskyObservationsMaxId() {
-		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
 		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationMaxId", "", "org.deepskylog.DeepskyObservations", "deepskyObservationsMaxIdBroadcast");		
 	}
 
@@ -60,13 +60,44 @@ public class DeepskyObservations {
 			LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservation").putExtra("org.deepskylog.resultRAW", resultRaw));
 		}
 		else {
-			MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-		    GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationFromId", "&fromId="+deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationToDbAndBroadcast");
+			GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationFromId", "&fromId="+deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationToDbAndBroadcast");
+		}
+		cursor.close();
+	}
+	
+    private static void executeBroadcastDeepskyObservationDetails(String deepskydeepskyObservationId) {
+    	Cursor cursor=DslDatabase.execSql("SELECT deepskyObservations.* FROM deepskyObservations WHERE ((deepskyObservationId=\""+deepskydeepskyObservationId+"\") AND (deepskyObservationTime!=''))");
+    	if(cursor.moveToFirst()) {
+    		String resultRaw=("<deepskyObservationId>"+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationId"))+"</deepskyObservationId>" +
+									   "<result>[ { \"deepskyObservationId\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationId"))+"\", " +
+									   "\"deepskyObjectName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObjectName"))+"\", "+
+					       			   "\"observerName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("observerName"))+"\", "+
+					       			   "\"deepskyObservationDate\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationDate"))+"\","+
+					       			   "\"instrumentName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("instrumentName"))+"\","+
+					       			   "\"deepskyObservationDescription\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationDescription")).replace("\"", "'")+"\", "+
+					       			   "\"deepskyObservationTime\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationTime")).replace("\"", "'")+"\", "+
+					       			   "\"eyepieceName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("eyepieceName")).replace("\"", "'")+"\", "+
+					       			   "\"filterName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("filterName")).replace("\"", "'")+"\", "+
+					       			   "\"lensName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("lensName")).replace("\"", "'")+"\", "+
+					       			   "\"seeing\":\""+cursor.getString(cursor.getColumnIndexOrThrow("seeing")).replace("\"", "'")+"\", "+
+					       			   "\"limitingMagnitude\":\""+cursor.getString(cursor.getColumnIndexOrThrow("limitingMagnitude")).replace("\"", "'")+"\", "+
+					       			   "\"visibility\":\""+cursor.getString(cursor.getColumnIndexOrThrow("visibility")).replace("\"", "'")+"\", "+
+					       			   "\"SQM\":\""+cursor.getString(cursor.getColumnIndexOrThrow("SQM")).replace("\"", "'")+"\", "+
+					       			   "\"hasDrawing\":\""+cursor.getString(cursor.getColumnIndexOrThrow("hasDrawing")).replace("\"", "'")+"\", "+
+					       			   "\"locationName\":\""+cursor.getString(cursor.getColumnIndexOrThrow("locationName")).replace("\"", "'")+"\" "+
+							      	   "} ]>" +
+					       			   "</result>");
+	    	//Toast.makeText(MainActivity.mainActivity, "WP details fetching locally "+resultRaw, Toast.LENGTH_LONG).show();
+	    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdetails").putExtra("org.deepskylog.resultRAW", resultRaw));
+		}
+		else {
+			GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationDetailsFromId", "&fromId="+deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationDetailsToDbAndBroadcast");
 		}
 		cursor.close();
 	}
 	
 	public static void storeDeepskyObservationToDbAndBroadcast(String observationRaw) {
+		//Toast.makeText(MainActivity.mainActivity, "Fetched DSL observation", Toast.LENGTH_LONG).show();
 		try {
     		String result=Utils.getTagContent(observationRaw,"result");
 			if(result.startsWith("Unavailable url:")) {
@@ -92,8 +123,8 @@ public class DeepskyObservations {
 				    	JSONArray jsonArray = new JSONArray(result);
 				    	if(jsonArray.length()>0) {
 						    JSONObject jsonObject=jsonArray.getJSONObject(0);
-				            DslDatabase.execSql("DELETE FROM deepskyObservations WHERE deepskyObservationId="+jsonObject.getString("deepskyObservationId")+";");
-				            ContentValues initialValues = new ContentValues();
+				            DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
+					    	ContentValues initialValues = new ContentValues();
 					    	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
 				            initialValues.put("deepskyObjectName", jsonObject.getString("deepskyObjectName"));
 				            initialValues.put("observerName", jsonObject.getString("observerName"));
@@ -112,19 +143,100 @@ public class DeepskyObservations {
 		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
 	}
 	
+	
+	public static void storeDeepskyObservationDetailsToDbAndBroadcast(String observationRaw) {
+		try {
+    		String result=Utils.getTagContent(observationRaw,"result");
+			if(result.startsWith("Unavailable url:")) {
+				//TODO change second index of substring in next line
+	    		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdetailsnone").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+result.substring(result.indexOf("fromid=")+7)+"</deepskyObservationId>"));
+	    	}
+			else { 
+				//TODO: change to deepskyObservationId
+				String deepskyObservationId=Utils.getTagContent(observationRaw,"deepskyObservationId");
+				if(result.equals("[\"No data\"]")) {
+			    	DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
+			    	ContentValues initialValues = new ContentValues();
+			    	initialValues.put("deepskyObservationId", deepskyObservationId);
+		            initialValues.put("deepskyObjectName", "No data");
+		            initialValues.put("observerName", "No data");
+		            initialValues.put("deepskyObservationDate", "No data");
+		            initialValues.put("instrumentName", "No data");
+		            initialValues.put("deepskyObservationDescription", "No data");
+		            initialValues.put("deepskyObservationTime", "No data");
+		            initialValues.put("eyepieceName", "No data");
+		            initialValues.put("filterName", "No data");
+		            initialValues.put("lensName", "No data");
+		            initialValues.put("locationName", "No data");
+		            initialValues.put("seeing", "No data");
+		            initialValues.put("limitingMagnitude", "No data");
+		            initialValues.put("visibility", "No data");
+		            initialValues.put("SQM", "No data");
+		            initialValues.put("hasDrawing", "No data");
+		            DslDatabase.insert("deepskyObservations", initialValues);
+		    	}
+		    	else {
+		    		try {
+		    			//Toast.makeText(MainActivity.mainActivity, "WP details storing "+observationRaw, Toast.LENGTH_LONG).show();
+		    			JSONArray jsonArray = new JSONArray(result);
+				    	if(jsonArray.length()>0) {
+						    JSONObject jsonObject=jsonArray.getJSONObject(0);
+				            DslDatabase.delete("deepskyObservations","deepskyObservationId='"+deepskyObservationId+"'",null);
+					    	ContentValues initialValues = new ContentValues();
+					    	initialValues.put("deepskyObservationId", jsonObject.getString("deepskyObservationId"));
+				            initialValues.put("deepskyObjectName", jsonObject.getString("deepskyObjectName"));
+				            initialValues.put("observerName", jsonObject.getString("observerName"));
+				            initialValues.put("deepskyObservationDate", jsonObject.getString("deepskyObservationDate"));
+				            initialValues.put("instrumentName", jsonObject.getString("instrumentName"));
+				            initialValues.put("deepskyObservationDescription", jsonObject.getString("deepskyObservationDescription"));
+				            String tempTime;
+				            tempTime=jsonObject.getString("deepskyObservationTime");
+				            String theTime;
+				            if(tempTime.equals("-9999"))
+				            	theTime="-";
+				            else if(tempTime.length()==4)
+			            		theTime=tempTime.substring(0, 2)+":"+tempTime.substring(2);
+			            	else if(tempTime.length()==3)
+			            		theTime="0"+tempTime.substring(0, 1)+":"+tempTime.substring(1);
+			            	else if(tempTime.length()==2)
+			            		theTime="00"+":"+tempTime;
+			            	else if(tempTime.length()==1)
+			            		theTime="00:0"+tempTime;
+			            	else
+			            		theTime="";
+				            initialValues.put("deepskyObservationTime", theTime);
+				            initialValues.put("eyepieceName", jsonObject.getString("eyepieceName"));
+				            initialValues.put("filterName", jsonObject.getString("filterName"));
+				            initialValues.put("lensName", jsonObject.getString("lensName"));
+				            initialValues.put("locationName", jsonObject.getString("locationName"));
+				            initialValues.put("seeing", jsonObject.getString("seeing"));
+				            initialValues.put("limitingMagnitude", jsonObject.getString("limitingMagnitude"));
+				            initialValues.put("visibility", jsonObject.getString("visibility"));
+				            initialValues.put("SQM", jsonObject.getString("SQM"));
+				            initialValues.put("hasDrawing", jsonObject.getString("hasDrawing"));
+				            DslDatabase.insert("deepskyObservations", initialValues);
+				    	}
+			        } 
+		    		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 8 "+e.toString(), Toast.LENGTH_LONG).show(); }
+		    	}
+			executeBroadcastDeepskyObservationDetails(deepskyObservationId);
+			Toast.makeText(MainActivity.mainActivity, "broadcast", Toast.LENGTH_SHORT).show();
+			}
+    	}
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 7 "+e.toString(),Toast.LENGTH_LONG).show(); }
+		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
+	}
+	
 
 	
 	
 	
 	
 	private static void executeBroadcastDeepskyObservationsListFromIdToId(String fromId, String toId) {
-		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
 		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListFromIdToId", "&fromId="+fromId+"&toId="+toId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListToDbAndBroadcast");		
 	}
 	
 	private static void executeBroadcastDeepskyObservationsListFromDateToDate(String fromDate, String toDate) {
-		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
-		//Toast.makeText(MainActivity.mainActivity, "Fetching DSL List for proposed date: "+fromDate, Toast.LENGTH_SHORT).show();
 		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListFromDateToDate", "&fromDate="+fromDate+"&toDate="+toDate, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListToDbAndBroadcast");		
 	}
 	
@@ -161,12 +273,11 @@ public class DeepskyObservations {
 				LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationslist"));
 			}
     	}
-    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show();Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show(); }
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 4 "+e.toString(),Toast.LENGTH_LONG).show(); }
 		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
 	}
 	
 	private static void executeBroadcastDeepskyObservationsListDaysFromDateToDate(String fromDate, String toDate) {
-		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
 		GetDslCommand.getCommandAndInvokeClassMethod("deepskyObservationsListDaysFromDateToDate", "&fromDate="+fromDate+"&toDate="+toDate, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationsListDaysToDbAndBroadcast");		
 	}
 	

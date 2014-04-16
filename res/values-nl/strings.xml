@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="welcome">Welcome to DeepskyLog Mobile.</string>
-    <string name="loginplease">Please log in using your account on www.deepskylog.org to be able to fetch all your observations, instruments, locations, &#8230;</string>
-    <string name="username">User name</string>
-    <string name="password">Password</string>
-    <string name="update">Update</string>
-    <string name="start">Start</string>
-    <string name="numberOfObservations">"Observations : "</string>
-    <string name="realName">User</string>
-    <string name="instruments">Instruments</string>
     
     <string name="manifest_application_name">"DeepskyLog mobile"</string>
     <string name="manifest_application_description">"DeepskyLog applicatie"</string>
@@ -53,11 +43,48 @@
     <string name="observers_tellaboutconfigurationmenu">"Je kan je gegevens steeds wijzigen via het menu 'Instellingen'."</string>
     <string name="observers_invalidcredentials">"Ongeldige DSL credentials. Gelieve je gegevens te wijzigen via het menu 'Instellingen'."</string>
     
-    <string name="deepskyfragment_observationsdetails_button_text">"Waarnemingen\nper datum"</string>
-    <string name="deepskyfragment_observationslist_button_text">"Waarnemingen\nniet gesorteerd"</string>
+    <string name="cometfragment_observationsbydate_button_text">"Komeet waarnemingen\nper datum"</string>
+    <string name="cometfragment_observationsunsorted_button_text">"Komeetwaarnemingen\nongesorteerd"</string>
+    <string name="cometfragment_observationsquery_button_text">"Komeetwaarnemingen\nOpzoeken"</string>
+    <string name="cometfragment_objectsquery_button_text">"Kometen\nOpzoeken"</string>
+    <string name="cometfragment_command_button_text">"Commando (voor ontwikkelaars)"</string>
+    <string name="cometfragment_to_see">" nieuwe waarnemingen."</string>
+    <string name="cometfragment_cometobservations_in_dsl">" komeetwaarnemingen in Deepskylog."</string>
+    <string name="cometfragment_cometobservations_fetching">"Ophalen "</string>    
+    <string name="cometfragment_cometobservations_details">"Details "</string>    
+     
+    <string name="cometobservationsdetailsfragment_text1_textview_text">"Komeet"</string>
+    <string name="cometobservationsdetailsfragment_observations_button_text">"Waarnemingen"</string>
+    <string name="cometobservationsdetailsfragment_objects_button_text">"Objecten"</string>
+    <string name="cometobservationsdetailsfragment_search_button_text">"Zoek"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text1">"Lijst"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text2">"Compact"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text3">"Detail"</string>
+    <string name="cometobservationsdetailsfragment_to_see">" nieuwe waarnemingen"</string>
+    <string name="cometobservationsdetailsfragment_to_see1">" nieuwe waarneming"</string>
+    <string name="cometobservationsdetailsfragment_to_see0">"Geen nieuwe waarnemingen"</string>
+    <string name="cometobservationsdetailsfragment_not_available">" niet beschikbaar"</string>
+    <string name="cometobservationsdetailsfragment_checking1">"Controle op meer waarnemingen "</string>
+    <string name="cometobservationsdetailsfragment_observation">"Waaarneming "</string>
+    <string name="cometobservationsdetailsfragment_observation_was_deleted">" werd verwijderd doro de waarnemer."</string>
+    <string name="cometobservationsdetailsfragment_observation_unavailable">" onbeschikbaar, controleer de verbinding."</string>
+    
+    <string name="cometobservationslistfragment_text1_textview_text">"Komeet"</string>
+    <string name="cometobservationslistfragment_observations_button_text">"Waarnemingen"</string>
+    <string name="cometobservationslistfragment_objects_button_text">"Objecten"</string>
+    <string name="cometobservationslistfragment_search_button_text">"Zoeken"</string>
+    <string name="cometobservationslistfragment_checking1">"Controle op meer waarnemingen voor "</string>
+    <string name="cometobservationslistfragment_observation">"Waarneming "</string>
+    <string name="cometobservationslistfragment_observation_was_deleted">" is verwijderd door de waarnemer."</string>
+    
+    <string name="cometobservationsqueryfragment_text1_textview_text">"Komeetwaarnemingen opzoeken - nog te implmenteren"</string>
+    <string name="cometobjectsqueryfragment_text1_textview_text">"Komeetobjecten opzoeken - nog te implmenteren"</string>
+    
+    <string name="deepskyfragment_observationsbydate_button_text">"Deepsky waarnemingen\nper datum"</string>
+    <string name="deepskyfragment_observationsunsorted_button_text">"Deepsky waarnemingen\nniet gesorteerd"</string>
     <string name="deepskyfragment_observationsquery_button_text">"Waarnemingen\nOpzoeken"</string>
     <string name="deepskyfragment_objectsquery_button_text">"Objecten\nOpzoeken"</string>
-    <string name="deepskyfragment_command_button_text">"Command"</string>
+    <string name="deepskyfragment_command_button_text">"Commando (voor ontwikkelaars)"</string>
     <string name="deepskyfragment_to_see">" nieuwe waarnemingen die je nog niet zag."</string>
     <string name="deepskyfragment_deepskyobservations_in_dsl"> " deepsky waarnemingen in Deepskylog."</string>
     <string name="deepskyfragment_deepskyobservations_fetching">"Ophalen "</string>    

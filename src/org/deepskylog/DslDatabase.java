@@ -12,7 +12,7 @@ public class DslDatabase {
 
 
     private static final String DATABASE_NAME="dsl";
-    private static final int DATABASE_VERSION=13;
+    private static final int DATABASE_VERSION=16;
 
     private static final String DATABASE_CREATE_DEEPSKYOBSERVATIONS=
     	    "create table " +
@@ -21,8 +21,18 @@ public class DslDatabase {
 		  	   	+",observerName 						text not null "
 		  	    +",deepskyObjectName 					text not null "
 		  	    +",deepskyObservationDate 				text not null " 
-		  	    +",instrumentName 						text not null " 
-		  	    +",deepskyObservationDescription		text"
+		  	    +",deepskyObservationDescription		text "
+		  	    +",instrumentName 						text " 
+		  	    +",deepskyObservationTime				text "
+		  	    +",eyepieceName							text "
+		  	    +",filterName							text "
+		  	    +",lensName								text "
+		  	    +",locationName							text "
+		  	    +",seeing								text "
+		  	    +",limitingMagnitude					text "
+		  	    +",visibility							text "
+		  	    +",SQM									text "
+		  	    +",hasDrawing							text "
 		  	    +");";
     
     private static final String DATABASE_CREATE_DEEPSKYOBSERVATIONSLIST=
@@ -40,6 +50,34 @@ public class DslDatabase {
 	    	    	 "(deepskyObservationsListDate 		text primary key "
 	    	    	+",deepskyObservationsListDateCount	integer "
 	    	    	+");";
+
+
+	    private static final String DATABASE_CREATE_COMETOBSERVATIONS=
+	    	    "create table " +
+	    	    	"cometObservations " +
+	    	    	 "(cometObservationId 				integer primary key "
+			  	   	+",observerName 						text not null "
+			  	    +",cometObjectName 					text not null "
+			  	    +",cometObservationDate 				text not null " 
+			  	    +",instrumentName 						text not null " 
+			  	    +",cometObservationDescription		text"
+			  	    +");";
+	    
+	    private static final String DATABASE_CREATE_COMETOBSERVATIONSLIST=
+	    	    "create table " +
+		    	  "cometObservationsList " +
+		    	    "(cometObservationId 					integer primary key "
+			  	   +",observerName 							text not null "
+			  	   +",cometObjectName 					text not null "
+			  	   +",cometObservationDate 				text not null "
+			  	   +");";
+	    
+		 private static final String DATABASE_CREATE_COMETOBSERVATIONSLISTDAYS=
+	    	    "create table " +
+		    		"cometObservationsListDays " +
+		    	    	 "(cometObservationsListDate 		text primary key "
+		    	    	+",cometObservationsListDateCount	integer "
+		    	    	+");";
 
 
 
@@ -87,6 +125,9 @@ public class DslDatabase {
         @Override
         public void onCreate(SQLiteDatabase db) {
         	//Toast.makeText(MainActivity.mainActivity, "Database create", Toast.LENGTH_LONG).show();
+        	db.execSQL(DATABASE_CREATE_COMETOBSERVATIONS);
+        	db.execSQL(DATABASE_CREATE_COMETOBSERVATIONSLIST);
+        	db.execSQL(DATABASE_CREATE_COMETOBSERVATIONSLISTDAYS);
         	db.execSQL(DATABASE_CREATE_DEEPSKYOBSERVATIONS);
         	db.execSQL(DATABASE_CREATE_DEEPSKYOBSERVATIONSLIST);
         	db.execSQL(DATABASE_CREATE_DEEPSKYOBSERVATIONSLISTDAYS);
@@ -95,6 +136,9 @@ public class DslDatabase {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         	//Toast.makeText(MainActivity.mainActivity, "Database upgrade", Toast.LENGTH_LONG).show();
+        	db.execSQL("DROP TABLE IF EXISTS cometObservations");
+        	db.execSQL("DROP TABLE IF EXISTS cometObservationsList");
+        	db.execSQL("DROP TABLE IF EXISTS cometObservationsListDays");
         	db.execSQL("DROP TABLE IF EXISTS deepskyObservations");
         	db.execSQL("DROP TABLE IF EXISTS deepskyObservationsList");
         	db.execSQL("DROP TABLE IF EXISTS deepskyObservationsListDays");

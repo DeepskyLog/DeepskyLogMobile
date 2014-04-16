@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" >
+	<LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="0dp" android:layout_weight="1" >
+	    <Button   android:id="@+id/cometfragment_observationsbydate_button_id"  android:textSize="@dimen/cometfragment_observationsbydate_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/cometfragment_observationsbydate_button_text"  android:layout_weight="1" /> 
+	    <Button   android:id="@+id/cometfragment_observationsunsorted_button_id"  android:textSize="@dimen/cometfragment_observationsunsorted_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/cometfragment_observationsunsorted_button_text"  android:layout_weight="1" /> 
+	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent" android:orientation="horizontal" android:layout_height="0dp" android:layout_weight="1" >
+	    <Button   android:id="@+id/cometfragment_observationsquery_button_id"  android:textSize="@dimen/cometfragment_observationsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/cometfragment_observationsquery_button_text" android:layout_weight="1" /> 
+	    <Button   android:id="@+id/cometfragment_objectsquery_button_id"  android:textSize="@dimen/cometfragment_objectsquery_button_textsize" android:layout_width="0dp" android:layout_height="match_parent" android:text="@string/cometfragment_objectsquery_button_text" android:layout_weight="1" /> 
+	</LinearLayout>
+	<LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:orientation="vertical"  android:layout_weight="1">
+	    <TextView android:id="@+id/cometfragment_text1_textview_id" android:textSize="@dimen/cometfragment_text1_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <TextView android:id="@+id/cometfragment_text2_textview_id" android:textSize="@dimen/cometfragment_text2_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <TextView android:id="@+id/cometfragment_text3_textview_id" android:textSize="@dimen/cometfragment_text3_textview_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="left" />
+	    <Button   android:id="@+id/cometfragment_command_button_id" android:textSize="@dimen/cometfragment_command_button_textsize" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/cometfragment_command_button_text" /> 
+	</LinearLayout>	    	    
+</LinearLayout>

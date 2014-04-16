@@ -21,8 +21,8 @@ public class DeepskyFragment extends Fragment {
 	private View deepskyFragmentView;
 	private Bundle stateBundle=null;
 
-	private Button observationsdetails_button;
-	private Button observationslist_button;
+	private Button observationsbydate_button;
+	private Button observationsunsorted_button;
 	private Button observationsquery_button;
 	private Button objectsquery_button;
 	private TextView text1_textview;
@@ -44,10 +44,10 @@ public class DeepskyFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyFragmentView=inflater.inflate(R.layout.deepskyfragment, container, false);		
-		this.observationsdetails_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsdetails_button_id);
-		this.observationsdetails_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="By Date"; observationDetailsOnClick(v); } });
-		this.observationslist_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationslist_button_id);
-		this.observationslist_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="None"; observationListOnClick(v); } });
+		this.observationsbydate_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsbydate_button_id);
+		this.observationsbydate_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="By Date"; observationsByDateOnClick(v); } });
+		this.observationsunsorted_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsunsorted_button_id);
+		this.observationsunsorted_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { sortMode="None"; observationsUnsortedOnClick(v); } });
 		this.observationsquery_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_observationsquery_button_id);
 		this.observationsquery_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { observationQueryOnClick(v); } });
 		this.objectsquery_button=(Button)this.deepskyFragmentView.findViewById(R.id.deepskyfragment_objectsquery_button_id);
@@ -117,11 +117,11 @@ public class DeepskyFragment extends Fragment {
 		if((DeepskyObservations.deepskyObservationsMaxId-DeepskyObservations.deepskyObservationSeenMaxId)>0) this.setText(DeepskyObservations.deepskyObservationsMaxId-DeepskyObservations.deepskyObservationSeenMaxId+MainActivity.resources.getString(R.string.deepskyfragment_to_see));
 	}
 	
-	private void observationDetailsOnClick(View v) {
+	private void observationsByDateOnClick(View v) {
 		MainActivity.goToFragment("deepskyObservationsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
 	
-	private void observationListOnClick(View v) {
+	private void observationsUnsortedOnClick(View v) {
 		MainActivity.goToFragment("deepskyObservationsFragment", MainActivity.ADD_TO_BACKSTACK);
 	}
 	

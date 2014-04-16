@@ -10,8 +10,8 @@ public class GetDslCommand {
 	private static final String SERVER_URL="http://www.deepskylog.org/";
 	        
    	public static void getCommandAndInvokeClassMethod(String command, String params, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
-   		//Toast.makeText(MainActivity.mainActivity,command+params, Toast.LENGTH_LONG).show();
-   		new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
+   		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+	    new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
   	
     private static class getCommandAndInvokeClassMethodTask extends AsyncTask<String, Void, String> {
@@ -22,7 +22,8 @@ public class GetDslCommand {
     }
 
     public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
-  		new getCommandAndBroadcastTask().execute(SERVER_URL+"appgetcommand.php?command="+command,broadcastIntent);
+    	MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+	    new getCommandAndBroadcastTask().execute(SERVER_URL+"appgetcommand.php?command="+command,broadcastIntent);
   	};
   	
     private static class getCommandAndBroadcastTask extends AsyncTask<String, Void, String> {

@@ -8,8 +8,30 @@
     <dimen name="mainfragment_login_button_textsize">12sp</dimen>
  
     
-    <dimen name="deepskyfragment_observationsdetails_button_textsize">12sp</dimen>
-    <dimen name="deepskyfragment_observationslist_button_textsize">12sp</dimen>
+    <dimen name="cometfragment_observationsbydate_button_textsize">12sp</dimen>
+    <dimen name="cometfragment_observationsunsorted_button_textsize">12sp</dimen>
+    <dimen name="cometfragment_observationsquery_button_textsize">12sp</dimen>
+    <dimen name="cometfragment_objectsquery_button_textsize">12sp</dimen>
+    <dimen name="cometfragment_text1_textview_textsize">12sp</dimen>
+    <dimen name="cometfragment_text2_textview_textsize">12sp</dimen>
+    <dimen name="cometfragment_text3_textview_textsize">12sp</dimen>
+    <dimen name="cometfragment_command_button_textsize">12sp</dimen>
+        
+    <dimen name="cometobservationsdetailsfragment_observations_button_textsize">12sp</dimen>
+    <dimen name="cometobservationsdetailsfragment_objects_button_textsize">12sp</dimen>
+    <dimen name="cometobservationsdetailsfragment_obecttext_textsize">24sp</dimen>   
+    <dimen name="cometobservationsdetailsfragment_search_button_textsize">12sp</dimen>
+    <dimen name="cometobservationsdetailsfragment_mode_button_textsize">12sp</dimen>
+    
+    <dimen name="cometobservationslistfragment_observations_button_textsize">12sp</dimen>
+    <dimen name="cometobservationslistfragment_objects_button_textsize">12sp</dimen>
+    <dimen name="cometobservationslistfragment_obecttext_textsize">24sp</dimen>
+    <dimen name="cometobservationslistfragment_search_button_textsize">12sp</dimen>
+    <dimen name="cometobservationslistfragment_mode_button_textsize">12sp</dimen>
+    <dimen name="cometobservationslistitem_textsize">12sp</dimen>
+    
+    <dimen name="deepskyfragment_observationsbydate_button_textsize">12sp</dimen>
+    <dimen name="deepskyfragment_observationsunsorted_button_textsize">12sp</dimen>
     <dimen name="deepskyfragment_observationsquery_button_textsize">12sp</dimen>
     <dimen name="deepskyfragment_objectsquery_button_textsize">12sp</dimen>
     <dimen name="deepskyfragment_text1_textview_textsize">12sp</dimen>
