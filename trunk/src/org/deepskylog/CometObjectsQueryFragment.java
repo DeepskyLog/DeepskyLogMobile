@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-public class CometsFragment extends Fragment {
-	
-	private View cometsFragmentView;
+public class CometObjectsQueryFragment extends Fragment {
+ 	
+	private View cometObjectsQueryView;
     private Bundle stateBundle=null;
+	
+	private TextView text1_textview;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -18,28 +21,30 @@ public class CometsFragment extends Fragment {
  			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}		
 	}
-
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		this.cometsFragmentView=inflater.inflate(R.layout.cometsfragment, container, false);
- 		if(savedInstanceState!=null) {
- 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
+		this.cometObjectsQueryView=inflater.inflate(R.layout.cometobjectsqueryfragment, container, false);
+		this.text1_textview=(TextView)this.cometObjectsQueryView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		if(savedInstanceState==null) {
+	    }
+		else {
+			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
  		if(this.stateBundle!=null) {
-	    	//text1_textview.setText(stateBundle.getString("text1_textview"));
+ 			this.text1_textview.setText(this.stateBundle.getString("text1_textview"));
  		}
  		this.stateBundle=null;		
-     	return cometsFragmentView;
+    	return this.cometObjectsQueryView;
 	}
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    savedInstanceState.putBundle("stateBundle", this.getState());
+	    savedInstanceState.putBundle("stateBundle", this.getStateBundle());
 	    super.onSaveInstanceState(savedInstanceState);
 	}
-    private Bundle getState() {
+    private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        //state.putString("text1_textview", text1_textview.getText().toString());
+        state.putString("text1_textview", text1_textview.getText().toString());
         return state;
     }
-
 }

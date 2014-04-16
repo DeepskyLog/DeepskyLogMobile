@@ -41,7 +41,12 @@ public class MainActivity 	extends 	Activity
 	private static DeepskyObservationsListFragment deepskyObservationsListFragment;
 	private static DeepskyObservationsQueryFragment deepskyObservationsQueryFragment;
 	private static DeepskyObjectsQueryFragment deepskyObjectsQueryFragment;
-	private static CometsFragment cometsFragment;
+	private static CometFragment cometFragment;
+	private static CometObservationsFragment cometObservationsFragment;
+	private static CometObservationsDetailsFragment cometObservationsDetailsFragment;
+	private static CometObservationsListFragment cometObservationsListFragment;
+	private static CometObservationsQueryFragment cometObservationsQueryFragment;
+	private static CometObjectsQueryFragment cometObjectsQueryFragment;
 	private static ObserversFragment observersFragment;
 	private static EphemeridesFragment ephemeridesFragment;
 	private static SettingsFragment settingsFragment;
@@ -181,8 +186,14 @@ public class MainActivity 	extends 	Activity
     	if(deepskyObjectsQueryFragment==null) deepskyObjectsQueryFragment=new DeepskyObjectsQueryFragment();
     	
     	
-    	if(cometsFragment==null) cometsFragment=new CometsFragment();
-    	if(observersFragment==null) observersFragment=new ObserversFragment();
+    	if(cometFragment==null) cometFragment=new CometFragment();
+    	if(cometObservationsFragment==null) cometObservationsFragment=new CometObservationsFragment();
+    	if(cometObservationsDetailsFragment==null) cometObservationsDetailsFragment=new CometObservationsDetailsFragment();
+    	if(cometObservationsListFragment==null) cometObservationsListFragment=new CometObservationsListFragment();
+    	if(cometObservationsQueryFragment==null) cometObservationsQueryFragment=new CometObservationsQueryFragment();
+    	if(cometObjectsQueryFragment==null) cometObjectsQueryFragment=new CometObjectsQueryFragment();
+    	
+  	if(observersFragment==null) observersFragment=new ObserversFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 
@@ -208,7 +219,13 @@ public class MainActivity 	extends 	Activity
 		else if(newFragmentName.equals("deepskyObservationsListFragment")) { actualFragment=deepskyObservationsListFragment; }
 		else if(newFragmentName.equals("deepskyObservationsQueryFragment")) { actualFragment=deepskyObservationsQueryFragment; }
 		else if(newFragmentName.equals("deepskyObjectsQueryFragment")) { actualFragment=deepskyObjectsQueryFragment; }
-		else if(newFragmentName.equals("cometsFragment")) actualFragment=cometsFragment;
+		else if(newFragmentName.equals("cometFragment")) actualFragment=cometFragment;
+		else if(newFragmentName.equals("cometObservationsFragment")) actualFragment=cometObservationsFragment;
+		else if(newFragmentName.equals("cometObservationsFragment")) actualFragment=cometFragment;
+		else if(newFragmentName.equals("cometObservationsDetailsFragment")) { actualFragment=cometObservationsDetailsFragment; }
+		else if(newFragmentName.equals("cometObservationsListFragment")) { actualFragment=cometObservationsListFragment; }
+		else if(newFragmentName.equals("cometObservationsQueryFragment")) { actualFragment=cometObservationsQueryFragment; }
+		else if(newFragmentName.equals("cometObjectsQueryFragment")) { actualFragment=cometObjectsQueryFragment; }
 		else if(newFragmentName.equals("observersFragment")) actualFragment=observersFragment;
 		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;
 		else if(newFragmentName.equals("settingsFragment")) actualFragment=settingsFragment;

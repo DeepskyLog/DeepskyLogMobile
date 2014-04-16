@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="welcome">Welcome to DeepskyLog Mobile.</string>
-    <string name="loginplease">Please log in using your account on www.deepskylog.org to be able to fetch all your observations, instruments, locations, &#8230;</string>
-    <string name="username">User name</string>
-    <string name="password">Password</string>
-    <string name="update">Update</string>
-    <string name="start">Start</string>
-    <string name="numberOfObservations">"Observations : "</string>
-    <string name="realName">User</string>
-    <string name="instruments">Instruments</string>
-
     <string name="manifest_application_name">"DeepskyLog mobile"</string>
     <string name="manifest_application_description">"A mobile version for DeepskyLog"</string>
     
@@ -52,12 +42,49 @@
     <string name="observers_asktocreatenewaccount">"Do you want to register a new account?"</string>
     <string name="observers_tellaboutconfigurationmenu">"You can always enter your settings via the 'Configurations' menu."</string>
     <string name="observers_invalidcredentials">"Invalid DSL credentials. Please enter your settings via the 'Configurations' menu."</string>
+
+    <string name="cometfragment_observationsbydate_button_text">"Comet Observations\nBy date"</string>
+    <string name="cometfragment_observationsunsorted_button_text">"Comet Observations\nUnsorted"</string>
+    <string name="cometfragment_observationsquery_button_text">"Observations\nQuery"</string>
+    <string name="cometfragment_objectsquery_button_text">"Objects\nQuery"</string>
+    <string name="cometfragment_command_button_text">"Command (for developers)"</string>
+    <string name="cometfragment_to_see">" new observations you didn't see yet."</string>
+    <string name="cometfragment_cometobservations_in_dsl">" comet observations in Deepskylog."</string>
+    <string name="cometfragment_cometobservations_fetching">"Fetching "</string>    
+    <string name="cometfragment_cometobservations_details">"Details "</string>   
     
-    <string name="deepskyfragment_observationsdetails_button_text">"Observations\nBy date"</string>
-    <string name="deepskyfragment_observationslist_button_text">"Observations\nUnsorted"</string>
+    <string name="cometobservationsdetailsfragment_text1_textview_text">"Comet"</string>
+    <string name="cometobservationsdetailsfragment_observations_button_text">"Observations"</string>
+    <string name="cometobservationsdetailsfragment_objects_button_text">"Objects"</string>
+    <string name="cometobservationsdetailsfragment_search_button_text">"Search"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text1">"List"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text2">"Compact"</string>
+    <string name="cometobservationsdetailsfragment_mode_button_text3">"Detail"</string>
+    <string name="cometobservationsdetailsfragment_to_see">" new observations"</string>
+    <string name="cometobservationsdetailsfragment_to_see1">" new observation"</string>
+    <string name="cometobservationsdetailsfragment_to_see0">"No new observations"</string>
+    <string name="cometobservationsdetailsfragment_not_available">" not available"</string>
+    <string name="cometobservationsdetailsfragment_checking1">"Checking for more observations to get "</string>
+    <string name="cometobservationsdetailsfragment_observation">"Observation "</string>
+    <string name="cometobservationsdetailsfragment_observation_was_deleted">" has been deleted by it's observer."</string>
+    <string name="cometobservationsdetailsfragment_observation_unavailable">" unavailable, check network connection."</string>
+    
+    <string name="cometobservationslistfragment_text1_textview_text">"Comet"</string>
+    <string name="cometobservationslistfragment_observations_button_text">"Observations"</string>
+    <string name="cometobservationslistfragment_objects_button_text">"Objects"</string>
+    <string name="cometobservationslistfragment_search_button_text">"Search"</string>
+    <string name="cometobservationslistfragment_checking1">"Checking for more observations to get "</string>
+    <string name="cometobservationslistfragment_observation">"Observation "</string>
+    <string name="cometobservationslistfragment_observation_was_deleted">" has been deleted by it's observer."</string>
+    
+    <string name="cometobservationsqueryfragment_text1_textview_text">"Comet observations query - to be implemented"</string>
+    <string name="cometobjectsqueryfragment_text1_textview_text">"Comet objects query - to be implemented"</string>
+
+    <string name="deepskyfragment_observationsbydate_button_text">"Deepsky Observations\nBy date"</string>
+    <string name="deepskyfragment_observationsunsorted_button_text">"Deepsky Observations\nUnsorted"</string>
     <string name="deepskyfragment_observationsquery_button_text">"Observations\nQuery"</string>
     <string name="deepskyfragment_objectsquery_button_text">"Objects\nQuery"</string>
-    <string name="deepskyfragment_command_button_text">"Command"</string>
+    <string name="deepskyfragment_command_button_text">"Command (for developers)"</string>
     <string name="deepskyfragment_to_see">" new observations you didn't see yet."</string>
     <string name="deepskyfragment_deepskyobservations_in_dsl">" deepsky observations in Deepskylog."</string>
     <string name="deepskyfragment_deepskyobservations_fetching">"Fetching "</string>    

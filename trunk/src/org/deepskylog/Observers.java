@@ -60,6 +60,7 @@ public class Observers {
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void askForLogin() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener3",
         					  MainActivity.resources.getString(R.string.observers_askenteringcredentials),
@@ -71,7 +72,8 @@ public class Observers {
 	}
 	
 	public static void ObserversDslDialogListener2(String theKey) {
-		if(theKey.equals("positive")) askForLogin();
+		//if(theKey.equals("positive")) askForLogin();
+		if(theKey.equals("positive")) login();
 		if(theKey.equals("negative")) askForRegistration();
 	}
 	
@@ -90,6 +92,7 @@ public class Observers {
 		if(theKey.equals("negative")) tellAboutConfigurationMenu();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void askForUseOfFirstRunTour() {
 	    DslDialog.newInstance("org.deepskylog.Observers","ObserversDslDialogListener1",
         					  MainActivity.resources.getString(R.string.observers_askaboutfirstruntour),
@@ -102,7 +105,8 @@ public class Observers {
 		
 	public static void firstRun() {
     	MainActivity.preferenceEditor.putString("loginId","").putString("loginPassword","").commit();
-    	askForUseOfFirstRunTour();
+    	//askForUseOfFirstRunTour();
+    	askForUseOfCredentials();
 	}
 
 }

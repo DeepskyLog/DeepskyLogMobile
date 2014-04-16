@@ -117,5 +117,22 @@ public class Utils {
     	return year.toString()+((--month)<10?"0"+month.toString():month.toString())+dayString;
     }
 
+    public static String followingYear(String theDate) {
+    	String dayString=theDate.substring(6,8);
+    	String monthString=theDate.substring(4,6);
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	return (++year).toString()+monthString+dayString;
+    }
+
+    public static String precedingYear(String theDate) {
+    	String dayString=theDate.substring(6,8);
+    	String monthString=theDate.substring(4,6);
+    	Integer year=Integer.valueOf(theDate.substring(0,4));
+    	return (--year).toString()+monthString+dayString;
+    }
+    
+    public static String toUiDate(String theDate) {
+    	return theDate.substring(6,8)+"/"+theDate.substring(4,6)+"/"+theDate.substring(0,4);
+    }
 
 }

@@ -253,7 +253,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 
     public void ondDeepskyObservationItemClick(AdapterView<?> parent, View v, int position, long id) {
     	MainActivity.preferenceEditor.putInt("deepskyObservationIdToGet",(int) id).commit();
-		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationselectedfordetails").putExtra("org.deepskylog.deepskyObservationId", (int) id));
+		LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationselected").putExtra("org.deepskylog.deepskyObservationId", (int) id));
     }
 
 }

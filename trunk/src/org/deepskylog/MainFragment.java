@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
 		this.command_button=((Button) this.mainFragmentView.findViewById(R.id.mainfragment_command_button_id));
    
 		this.deepsky_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("deepskyFragment", MainActivity.ADD_TO_BACKSTACK); } });
-		this.comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometsFragment", MainActivity.ADD_TO_BACKSTACK); } });
+		this.comets_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("cometFragment", MainActivity.ADD_TO_BACKSTACK); } });
 		this.observers_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("observersFragment", MainActivity.ADD_TO_BACKSTACK); } });
 		this.ephemerides_button.setOnClickListener(new OnClickListener() { @Override public void onClick(View v) { MainActivity.goToFragment("ephemeridesFragment", MainActivity.ADD_TO_BACKSTACK); } });
 		this.command_button.setText("Develop: Command Button - for debug purposes only");
