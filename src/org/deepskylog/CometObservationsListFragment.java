@@ -163,7 +163,7 @@ public class CometObservationsListFragment extends Fragment {
 	
 	private void gotoId() {
 		Cursor mCursor=DslDatabase.execSql("SELECT cometObservationId AS _id, cometObjectName, observerName FROM cometObservationsList WHERE ((cometObservationId<="+String.valueOf(this.cometObservationsListId)+")AND(cometObservationId>="+String.valueOf(this.cometObservationsListId-this.numberOfIdsInList+1)+")) ORDER BY cometObservationId DESC");
-		this.text1_textview.setText("Observations "+String.valueOf(this.cometObservationsListId-this.numberOfIdsInList+1)+" - "+String.valueOf(this.cometObservationsListId));
+		this.text1_textview.setText("Observations "+String.valueOf(this.cometObservationsListId-this.numberOfIdsInList+1)+" - "+String.valueOf(this.cometObservationsListId)+" / "+CometObservations.cometObservationsMaxId);
 		if(mCursor.getCount()>0) {
 			//Toast.makeText(MainActivity.mainActivity, "Internal lookup for "+String.valueOf(this.cometObservationsListId-9)+" to "+String.valueOf(this.cometObservationsListId)+" gave "+mCursor.getCount()+" results.", Toast.LENGTH_LONG).show();
 			setData(mCursor);

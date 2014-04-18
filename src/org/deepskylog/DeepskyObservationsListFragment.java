@@ -163,7 +163,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	
 	private void gotoId() {
 		Cursor mCursor=DslDatabase.execSql("SELECT deepskyObservationId AS _id, deepskyObjectName, observerName FROM deepskyObservationsList WHERE ((deepskyObservationId<="+String.valueOf(this.deepskyObservationsListId)+")AND(deepskyObservationId>="+String.valueOf(this.deepskyObservationsListId-this.numberOfIdsInList+1)+")) ORDER BY deepskyObservationId DESC");
-		this.text1_textview.setText("Observations "+String.valueOf(this.deepskyObservationsListId-this.numberOfIdsInList+1)+" - "+String.valueOf(this.deepskyObservationsListId));
+		this.text1_textview.setText("Observations "+String.valueOf(this.deepskyObservationsListId-this.numberOfIdsInList+1)+" - "+String.valueOf(this.deepskyObservationsListId)+" / "+DeepskyObservations.deepskyObservationsMaxId);
 		if(mCursor.getCount()>0) {
 			//Toast.makeText(MainActivity.mainActivity, "Internal lookup for "+String.valueOf(this.deepskyObservationsListId-9)+" to "+String.valueOf(this.deepskyObservationsListId)+" gave "+mCursor.getCount()+" results.", Toast.LENGTH_LONG).show();
 			setData(mCursor);

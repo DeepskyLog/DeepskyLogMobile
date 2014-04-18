@@ -1,5 +1,7 @@
 package org.deepskylog;
 
+import java.io.File;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,6 +25,7 @@ public class DeepskyObservations {
 	public static void broadcastDeepskyObservationsMaxIdUpdate() { DeepskyObservations.executeBroadcastDeepskyObservationsMaxId(); }
     public static void broadcastDeepskyObservation(String deepskyObservationId) { DeepskyObservations.executeBroadcastDeepskyObservation(deepskyObservationId); }
     public static void broadcastDeepskyObservationDetails(String deepskyObservationId) { DeepskyObservations.executeBroadcastDeepskyObservationDetails(deepskyObservationId); }
+    public static void broadcastDeepskyObservationDrawing(String deepskyObservationId) { DeepskyObservations.executeBroadcastDeepskyObservationDrawing(deepskyObservationId); }
     public static void broadcastDeepskyObservationsListFromIdToId(String fromId, String toId) { DeepskyObservations.executeBroadcastDeepskyObservationsListFromIdToId(fromId, toId); }
     public static void broadcastDeepskyObservationsListFromDateToDate(String fromDate, String toDate) { DeepskyObservations.executeBroadcastDeepskyObservationsListFromDateToDate(fromDate, toDate); }
     public static void broadcastDeepskyObservationsListDaysFromDateToDate(String fromDate, String toDate) { DeepskyObservations.executeBroadcastDeepskyObservationsListDaysFromDateToDate(fromDate, toDate); }
@@ -96,6 +99,33 @@ public class DeepskyObservations {
 		cursor.close();
 	}
 	
+    private static void executeBroadcastDeepskyObservationDrawing(String deepskydeepskyObservationId) {
+    	Cursor cursor=DslDatabase.execSql("SELECT deepskyObservations.hasDrawing FROM deepskyObservations WHERE ((deepskyObservationId=\""+deepskydeepskyObservationId+"\"))");
+    	if(!cursor.moveToFirst()) {
+			Toast.makeText(MainActivity.mainActivity, "Stopping to try to get drawing of not-loaded observation ", Toast.LENGTH_LONG).show();
+    	}
+		else {
+			if(cursor.getString(cursor.getColumnIndexOrThrow("hasDrawing")).equals("0"))
+				Toast.makeText(MainActivity.mainActivity, "No drawing for this observation", Toast.LENGTH_LONG).show();
+			else if (cursor.getString(cursor.getColumnIndexOrThrow("hasDrawing")).equals("-1")) {
+				//Toast.makeText(MainActivity.mainActivity, "Getting drawing for this observation from dsl", Toast.LENGTH_LONG).show();
+				GetDslCommand.getDeepskyDrawingAndInvokeClassMethod(deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationDrawingToDbAndBroadcast");				
+			}
+			else {
+				File file = new File(MainActivity.storagePath+"/deepsky/images/"+String.valueOf(deepskydeepskyObservationId)+".jpg");
+				if(file.exists()) {
+			    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdrawing"));
+				}
+				else {
+					//Toast.makeText(MainActivity.mainActivity, "Getting drawing for this observation from dsl", Toast.LENGTH_LONG).show();
+					GetDslCommand.getDeepskyDrawingAndInvokeClassMethod(deepskydeepskyObservationId, "org.deepskylog.DeepskyObservations", "storeDeepskyObservationDrawingToDbAndBroadcast");				
+				}
+			}		
+		}
+		cursor.close();
+	}
+
+    
 	public static void storeDeepskyObservationToDbAndBroadcast(String observationRaw) {
 		//Toast.makeText(MainActivity.mainActivity, "Fetched DSL observation", Toast.LENGTH_LONG).show();
 		try {
@@ -220,16 +250,39 @@ public class DeepskyObservations {
 		    		catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 8 "+e.toString(), Toast.LENGTH_LONG).show(); }
 		    	}
 			executeBroadcastDeepskyObservationDetails(deepskyObservationId);
-			Toast.makeText(MainActivity.mainActivity, "broadcast", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(MainActivity.mainActivity, "broadcast", Toast.LENGTH_SHORT).show();
 			}
     	}
     	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 7 "+e.toString(),Toast.LENGTH_LONG).show(); }
 		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
 	}
 	
+	public static void storeDeepskyObservationDrawingToDbAndBroadcast(String observationRaw) {
+		try {
+    		String result=Utils.getTagContent(observationRaw,"result");
+			if(result.startsWith("Download failure")) {
+				//TODO change second index of substring in next line
+	    		//LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdetailsnone").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+result.substring(result.indexOf("fromid=")+7)+"</deepskyObservationId>"));
+				Toast.makeText(MainActivity.mainActivity, "broadcast download failure "+result, Toast.LENGTH_SHORT).show();
+			}
+			else { 
+				//TODO: change to deepskyObservationId
+				String deepskyObservationId=Utils.getTagContent(observationRaw,"deepskyObservationId");
+	    		try {
+    			    //Toast.makeText(MainActivity.mainActivity, "WP drawing storing "+observationRaw, Toast.LENGTH_LONG).show();
+			    	ContentValues initialValues = new ContentValues();
+			    	initialValues.put("hasDrawing", deepskyObservationId+".jpg");
+		            DslDatabase.update("deepskyObservations", initialValues,"deepskyObservationId="+deepskyObservationId,null);
+			    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdrawing").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+deepskyObservationId+"</deepskyObservationId>"));
+			    	//Toast.makeText(MainActivity.mainActivity, "broadcast jpg available", Toast.LENGTH_SHORT).show();
+		        } 
+		    	catch(Exception e) { Toast.makeText(MainActivity.mainActivity, "DeepskyObservations: Exception 8 "+e.toString(), Toast.LENGTH_LONG).show(); }
+		    }
+    	}
+    	catch (Exception e) { Toast.makeText(MainActivity.mainActivity,"DeepskyObservations: Exception 7 "+e.toString(),Toast.LENGTH_LONG).show(); }
+		finally { MainActivity.mainActivity.setProgressBarIndeterminateVisibility(false); }
+	}
 
-	
-	
 	
 	
 	private static void executeBroadcastDeepskyObservationsListFromIdToId(String fromId, String toId) {
