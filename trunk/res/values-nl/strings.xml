@@ -85,9 +85,10 @@
     <string name="deepskyfragment_observationsquery_button_text">"Waarnemingen\nOpzoeken"</string>
     <string name="deepskyfragment_objectsquery_button_text">"Objecten\nOpzoeken"</string>
     <string name="deepskyfragment_command_button_text">"Commando (voor ontwikkelaars)"</string>
-    <string name="deepskyfragment_to_see">" nieuwe waarnemingen die je nog niet zag."</string>
+    <string name="deepskyfragment_to_see">" nieuwe waarnemingen."</string>
     <string name="deepskyfragment_deepskyobservations_in_dsl"> " deepsky waarnemingen in Deepskylog."</string>
     <string name="deepskyfragment_deepskyobservations_fetching">"Ophalen "</string>    
+    <string name="deepskyfragment_deepskyobservations_observation">"Waarneming "</string>    
     <string name="deepskyfragment_deepskyobservations_details">"Details "</string>    
     
     <string name="deepskyobservationsdetailsfragment_text1_textview_text">"Deepsky"</string>
@@ -99,7 +100,7 @@
     <string name="deepskyobservationsdetailsfragment_mode_button_text3">"Detail"</string>
     <string name="deepskyobservationsdetailsfragment_to_see">" nieuwe waarnemingen"</string>
     <string name="deepskyobservationsdetailsfragment_to_see1">" nieuwe waarneming"</string>
-    <string name="deepskyobservationsdetailsfragment_to_see0">"Geen nieuwe waarnemingen om te bekijken"</string>
+    <string name="deepskyobservationsdetailsfragment_to_see0">"Geen nieuwe waarnemingen"</string>
     <string name="deepskyobservationsdetailsfragment_not_available">" niet beschikbaar"</string>
     <string name="deepskyobservationsdetailsfragment_checking1">"Controle op meer waarnemingen voor "</string>
     <string name="deepskyobservationsdetailsfragment_observation">"Waarneming "</string>
@@ -130,5 +131,25 @@
     <string name="general_Yes">"Ja"</string>
     <string name="general_No">"Nee"</string>
     <string name="general_Cancel">"Annuleer"</string>
+    
+    <string-array name="seeings">
+        <item>""</item>
+        <item>"Uitstekend"</item>
+        <item>"Goed"</item>
+        <item>"Middelmatig"</item>
+        <item>"Zwak"</item>
+        <item>"Slecht"</item>
+    </string-array>
+
+    <string-array name="visibilities">
+        <item>""</item>
+        <item>"Zeer eenvoudig, helder object"</item>
+        <item>"Object eenvoudig te zien bij direct kijken"</item>
+        <item>"Object zichtbaar bij direct kijken"</item>
+        <item>"Perifeer kijken nodig om object te zien"</item>
+        <item>"Object amper zichtbaar bij perifeer kijken"</item>
+        <item>"Zichtbaarheid van object is twijfelachtig"</item>
+        <item>"Object niet zichtbaar"</item>
+    </string-array>
     
 </resources>

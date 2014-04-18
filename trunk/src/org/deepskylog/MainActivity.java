@@ -1,5 +1,7 @@
 package org.deepskylog;
 
+import java.io.File;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
@@ -54,6 +57,8 @@ public class MainActivity 	extends 	Activity
 	public static Fragment actualFragment;
 	public static String actualFragmentName;
 
+	public static String storagePath;
+
 	private static ActionBar actionBar;
 	private static String onLine="offLine";
 	public static String loggedPerson="";
@@ -77,7 +82,19 @@ public class MainActivity 	extends 	Activity
     	LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver1, new IntentFilter("org.deepskylog.online"));
 		LocalBroadcastManager.getInstance(this).registerReceiver(actionBarSubTitleReceiver2, new IntentFilter("org.deepskylog.loggedperson"));
 		setProgressBarIndeterminateVisibility(false);
-    	checkFirstRun();
+		/*Toast.makeText(this, "dir create "+Environment.getExternalStorageDirectory()+File.separator+"dsl", Toast.LENGTH_LONG).show();
+		File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl");
+		directory.mkdirs();
+		directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"deepsky");
+		directory.mkdirs();
+		directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"deepsky"+File.separator+"images");
+		directory.mkdirs();
+		directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"comet");
+		directory.mkdirs();
+		directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"comet"+File.separator+"images");
+		directory.mkdirs();
+		*/
+		checkFirstRun();
 	}
 
 	@Override 
@@ -173,6 +190,7 @@ public class MainActivity 	extends 	Activity
         preferences=PreferenceManager.getDefaultSharedPreferences(this);
     	preferenceEditor=preferences.edit();		
 		resources=getResources();
+		storagePath=Environment.getExternalStorageDirectory().getPath()+"/dsl";
     	
     	DslDatabase.open();
     	DeepskyObservations.init();
@@ -251,6 +269,16 @@ public class MainActivity 	extends 	Activity
 
 	public static void checkFirstRun() {
 		if (preferences.getBoolean("firstrun", true)) {
+			File directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl");
+			directory.mkdirs();
+			directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"deepsky");
+			directory.mkdirs();
+			directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"deepsky"+File.separator+"images");
+			directory.mkdirs();
+			directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"comet");
+			directory.mkdirs();
+			directory = new File(Environment.getExternalStorageDirectory()+File.separator+"dsl"+File.separator+"comet"+File.separator+"images");
+			directory.mkdirs();
 			Observers.firstRun();
 			preferenceEditor.putBoolean("firstrun", false).commit();
 	    }

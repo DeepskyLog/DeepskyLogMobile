@@ -94,6 +94,11 @@ public class DslDatabase {
     	open();
     	return sqlLiteDatabase.insert(table, null, values);
     }
+    
+    public static long update(String table, ContentValues values, String whereClause, String[] arguments) {
+    	open();
+    	return sqlLiteDatabase.update(table, values, whereClause, arguments);
+    }
         
     public static long delete(String table, String whereClause, String[] arguments) {
     	open();

@@ -1,5 +1,7 @@
 package org.deepskylog;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -56,6 +58,37 @@ public class Utils {
  	    		catch(IOException e) { }
 	        } 
  	    }
+    }    
+    
+	public static String downloadUrlToFile(String filename, String theUrl, String storageFolder) {
+    	InputStream is=null;
+    	int len=15000000;
+    	try {
+ 	    	URL urlConnection=new URL(theUrl+filename+".jpg");
+	        HttpURLConnection conn=(HttpURLConnection) urlConnection.openConnection();
+	        conn.setReadTimeout(30000);
+	        conn.setConnectTimeout(15000);
+	        conn.setRequestMethod("GET");
+	        conn.setDoInput(true);
+	        conn.connect();
+	        int response=conn.getResponseCode();
+	        if(response==200) {
+	        	FileOutputStream f=new FileOutputStream(new File(MainActivity.storagePath+storageFolder,filename+".jpg"));
+		        is=conn.getInputStream();
+		        byte[] buffer=new byte[len];
+	            Long count=0L;
+	            int len1=0;
+	            while((len1=is.read(buffer))>0) {
+	            	count+=len1;
+	                f.write(buffer, 0, len1);
+	            }
+	            f.close();
+		        return "<result>"+"Download complete"+"</result>";
+	        }
+	        else { return "<result>"+"Download failure"+"</result>"; }
+	    }
+ 	    catch (Exception e) { return "<result>"+"Download failure "+e.toString()+"</result>"; }
+ 	    finally { if(is!=null) { try { is.close(); } catch(Exception e) {} } }
     }    
     
     public static String getTagContent(String result, String tag) throws Exception {

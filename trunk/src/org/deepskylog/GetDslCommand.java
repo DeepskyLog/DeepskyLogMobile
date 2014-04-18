@@ -13,12 +13,24 @@ public class GetDslCommand {
    		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
 	    new getCommandAndInvokeClassMethodTask().execute(SERVER_URL+"appgetcommand.php?command="+command+params,getDslCommandOnResultClass,getDslCommandOnResultMethod);
   	};
+   	public static void getDeepskyDrawingAndInvokeClassMethod(String deepskydeepskyObservationId, String getDslCommandOnResultClass, String getDslCommandOnResultMethod) {
+   		MainActivity.mainActivity.setProgressBarIndeterminateVisibility(true);
+	    new getDeepskyDrawingeAndInvokeClassMethodTask().execute(deepskydeepskyObservationId, SERVER_URL+"deepsky/drawings/", getDslCommandOnResultClass,getDslCommandOnResultMethod);
+  	};
   	
     private static class getCommandAndInvokeClassMethodTask extends AsyncTask<String, Void, String> {
     	@Override protected String doInBackground(String... urls) { return "<onResultClass>"+urls[1]+"</onResultClass>"+
     																	   "<onResultMethod>"+urls[2]+"</onResultMethod>"+
     																	   Utils.downloadUrl(urls[0]); }
         @Override protected void onPostExecute(String result) { Utils.invokeClassMethodWithResult(result.trim()); }
+    }
+
+    private static class getDeepskyDrawingeAndInvokeClassMethodTask extends AsyncTask<String, Void, String> {
+    	@Override protected String doInBackground(String... urls) { return "<onResultClass>"+urls[2]+"</onResultClass>"+
+																   "<onResultMethod>"+urls[3]+"</onResultMethod>"+
+																   "<deepskyObservationId>"+urls[0]+"</deepskyObservationId>"+
+																   Utils.downloadUrlToFile(urls[0],urls[1],"/deepsky/images/"); }
+		@Override protected void onPostExecute(String result) { Utils.invokeClassMethodWithResult(result.trim()); }
     }
 
     public static void getCommandAndBroadcast(String command, String params, String broadcastIntent) {
