@@ -48,7 +48,6 @@ public class DrawingFragment extends Fragment {
 		File file = new File(drawingFileName);
 		if(file.exists()) {
 			BitmapFactory.Options options = new BitmapFactory.Options();
-	        options.inSampleSize = 2;
 	        Bitmap bm = BitmapFactory.decodeFile(drawingFileName, options);
 	        this.drawing_imageview.setImageBitmap(bm); 
 		}
@@ -88,7 +87,7 @@ public class DrawingFragment extends Fragment {
 	}
 
 	private Bundle getStateBundle() {
-        Bundle state = new Bundle();
+        Bundle state=new Bundle();
         return state;
     }
 	

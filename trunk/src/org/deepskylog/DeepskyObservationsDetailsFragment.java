@@ -35,10 +35,10 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	private TextView details_textview;
 	private Button drawing_button;
 	
-	private Integer deepskyObservationIdToGet;
-	private Integer deepskyObservationIdDetails;
+	private Integer deepskyObservationIdToGet=1;
+	private Integer deepskyObservationIdDetails=1;
 	
-	private String deepskyObservationDate;
+	private String deepskyObservationDate="";
 	
 	private String[] seeings;
 	private String[] visibilities;
@@ -99,6 +99,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
  			this.deepskyObservationIdToGet=MainActivity.preferences.getInt("deepskyObservationIdToGet", 0);
  	 		this.deepskyObservationIdDetails=MainActivity.preferences.getInt("deepskyObservationIdDetails", 0);
  		}
+		this.stateBundle=null;
 		this.seeings=MainActivity.resources.getStringArray(R.array.seeings);
 		this.visibilities=MainActivity.resources.getStringArray(R.array.visibilities);
  		if(this.deepskyObservationIdDetails==0) this.deepskyObservationIdDetails=DeepskyObservations.deepskyObservationsMaxId;			
@@ -114,7 +115,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	public void onResume() {
-		if(this.stateBundle!=null) {
+		/*if(this.stateBundle!=null) {
  			this.text1_textview.setText(stateBundle.getString("text1_textview"));
  			this.dsobstosee_textview.setText(stateBundle.getString("dsobstosee_textview"));
  			this.objecttext_textview.setText(stateBundle.getString("objecttext_textview"));
@@ -131,7 +132,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
  			this.deepskyObservationDate=(new SimpleDateFormat("yyyyMMdd")).format(new Date());
  			this.deepskyObservationIdToGet=MainActivity.preferences.getInt("deepskyObservationIdToGet", 0);
  	 		this.deepskyObservationIdDetails=MainActivity.preferences.getInt("deepskyObservationIdDetails", 0);
- 		}
+ 		}*/
 		if(this.deepskyObservationIdToGet>0) 
  			this.getDeepskyObservationDetails();
  		super.onResume();
@@ -161,12 +162,13 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	
 	private Bundle getStateBundle() {
 		Bundle state = new Bundle();
-        state.putString("text1_textview", this.text1_textview.getText().toString());
-        state.putString("dsobstosee_textview", this.dsobstosee_textview.getText().toString());
-        state.putString("objecttext_textview", this.objecttext_textview.getText().toString());
-        state.putString("details_textview", this.details_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
+        state.putString("dsobstosee_textview",( this.dsobstosee_textview!=null? this.dsobstosee_textview.getText().toString():""));
+        state.putString("objecttext_textview", (this.objecttext_textview!=null?this.objecttext_textview.getText().toString():""));
+        state.putString("details_textview", (this.details_textview!=null?this.details_textview.getText().toString():""));
         state.putInt("deepskyObservationIdDetails", this.deepskyObservationIdDetails);
         state.putInt("deepskyObservationIdToGet", this.deepskyObservationIdToGet);
+        state.putString("deepskyObservationDate", this.deepskyObservationDate);
         return state;
     }
 	
@@ -217,7 +219,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	}
 		       	    
 	private void goRight() {
- 		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+ 		if(DeepskyFragment.sortMode.equals("By Date")) {
  			//Toast.makeText(MainActivity.mainActivity, "WP 1 "+"SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate<='"+this.deepskyObservationDate+"') AND (deepskyObservationId<"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate DESC,deepskyObservationId DESC ;", Toast.LENGTH_LONG).show();
  			Cursor iCursor=DslDatabase.execSql("SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate<='"+this.deepskyObservationDate+"') AND (deepskyObservationId<"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate DESC,deepskyObservationId DESC ;");
  			iCursor.moveToFirst();
@@ -232,7 +234,7 @@ public class DeepskyObservationsDetailsFragment extends Fragment {
 	
 	@SuppressLint("SimpleDateFormat")
 	private void goLeft() {
-		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+		if(DeepskyFragment.sortMode.equals("By Date")) {
 			//Toast.makeText(MainActivity.mainActivity, "WP 1 "+"SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate>='"+this.deepskyObservationDate+"') AND (deepskyObservationId>"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate ASC,deepskyObservationId ASC ;", Toast.LENGTH_LONG).show();
  			Cursor iCursor=DslDatabase.execSql("SELECT deepskyObservationId FROM deepskyObservationsList WHERE ((deepskyObservationDate>='"+this.deepskyObservationDate+"') AND (deepskyObservationId>"+this.deepskyObservationIdDetails+")) ORDER BY deepskyObservationDate ASC,deepskyObservationId ASC ;");
  			iCursor.moveToFirst();

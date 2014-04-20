@@ -26,6 +26,7 @@ public class DeepskyObjectsQueryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.deepskyObjectsQueryView=inflater.inflate(R.layout.deepskyobjectsqueryfragment, container, false);
 		this.text1_textview=(TextView)this.deepskyObjectsQueryView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		this.text1_textview.setText("");
 		if(savedInstanceState==null) {
 	    }
 		else {
@@ -44,7 +45,7 @@ public class DeepskyObjectsQueryFragment extends Fragment {
 	}
     private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("text1_textview", text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         return state;
     }
 }

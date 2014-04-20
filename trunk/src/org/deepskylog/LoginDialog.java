@@ -98,8 +98,8 @@ public class LoginDialog extends DialogFragment {
     	Bundle state = new Bundle();
         state.putString("loginDialogOnClickListenerClassname", this.loginDialogOnClickListenerClassname);
         state.putString("loginDialogOnClickListenerMethodname", this.loginDialogOnClickListenerMethodname);
-        state.putString("userid_edittext", this.userid_edittext.getText().toString());
-        state.putString("password_edittext", this.password_edittext.getText().toString());
+        state.putString("userid_edittext", (this.userid_edittext!=null?this.userid_edittext.getText().toString():""));
+        state.putString("password_edittext", (this.password_edittext!=null?this.password_edittext.getText().toString():""));
         state.putBoolean("autoDismiss", this.autoDismiss);
       return state;
     }

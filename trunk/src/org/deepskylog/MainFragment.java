@@ -94,14 +94,11 @@ public class MainFragment extends Fragment {
     }
 
     private Bundle getStateBundle() {
-        if(this.stateBundle!=null) return stateBundle;
-        else {
-			Bundle state=new Bundle();
-	        state.putString("text1_textview", this.text1_textview.getText().toString());
-	        state.putString("text2_textview", this.text2_textview.getText().toString());
-	        state.putString("text3_textview", this.text3_textview.getText().toString());
-	        return state;
-        }
+    	Bundle state=new Bundle();
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
+        state.putString("text2_textview", (this.text2_textview!=null?this.text2_textview.getText().toString():""));
+        state.putString("text3_textview", (this.text3_textview!=null?this.text3_textview.getText().toString():""));
+        return state;
     }
     
     public void setText(String theText) {

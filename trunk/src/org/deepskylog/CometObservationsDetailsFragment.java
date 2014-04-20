@@ -31,10 +31,10 @@ public class CometObservationsDetailsFragment extends Fragment {
 	private TextView objecttext_textview;
 	private TextView details_textview;
 	
-	private Integer cometObservationIdToGet;
-	private Integer cometObservationIdDetails;
+	private Integer cometObservationIdToGet=1;
+	private Integer cometObservationIdDetails=1;
 	
-	private String cometObservationDate;
+	private String cometObservationDate="";
 	
 	private BroadcastReceiver broadcastCometObservationNoneReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveCometObservationNone(context, intent); } };
 	private BroadcastReceiver broadcastCometObservationReceiver=new BroadcastReceiver() { @Override public void onReceive(Context context, Intent intent) { onReceiveCometObservation(context, intent); } };
@@ -56,9 +56,9 @@ public class CometObservationsDetailsFragment extends Fragment {
 		this.text1_textview.setText("");
 		this.dsobstosee_textview=((TextView)this.cometObservationsDetailsFragmentView.findViewById(R.id.cometobservationsdetailsfragment_dsobstosee_textview_id));
 		this.dsobstosee_textview.setText("");
+		this.dsobstosee_textview.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { dsobstoseeOnClick(); } });
 		this.objecttext_textview=((TextView)this.cometObservationsDetailsFragmentView.findViewById(R.id.cometobservationsdetailsfragment_objecttext_textview_id));
 		this.objecttext_textview.setText("");
-		this.dsobstosee_textview.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { dsobstoseeOnClick(); } });
 		this.details_textview=((TextView)this.cometObservationsDetailsFragmentView.findViewById(R.id.cometobservationsdetailsfragment_details_textview_id));
 		this.details_textview.setText("");
 		this.details_textview.setOnTouchListener(new OnSwipeTouchListener(MainActivity.mainActivity) {
@@ -111,12 +111,13 @@ public class CometObservationsDetailsFragment extends Fragment {
 
 	private Bundle getStateBundle() {
         Bundle state = new Bundle();
-        state.putString("text1_textview", this.text1_textview.getText().toString());
-        state.putString("dsobstosee_textview", this.dsobstosee_textview.getText().toString());
-        state.putString("objecttext_textview", this.objecttext_textview.getText().toString());
-        state.putString("details_textview", this.details_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
+        state.putString("dsobstosee_textview", (this.dsobstosee_textview!=null?this.dsobstosee_textview.getText().toString():""));
+        state.putString("objecttext_textview", (this.objecttext_textview!=null?this.objecttext_textview.getText().toString():""));
+        state.putString("details_textview", (this.details_textview!=null?this.details_textview.getText().toString():""));
         state.putInt("cometObservationIdDetails", this.cometObservationIdDetails);
         state.putInt("cometObservationIdToGet", this.cometObservationIdToGet);
+        state.putString("cometObservationDate", this.cometObservationDate);
         return state;
     }
 	

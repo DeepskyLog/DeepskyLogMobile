@@ -69,7 +69,7 @@ public class DeepskyObservations {
 	}
 	
     private static void executeBroadcastDeepskyObservationDetails(String deepskydeepskyObservationId) {
-    	Cursor cursor=DslDatabase.execSql("SELECT deepskyObservations.* FROM deepskyObservations WHERE ((deepskyObservationId=\""+deepskydeepskyObservationId+"\") AND (deepskyObservationTime!=''))");
+    	Cursor cursor=DslDatabase.execSql("SELECT deepskyObservations.* FROM deepskyObservations WHERE ((deepskyObservationId=\""+deepskydeepskyObservationId+"\") AND (hasDrawing!=''))");
     	if(cursor.moveToFirst()) {
     		String resultRaw=("<deepskyObservationId>"+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationId"))+"</deepskyObservationId>" +
 									   "<result>[ { \"deepskyObservationId\":\""+cursor.getString(cursor.getColumnIndexOrThrow("deepskyObservationId"))+"\", " +
