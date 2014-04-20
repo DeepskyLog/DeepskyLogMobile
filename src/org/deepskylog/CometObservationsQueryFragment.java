@@ -41,7 +41,7 @@ public class CometObservationsQueryFragment extends Fragment {
 	}
     private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         return state;
     }
 

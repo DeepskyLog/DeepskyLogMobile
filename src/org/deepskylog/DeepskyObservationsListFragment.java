@@ -32,11 +32,11 @@ public class DeepskyObservationsListFragment extends Fragment {
 	
 	private SimpleCursorAdapter deepskyObservationListAdapter;
 	
-	private String deepskyObservationsListDate;
-	private String deepskyObservationsListProposedDate;
-	private Integer deepskyObservationsListId;
+	private String deepskyObservationsListDate="";
+	private String deepskyObservationsListProposedDate="";
+	private Integer deepskyObservationsListId=1;
 	
-	private String direction;
+	private String direction="down";
 
 	private BroadcastReceiver broadcastDeepskyObservationsListReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationsList(context, intent); } };
 	private BroadcastReceiver broadcastDeepskyObservationsListDaysReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveDeepskyObservationsListDays(context, intent); } };
@@ -92,7 +92,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	@Override 
 	public void onResume() {
 		super.onResume();
-		if(DeepskyObservationsFragment.sortMode.equals("By Date"))
+		if(DeepskyFragment.sortMode.equals("By Date"))
  			this.gotoDateOrPrevious();
  		else
  			gotoId();
@@ -121,13 +121,13 @@ public class DeepskyObservationsListFragment extends Fragment {
         state.putString("deepskyObservationsListDate", this.deepskyObservationsListDate);
         state.putString("deepskyObservationsListProposedDateDate", this.deepskyObservationsListProposedDate);
         state.putInt("deepskyObservationsListId", this.deepskyObservationsListId);
-        state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         state.putString("direction", this.direction);
         return state;
     }
 	
 	private void goRight() {
- 		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+ 		if(DeepskyFragment.sortMode.equals("By Date")) {
  			if(Integer.valueOf(this.deepskyObservationsListDate)>19670727)
  				this.deepskyObservationsListProposedDate=Utils.precedingDate(this.deepskyObservationsListDate);
  			else
@@ -145,7 +145,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	
 	@SuppressLint("SimpleDateFormat")
 	private void goLeft() {
-		if(DeepskyObservationsFragment.sortMode.equals("By Date")) {
+		if(DeepskyFragment.sortMode.equals("By Date")) {
  			if(Integer.valueOf(this.deepskyObservationsListDate)<Integer.valueOf((new SimpleDateFormat("yyyyMMdd")).format(new Date())))
  				this.deepskyObservationsListProposedDate=Utils.followingDate(this.deepskyObservationsListDate);
  			else
@@ -217,7 +217,7 @@ public class DeepskyObservationsListFragment extends Fragment {
 	}
 		
 	private void onReceiveDeepskyObservationsList(Context context, Intent intent) {
-		if(DeepskyObservationsFragment.sortMode.equals("By Date"))
+		if(DeepskyFragment.sortMode.equals("By Date"))
  			this.gotoDate();
  		else
  			gotoId();

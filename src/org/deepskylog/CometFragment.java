@@ -73,6 +73,7 @@ public class CometFragment extends Fragment {
  				if((CometObservations.cometObservationsMaxId-CometObservations.cometObservationSeenMaxId)>0) this.setText(CometObservations.cometObservationsMaxId-CometObservations.cometObservationSeenMaxId+MainActivity.resources.getString(R.string.cometfragment_to_see));
  			}
  		}
+ 		this.stateBundle=null;
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastCometObservationsMaxIdChangedReceiver, new IntentFilter("org.cometlog.broadcastcometobservationsmaxidchanged"));
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastCometObservationSeenMaxIdChangedReceiver, new IntentFilter("org.cometlog.broadcastcometobservationsseenmaxidchanged"));
 		LocalBroadcastManager.getInstance(MainActivity.mainActivity).registerReceiver(this.broadcastCometObservationSeenMaxIdChangedReceiver, new IntentFilter("org.cometlog.broadcastcometobservationsseenmaxidchanged"));
@@ -97,9 +98,9 @@ public class CometFragment extends Fragment {
         if(this.stateBundle!=null) return this.stateBundle;
         else {
 			Bundle state=new Bundle();
-	        state.putString("text1_textview", text1_textview.getText().toString());
-	        state.putString("text2_textview", text2_textview.getText().toString());
-	        state.putString("text3_textview", text3_textview.getText().toString());
+	        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
+	        state.putString("text2_textview", (this.text2_textview!=null?this.text2_textview.getText().toString():""));
+	        state.putString("text3_textview", (this.text3_textview!=null?this.text3_textview.getText().toString():""));
 	        return state;
         }
     }

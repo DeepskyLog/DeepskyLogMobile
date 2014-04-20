@@ -26,6 +26,7 @@ public class CometObjectsQueryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.cometObjectsQueryView=inflater.inflate(R.layout.cometobjectsqueryfragment, container, false);
 		this.text1_textview=(TextView)this.cometObjectsQueryView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		this.text1_textview.setText("");
 		if(savedInstanceState==null) {
 	    }
 		else {
@@ -44,7 +45,7 @@ public class CometObjectsQueryFragment extends Fragment {
 	}
     private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("text1_textview", text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         return state;
     }
 }

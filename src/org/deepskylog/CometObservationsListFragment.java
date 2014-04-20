@@ -32,11 +32,11 @@ public class CometObservationsListFragment extends Fragment {
 	
 	private SimpleCursorAdapter cometObservationListAdapter;
 	
-	private String cometObservationsListDate;
-	private String cometObservationsListProposedDate;
-	private Integer cometObservationsListId;
+	private String cometObservationsListDate="";
+	private String cometObservationsListProposedDate="";
+	private Integer cometObservationsListId=1;
 	
-	private String direction;
+	private String direction="down";
 
 	private BroadcastReceiver broadcastCometObservationsListReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveCometObservationsList(context, intent); } };
 	private BroadcastReceiver broadcastCometObservationsListDaysReceiver=new BroadcastReceiver() {  @Override  public void onReceive(Context context, Intent intent) { onReceiveCometObservationsListDays(context, intent); } };
@@ -121,7 +121,7 @@ public class CometObservationsListFragment extends Fragment {
         state.putString("cometObservationsListDate", this.cometObservationsListDate);
         state.putString("cometObservationsListProposedDateDate", this.cometObservationsListProposedDate);
         state.putInt("cometObservationsListId", this.cometObservationsListId);
-        state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("text1_textview",( this.text1_textview!=null? this.text1_textview.getText().toString():""));
         state.putString("direction", this.direction);
         return state;
     }

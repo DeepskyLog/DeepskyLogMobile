@@ -26,6 +26,7 @@ public class EphemeridesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.ephemeridesFragmentView=inflater.inflate(R.layout.ephemeridesfragment, container, false);
 		this.text1_textview=(TextView)this.ephemeridesFragmentView.findViewById(R.id.ephemeridesfragment_text1_textview_id);
+		this.text1_textview.setText("");
 		if(savedInstanceState!=null) {
 			this.stateBundle=savedInstanceState.getBundle("stateBundle");
 		}
@@ -42,7 +43,7 @@ public class EphemeridesFragment extends Fragment {
 	}
     private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         return state;
     }
 }

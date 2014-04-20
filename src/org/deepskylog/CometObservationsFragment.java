@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class CometObservationsFragment extends Fragment {
 	
-	public static String sortMode;
+	public static String sortMode="By Date";
 
 	private View cometObservationsFragmentView;
 	private Bundle stateBundle=null;
@@ -101,7 +101,7 @@ public class CometObservationsFragment extends Fragment {
 	
 	private Bundle getStateBundle() {
         Bundle state=new Bundle();
-        state.putString("text1_textview", this.text1_textview.getText().toString());
+        state.putString("text1_textview", (this.text1_textview!=null?this.text1_textview.getText().toString():""));
         state.putString("sortMode", CometObservationsFragment.sortMode);
         state.putString("actualFragmentName", (this.actualFragment==this.cometObservationsDetailsFragment?"cometObservationsDetailsFragment":"cometObservationsListFragment"));
         return state;
