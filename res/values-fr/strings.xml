@@ -106,6 +106,7 @@
     <string name="deepskyobservationsdetailsfragment_observation">"Observation "</string>
     <string name="deepskyobservationsdetailsfragment_observation_was_deleted">" has been deleted by it's observer."</string>
     <string name="deepskyobservationsdetailsfragment_observation_unavailable">" unavailable, check network connection."</string>
+    <string name="deepskyobservationsdetailsfragment_drawing_button_text">"Show drawing"</string>
     
     <string name="deepskyobservationslistfragment_text1_textview_text">"Deepsky"</string>
     <string name="deepskyobservationslistfragment_observations_button_text">"Observations"</string>

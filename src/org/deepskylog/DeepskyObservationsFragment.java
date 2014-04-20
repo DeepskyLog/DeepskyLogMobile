@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class DeepskyObservationsFragment extends Fragment {
 	
 	public static String sortMode;
-
+	
 	private View deepskyObservationsFragmentView;
 	private Bundle stateBundle=null;
 
@@ -79,6 +79,7 @@ public class DeepskyObservationsFragment extends Fragment {
 	
 	@Override
 	public void onPause() {
+		this.stateBundle=getStateBundle();
 		MainActivity.fragmentManager.beginTransaction()
 			.remove(deepskyObservationsDetailsFragment)
 			.remove(deepskyObservationsListFragment)
@@ -116,20 +117,30 @@ public class DeepskyObservationsFragment extends Fragment {
 	}
 			
 	private void switchTo(Fragment fragment) {
+		//Toast.makeText(MainActivity.mainActivity, "Switch to :"+(fragment==this.deepskyObservationsDetailsFragment?"deepskyObservationsDetailsFragment":"deepskyObservationsListFragment"), Toast.LENGTH_LONG).show();
 		MainActivity.fragmentManager.beginTransaction()
 									.hide(this.actualFragment)
 									.show(fragment)
 									.commit();
 		if(fragment==this.deepskyObservationsListFragment) { 
 			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
-			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observations - List - by date");
-			else this.text1_textview.setText("Deepsky Observations - List - unsorted");
 		}
 		if(fragment==this.deepskyObservationsDetailsFragment) { 
 			MainActivity.preferenceEditor.putString("DeepskyObservationsFragmentActualFragment", "deepskyObservationsListFragment").commit();
-			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observations - Details - by date"); 
-			else this.text1_textview.setText("Deepsky Observations - Details - unsorted");
 		}
 		this.actualFragment=fragment;
+		setTitle();
+	}
+	
+	public void setTitle() {
+		if(this.actualFragment==this.deepskyObservationsListFragment) { 
+			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observations - List - by date");
+			else this.text1_textview.setText("Deepsky Observations - List - unsorted");
+		}
+		if(this.actualFragment==this.deepskyObservationsDetailsFragment) { 
+			if(DeepskyObservationsFragment.sortMode.equals("By Date")) this.text1_textview.setText("Deepsky Observation - by date"); 
+			else this.text1_textview.setText("Deepsky Observation - unsorted");
+		}
+		
 	}
 }
