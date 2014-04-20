@@ -51,6 +51,7 @@ public class MainActivity 	extends 	Activity
 	private static CometObservationsQueryFragment cometObservationsQueryFragment;
 	private static CometObjectsQueryFragment cometObjectsQueryFragment;
 	private static ObserversFragment observersFragment;
+	private static DrawingFragment drawingFragment;
 	private static EphemeridesFragment ephemeridesFragment;
 	private static SettingsFragment settingsFragment;
 	
@@ -211,7 +212,8 @@ public class MainActivity 	extends 	Activity
     	if(cometObservationsQueryFragment==null) cometObservationsQueryFragment=new CometObservationsQueryFragment();
     	if(cometObjectsQueryFragment==null) cometObjectsQueryFragment=new CometObjectsQueryFragment();
     	
-  	if(observersFragment==null) observersFragment=new ObserversFragment();
+    	if(observersFragment==null) observersFragment=new ObserversFragment();
+    	if(drawingFragment==null) drawingFragment=new DrawingFragment();
     	if(ephemeridesFragment==null) ephemeridesFragment=new EphemeridesFragment();
 		if(settingsFragment==null) settingsFragment=new SettingsFragment();
 
@@ -245,6 +247,7 @@ public class MainActivity 	extends 	Activity
 		else if(newFragmentName.equals("cometObservationsQueryFragment")) { actualFragment=cometObservationsQueryFragment; }
 		else if(newFragmentName.equals("cometObjectsQueryFragment")) { actualFragment=cometObjectsQueryFragment; }
 		else if(newFragmentName.equals("observersFragment")) actualFragment=observersFragment;
+		else if(newFragmentName.equals("drawingFragment")) actualFragment=drawingFragment;
 		else if(newFragmentName.equals("ephemeridesFragment")) actualFragment=ephemeridesFragment;
 		else if(newFragmentName.equals("settingsFragment")) actualFragment=settingsFragment;
 		else {

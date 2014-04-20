@@ -114,7 +114,7 @@ public class DeepskyObservations {
 			else {
 				File file = new File(MainActivity.storagePath+"/deepsky/images/"+String.valueOf(deepskydeepskyObservationId)+".jpg");
 				if(file.exists()) {
-			    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdrawing"));
+			    	LocalBroadcastManager.getInstance(MainActivity.mainActivity).sendBroadcast(new Intent("org.deepskylog.broadcastdeepskyobservationdrawing").putExtra("org.deepskylog.resultRAW", "<deepskyObservationId>"+deepskydeepskyObservationId+"</deepskyObservationId>"));
 				}
 				else {
 					//Toast.makeText(MainActivity.mainActivity, "Getting drawing for this observation from dsl", Toast.LENGTH_LONG).show();
